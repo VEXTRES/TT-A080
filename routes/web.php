@@ -3,10 +3,12 @@
 use App\Http\Controllers\InicioController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+Route::middleware('guest')->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+});
 Route::controller(InicioController::class)->group(function () {
     Route::get('/nutricion', 'nutricion')->name('nutricion');
     Route::get('/fitness', 'fitness')->name('fitness');
@@ -21,6 +23,6 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return redirect()->route('nutricion');
     })->name('dashboard');
 });

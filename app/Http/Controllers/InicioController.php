@@ -6,16 +6,41 @@ use Illuminate\Http\Request;
 
 class InicioController extends Controller
 {
+
     public function nutricion(){
-        return view('inicio.nutricion');
+        if (auth()->check()) {
+            // Usuario autenticado
+            return view('inicio.nutricion.auth');
+        } else {
+            // Usuario no autenticado
+            return view('inicio.nutricion.guest');
+        }
     }
     public function fitness(){
-        return view('inicio.fitness');
+        if (auth()->check()) {
+            // Usuario autenticado
+            return view('inicio.fitness.auth');
+        } else {
+            // Usuario no autenticado
+            return view('inicio.fitness.guest');
+        }
     }
     public function salud(){
-        return view('inicio.salud');
+        if (auth()->check()) {
+            // Usuario autenticado
+            return view('inicio.salud.auth');
+        } else {
+            // Usuario no autenticado
+            return view('inicio.salud.guest');
+        }
     }
     public function acerca(){
-        return view('inicio.acerca');
+        if (auth()->check()) {
+            // Usuario autenticado
+            return view('inicio.acerca.auth');
+        } else {
+            // Usuario no autenticado
+            return view('inicio.acerca.guest');
+        }
     }
 }

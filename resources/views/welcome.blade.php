@@ -24,9 +24,7 @@
             <header class="sticky top-0 left-0 right-0 bg-black bg-opacity-90 text-white p-8 shadow-lg h-24 flex items-center justify-between">
                 @if (Route::has('login'))
                     <div class="w-full">
-                        @auth
-                        ads
-                        @else
+                        
                             <div class="text-center">
                                 <a href="{{url('/nutricion')}}"><strong>LOGO</strong></a>
 
@@ -71,7 +69,7 @@
                                 </ul>
 
                             </nav>
-                        @endauth
+
                     </div>
                 @endif
             </header>
