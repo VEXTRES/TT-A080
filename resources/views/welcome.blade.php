@@ -25,35 +25,7 @@
                 @if (Route::has('login'))
                     <div class="w-full">
                         @auth
-                        <div class="text-center">
-                            <a href="{{url('/dashboard')}}"><strong>LOGO</strong></a>
-
-                        </div>
-                        <nav class="mt-4 navbar flex items-center w-full mx-auto overflow-hidden">
-                            <ul class="navbar__menu flex w-3/4 space-x-32">
-                                <li class="navbar__item group relative">
-                                    <a href="{{ url('/nutricion') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-red-600 transition-all duration-500">
-                                        <i data-feather="home" class="transition-all duration-500"></i>Nutricion
-                                    </a>
-                                </li>
-                                <li class="navbar__item group relative">
-                                    <a href="{{ url('/fitness') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-red-600 transition-all duration-500">
-                                        <i data-feather="message-square" class="transition-all duration-500"></i>Fitness
-                                    </a>
-                                </li>
-
-                                <li class="navbar__item group relative">
-                                    <a href="{{ url('/salud') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-red-600 transition-all duration-500">
-                                        <i data-feather="folder" class="transition-all duration-500"></i>SALUD
-                                    </a>
-                                </li>
-                                <li class="navbar__item group relative">
-                                    <a href="{{ url('/acerca') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-red-600 transition-all duration-500">
-                                        <i data-feather="archive" class="transition-all duration-500"></i>ACERCA DE NOSOTROS
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        ads
                         @else
                             <div class="text-center">
                                 <a href="{{url('/nutricion')}}"><strong>LOGO</strong></a>
