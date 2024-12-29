@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InicioController;
+use App\Livewire\MisPlanesController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -15,7 +16,10 @@ Route::controller(InicioController::class)->group(function () {
     Route::get('/salud', 'salud')->name('salud');
     Route::get('/acerca', 'acerca')->name('acerca');
 });
+//Route::get('/nutricion',[InicioController::class, 'nutricion'])->name('nutricion');
 
+Route::get('plan-alimentacion',MisPlanesController::class)->name('plan-alimentacion');
+// Route::get('/plan-entrenamiento',[PlanEntrenamientoController::class,'render'])->name('plan-entrenamiento');
 
 Route::middleware([
     'auth:sanctum',
