@@ -43,4 +43,7 @@ class InicioController extends Controller
             return view('inicio.acerca.guest');
         }
     }
+
+
+
 }
