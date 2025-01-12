@@ -8,6 +8,6 @@ class Progress extends Model
 {
     public function meal_plan()
     {
-        return $this->belongsTo(Meal_Plan::class);
+        return $this->belongsTo(MealPlan::class);
     }
 }

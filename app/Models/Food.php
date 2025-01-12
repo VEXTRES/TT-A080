@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Food extends Model
 {
     public function meal_plans(){
-        return $this->belongsToMany(Meal_Plan::class);
+        return $this->belongsToMany(MealPlan::class);
     }
 }

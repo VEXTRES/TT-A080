@@ -12,26 +12,40 @@
             </x-slot>
 
             <div class=" bg-slate-600 bg-opacity-75">
-                <div class="absolute m-auto w-3/4 h-screen inset-0" style="display: {{ $showModal === true ? 'block' : 'none' }};">
+                <div class="absolute m-auto w-3/4 h-screen inset-0" style="display: true;"> <!-- {{ $showModal === true ? 'block' : 'none' }}. -->
                     <div class="bg-white p-8 rounded-lg shadow-lg">
                         <!-- Modal Content -->
-                        <div class="flex justify-between items-center">
-                            <h2 class="text-xl font-semibold">Sondeo preguntas</h2>
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xl font-semibold mx-auto">Sondeo preguntas</h2>
                             <button wire:click="MostrarModal" class="text-white p-3 rounded-md bg-black hover:text-gray-300">&times;</button>
                         </div>
-                        @if (!empty($questionsPaginated))
-                            @foreach ($questionsPaginated as $questionId => $questionName)
+                        <form wire:submit="CrearPlan">
+                            <div class="flex justify-end mt-3">
+                                <button type="submit" class=" px-4 py-2 bg-blue-500 text-white rounded-lg">Crear Plan</button>
+                            </div>
+                            @if (!empty($questionsPaginated))
+                                @foreach ($questionsPaginated as $questionId => $questionName)
                                 <p class="mt-4">Pregunta: {{ $questionId }}</p>
                                 <p>{{ $questionName }}</p>
                                 <p>Respuestas:</p>
-                                @foreach ($answers[$questionId] as $answer)
-                                    <p class="mt-4">{{ $answer }}</p>
+                                    @foreach ($answers[$questionId] as $answerId => $answerName)
+                                    <label for="radioAnswer_{{ $questionId }}_{{ $answerId }}" class="inline-flex items-center">
+                                        <input
+                                            id="radioAnswer_{{ $questionId }}_{{ $answerId }}"
+                                            name="radioAnswer_{{ $questionId }}"
+                                            class="ml-2 mr-2"
+                                            type="radio"
+                                            wire:model="answersSelected.{{ $questionId }}"
+                                            value="{{ $answerId }}">
+                                        {{ $answerName }}
+                                    </label>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
-                        @else
-                            <p>No hay preguntas disponibles.</p>
-                        @endif
 
+                            @else
+                                <p>No hay preguntas disponibles.</p>
+                            @endif
+                        </form>
                         <div class="mt-6 flex justify-between items-center">
                             <button
                                 wire:click="previousPage"

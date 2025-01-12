@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');     // Llave foránea a 'user'
             $table->foreignId('survey_id')->constrained()->onDelete('cascade');     // Llave foránea a 'survey'
 
-
             $table->timestamps();
         });
     }

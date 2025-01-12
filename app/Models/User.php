@@ -67,7 +67,7 @@ class User extends Authenticatable
 
     public function meal_plans()
     {
-        return $this->hasMany(Meal_Plan::class);
+        return $this->hasMany(MealPlan::class);
     }
     public function answers()
     {

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('total_carbs')->nullable();
             $table->string('total_proteins')->nullable();
 
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('workout_plan_id')->constrained();
-            $table->foreignId('survey_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('workout_plan_id')->constrained()-> onDelete('cascade');
+            $table->foreignId('survey_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

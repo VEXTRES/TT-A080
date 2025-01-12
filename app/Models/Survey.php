@@ -11,7 +11,7 @@ class Survey extends Model
 
     protected $fillable = ['name', 'description'];
 
-    
+
 
     public function questions()
     {
@@ -22,9 +22,7 @@ class Survey extends Model
     {
         return $this->hasMany(Answer::class);
     }
-
-    public function meal_plans()
-    {
-        return $this->hasMany(Meal_Plan::class);
+    public function meal_plans(){
+        return $this->hasMany(MealPlan::class);
     }
 }

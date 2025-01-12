@@ -35,10 +35,10 @@ class DatabaseSeeder extends Seeder
             'description' => 'Sondeo de prueba al usuario',
         ]);
 
-    Answer::factory()
-        ->count(4)
-        ->for(Question::factory())
-        ->create();
+    // Answer::factory()
+    //     ->count(4)
+    //     ->for(Question::factory())
+    //     ->create();
 
     }
 }
