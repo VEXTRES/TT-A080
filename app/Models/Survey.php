@@ -22,7 +22,5 @@ class Survey extends Model
     {
         return $this->hasMany(Answer::class);
     }
-    public function meal_plans(){
-        return $this->hasMany(MealPlan::class);
-    }
+
 }

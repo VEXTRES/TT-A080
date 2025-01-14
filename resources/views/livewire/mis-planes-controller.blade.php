@@ -12,7 +12,7 @@
             </x-slot>
 
             <div class=" bg-slate-600 bg-opacity-75">
-                <div class="absolute m-auto w-3/4 h-screen inset-0" style="display: true;"> <!-- {{ $showModal === true ? 'block' : 'none' }}. -->
+                <div class="absolute m-auto w-3/4 h-screen inset-0" style="display: {{ $showModal === true ? 'block' : 'none' }};">
                     <div class="bg-white p-8 rounded-lg shadow-lg">
                         <!-- Modal Content -->
                         <div class="flex items-center justify-between">
@@ -29,7 +29,8 @@
                                 <p>{{ $questionName }}</p>
                                 <p>Respuestas:</p>
                                     @foreach ($answers[$questionId] as $answerId => $answerName)
-                                    <label for="radioAnswer_{{ $questionId }}_{{ $answerId }}" class="inline-flex items-center">
+                                    <label for="radioAnswer_{{ $questionId }}_{{ $answerId }}"
+                                    class="inline-flex items-center">
                                         <input
                                             id="radioAnswer_{{ $questionId }}_{{ $answerId }}"
                                             name="radioAnswer_{{ $questionId }}"
@@ -85,22 +86,26 @@
 
 
                         <div class="flex-none justify-center text-center mr-8">
-                            <button class="rounded-md bg-white px-4 py-2 text-sm text-gray-700" wire:click="MostrarModal">
-                                Crear Plan
+                            <button class="rounded-md ml-2 bg-white px-4 py-2 text-sm text-gray-700" wire:click="MostrarModal">
+                                Crear Nuevo Plan
                             </button>
 
                         </div>
                         <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             <!-- Los elementos "hola" se acomodarán automáticamente en columnas -->
-                            <div class="col-auto flex items-center justify-center">
-                                Plan1
-                            </div>
-                            <div class="col-auto flex items-center justify-center">
-                                Plan2
-                            </div>
-                            <div class="col-auto flex items-center justify-center">
-                                Plan3
-                            </div>
+                            @if ($meal_plans)
+
+                                    @foreach ($meal_plans as $meal_plan)
+                                        <div class="border border-black py-20 px-2 rounded-md relative">
+                                            <p class="absolute top-2 left-2 text-sm font-bold text-xl">{{ $meal_plan->id }}</p>
+                                            <p class="text-center">{{ $meal_plan->name }}</p>
+                                        </div>
+                                    @endforeach
+
+                            @else
+                                <p>No hay plan de alimentacion disponibles.</p>
+                            @endif
+
                             <!-- Puedes agregar más elementos "hola" según sea necesario -->
                         </div>
                     </div>
@@ -124,8 +129,21 @@
 
                         </button>
                     </div>
-                    <div x-show="sortOrderEntrenamiento == 'open'">
-                        esto se va ocultar
+                    <div x-show="sortOrderEntrenamiento == 'open'"
+                    class="h-full flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                    >
+                        @if ($workout_plans)
+                            @foreach ($workout_plans as $workout_plan)
+                                <div class="col-auto flex items-center ml-4">
+                                    <div class="border border-black py-28 px-4 rounded-md relative">
+                                        <p class="absolute top-2 left-2 text-sm font-bold text-xl">{{ $workout_plan->id }}</p>
+                                        <p class="text-center">{{ $workout_plan->name }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <p>No hay plan de entrenamiento disponibles.</p>
+                        @endif
                     </div>
                 </div>
             </div>

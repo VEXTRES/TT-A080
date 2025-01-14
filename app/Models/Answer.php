@@ -26,4 +26,7 @@ class Answer extends Model
     {
         return $this->belongsTo(Survey::class);
     }
+    public function meal_plan(){
+        return $this->belongsTo(MealPlan::class);
+    }
 }

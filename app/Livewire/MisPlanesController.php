@@ -21,11 +21,14 @@ class MisPlanesController extends Component
     public $perPage = 3;
     public $questionsPaginated = [];
     public $answersSelected=[], $questionId, $answerId ;
+    public $meal_plans,$workout_plans;
 
     public function mount(){
         $survey = Survey::with('questions.options.answers')->first();
         $this->survey = $survey;
         $this->questions = $survey->questions->pluck('name', 'id')->toArray();
+        $this->meal_plans= MealPlan::where('user_id',auth()->user()->id)->get();
+        $this->workout_plans= WorkoutPlan::all();
 
         foreach ($survey->questions as $question) {
             $this->answers[$question->id] = $question->options->pluck('name','id')->toArray();
@@ -36,14 +39,10 @@ class MisPlanesController extends Component
 
     public function CrearPlan(){
 
-        // $this->validate([
-        //     'answersSelected' => 'required|array|size:10',
-        //     'answersSelected.*' => 'required|integer',
-        // ]);
-
-        $this->survey->id;
-        $this->answersSelected = array_map('intval', $this->answersSelected);
-        $user=auth()->user()->id;
+        $this->validate([
+            'answersSelected' => 'required|array|size:10',
+            'answersSelected.*' => 'required|integer',
+        ]);
 
        $workout_plan = WorkoutPlan::create([
             'name' => 'Plan de entrenamiento',
@@ -60,17 +59,15 @@ class MisPlanesController extends Component
             'survey_id' => $this->survey->id,
         ]);
 
-        dd($meal_plan);
-
-        // foreach ($this->answersSelected as $questionId => $optionId) {
-        //     Answer::create([
-        //         'question_id' => $questionId,
-        //         'option_id' => $optionId,
-        //         'user_id' => auth()->user()->id,
-        //         'survey_id' => $this->survey->id,
-        //         'meal_plan_id' => $meal_plan->id,
-        //     ]);
-        // }
+        foreach ($this->answersSelected as $questionId => $optionId) {
+            Answer::create([
+                'question_id' => $questionId,
+                'option_id' => $optionId,
+                'user_id' => auth()->user()->id,
+                'survey_id' => $this->survey->id,
+                'meal_plan_id' => $meal_plan->id,
+            ]);
+        }
 
 
 

@@ -25,9 +25,6 @@ class MealPlan extends Model
         return $this->hasOne(WorkoutPlan::class);
     }
     public function answer(){
-        return $this->hasOne(Answer::class);
-    }
-    public function survey(){
-        return $this->belongsTo(Survey::class);
+        return $this->hasMany(Answer::class);
     }
 }

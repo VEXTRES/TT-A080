@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('option_id')->constrained()->onDelete('cascade');     // Llave foránea a 'answer'
             $table->foreignId('user_id')->constrained()->onDelete('cascade');     // Llave foránea a 'user'
             $table->foreignId('survey_id')->constrained()->onDelete('cascade');     // Llave foránea a 'survey'
-
+            $table->foreignId('meal_plan_id')->constrained()->onDelete('cascade');     // Llave foránea a 'meal_plan'
+            
             $table->timestamps();
         });
     }
