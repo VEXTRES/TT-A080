@@ -15,7 +15,7 @@ class MisPlanesController extends Component
     public $sortOrderEntrenamiento = 'close';
     public $questions;
     public $showModal =false;
-    public $survey,$answers;
+    public $survey,$options;
 
     public $currentPage = 1;
     public $perPage = 3;
@@ -31,9 +31,8 @@ class MisPlanesController extends Component
         $this->workout_plans= WorkoutPlan::all();
 
         foreach ($survey->questions as $question) {
-            $this->answers[$question->id] = $question->options->pluck('name','id')->toArray();
+            $this->options[$question->id] = $question->options->pluck('name','id')->toArray();
         }
-
         $this->updatePaginatedQuestions();
     }
 
@@ -59,15 +58,15 @@ class MisPlanesController extends Component
             'survey_id' => $this->survey->id,
         ]);
 
-        foreach ($this->answersSelected as $questionId => $optionId) {
-            Answer::create([
-                'question_id' => $questionId,
-                'option_id' => $optionId,
-                'user_id' => auth()->user()->id,
-                'survey_id' => $this->survey->id,
-                'meal_plan_id' => $meal_plan->id,
-            ]);
-        }
+        // foreach ($this->answersSelected as $questionId => $optionId) {
+        //     Answer::create([
+        //         'question_id' => $questionId,
+        //         'option_id' => $optionId,
+        //         'user_id' => auth()->user()->id,
+        //         'survey_id' => $this->survey->id,
+        //         'meal_plan_id' => $meal_plan->id,
+        //     ]);
+        // }
 
 
 

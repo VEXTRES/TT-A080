@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name')->nullable();
+            $table->text('name')->nullable();
             $table->foreignId('question_id')->constrained()->onDelete('cascade'); // Llave foránea a 'question'
 
             $table->timestamps();
