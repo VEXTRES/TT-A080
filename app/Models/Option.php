@@ -10,10 +10,6 @@ class Option extends Model
     use HasFactory;
     protected $fillable = ['name', 'question_id'];
 
-    public function answers()
-    {
-        return $this->hasMany(Answer::class);
-    }
     public function question()
     {
         return $this->belongsTo(Question::class);

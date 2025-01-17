@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('workout_plans', function (Blueprint $table) {
             $table->id();
 
             $table->string('name')->nullable();
-            $table->foreignId('survey_id')->constrained()->onDelete('cascade'); // Llave foránea a 'survey'
+            $table->foreignId('meal_plan_id')->constrained()->onDelete('cascade');
+
 
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('workout_plans');
     }
 };

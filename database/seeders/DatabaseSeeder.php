@@ -26,10 +26,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('12345678'),
         ]);
 
-        Survey::factory()
-        ->has(
-            Question::factory()
-                ->count(17)
+        Question::factory()
+            ->count(17)
                 ->state(new Sequence(
                     ['name' => '¿Cuál es tu Edad?'],
                     ['name' => '¿Cual es tu Peso?'],
@@ -46,16 +44,9 @@ class DatabaseSeeder extends Seeder
                     ['name' => '¿Cuántos días haces ejercicio(ejercicio de pesas o alguna otra actividad aerobica) a la semana?'],
                     ['name' => '¿Te gustaría hacer ejercicios de pesas en casa, gimnasio?'],
                     ['name' => '¿Cuál es tu nivel de actividad diaria?'],
-                    ['name' => '¿Cuántos tiempo llevas entrenando constantemente
-                    (con un lapso no mayor a 15 dias de inactividad)?'],
+                    ['name' => '¿Cuántos tiempo llevas entrenando constantemente(con un lapso no mayor a 15 dias de inactividad)?'],
                     ['name' => '¿Tienes alguna preferencia alimentaria?']
-            ))
-        )
-    ->create([
-        'name' => 'Sondeo',
-        'description' => 'Sondeo de prueba al usuario',
-    ])
-    ->questions // Relación con preguntas
+            ))->create()
     ->each(function ($question) {
         $options = [];
         switch ($question->name) {

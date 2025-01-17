@@ -20,8 +20,6 @@ class QuestionFactory extends Factory
     public function definition(): array
     {
         return [
-
-            'survey_id'=>Survey::factory(),
             'name' => $this->faker->sentence(),
 
         ];

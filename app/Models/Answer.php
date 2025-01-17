@@ -8,25 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     use HasFactory;
-    protected $fillable = ['question_id', 'option_id', 'user_id', 'survey_id','meal_plan_id'];
+    protected $fillable = ['question_id', 'user_id', 'survey_id','option_selected'];
 
-    public function question()
-    {
-        return $this->belongsTo(Question::class);
-    }
-    public function option()
-    {
-        return $this->belongsTo(Option::class);
-    }
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+
     public function survey()
     {
         return $this->belongsTo(Survey::class);
     }
-    public function meal_plan(){
-        return $this->belongsTo(MealPlan::class);
+    public function question()
+    {
+        return $this->belongsTo(Question::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

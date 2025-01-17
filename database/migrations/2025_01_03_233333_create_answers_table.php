@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('question_id')->constrained()->onDelete('cascade'); // Llave foránea a 'question'
-            $table->foreignId('option_id')->constrained()->onDelete('cascade');     // Llave foránea a 'answer'
+            $table->text('option_selected')->nullable();
+            $table->foreignId('question_id')->constrained()->onDelete('cascade'); // Llave foránea a 'question'   // Llave foránea a 'answer'
             $table->foreignId('user_id')->constrained()->onDelete('cascade');     // Llave foránea a 'user'
             $table->foreignId('survey_id')->constrained()->onDelete('cascade');     // Llave foránea a 'survey'
-            $table->foreignId('meal_plan_id')->constrained()->onDelete('cascade');     // Llave foránea a 'meal_plan'
-            
             $table->timestamps();
         });
     }

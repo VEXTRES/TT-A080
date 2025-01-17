@@ -12,15 +12,12 @@ class Survey extends Model
     protected $fillable = ['name', 'description'];
 
 
-
-    public function questions()
-    {
-        return $this->hasMany(Question::class);
-    }
-
     public function answers()
     {
         return $this->hasMany(Answer::class);
+    }
+    public function meal_plans(){
+        return $this->belongsTo(MealPlan::class);
     }
 
 }

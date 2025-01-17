@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class WorkoutPlan extends Model
 {
     protected $table = 'workout_plans';
-    protected $fillable = ['name'];
+    protected $fillable = ['name','meal_plan_id'];
 
     public function excercises(){
         return $this->belongsToMany(Excersice::class);
     }
     public function meal_plan(){
-        return $this->belongsTo(MealPlan::class);
+        return $this->hasOne(MealPlan::class);
     }
 }
