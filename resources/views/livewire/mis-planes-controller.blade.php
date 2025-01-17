@@ -431,25 +431,41 @@
 
                                             @break
                                         @case(17)
-                                        <div class="flex gap-4 w-full justify-center">
-                                            @foreach ($options[$questionId] as $optionId => $optionName)
-                                                <div class="flex w-1/3 items-center justify-center  px-2 py-2 gap-2 border border-gray-200 rounded dark:border-gray-700">
-                                                    <input
-                                                        id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                        name="radioAnswer_{{ $questionId }}"
-                                                        type="radio"
-                                                        value="{{ $optionId }}"
-                                                        wire:model="answersSelected.{{ 17 }}"
-                                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                    >
-                                                    <label
-                                                        for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                        class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300"
-                                                    >
-                                                        {{ $optionName }}
-                                                    </label>
+                                        <div class="flex flex-col gap-4 w-full justify-center"
+                                            x-data="{ openInput: false }">
+                                            <div class="flex gap-4 justify-center">
+                                                @foreach ($options[$questionId] as $optionId => $optionName)
+                                                    <div class="flex w-1/3 items-center justify-center px-2 py-2 gap-2 border border-gray-200 rounded dark:border-gray-700">
+                                                        <input
+                                                            id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
+                                                            name="radioAnswer_{{ $questionId }}"
+                                                            type="radio"
+                                                            value="{{ $optionId }}"
+                                                            wire:model="answersSelected.{{ 17 }}"
+                                                            x-on:click="openInput = {{$optionId == 21 ? 'true' : 'false'}}"
+                                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                        >
+                                                        <label
+                                                            for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
+                                                            class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300"
+                                                        >
+                                                            {{ $optionName }}
+                                                        </label>
+                                                    </div>
+                                                @endforeach
                                                 </div>
-                                            @endforeach
+                                                <div class="w-full">
+                                                    <input
+                                                        type="text"
+                                                        class="w-full px-4 py-2 border border-gray-300 rounded dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 focus:ring focus:ring-blue-500"
+                                                        x-show="openInput"
+                                                        name="answersSelected.17"
+                                                        id="answer_17"
+                                                        placeholder=""
+                                                        wire:model="answersSelected.18"
+                                                        x-cloak
+                                                    >
+                                                </div>
                                         </div>
                                         @break
                                     @default

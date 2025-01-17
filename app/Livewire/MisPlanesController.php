@@ -33,6 +33,7 @@ class MisPlanesController extends Component
         $this->workout_plans= WorkoutPlan::all();
         $this->questions = Question::all()->pluck('name', 'id')->toArray();
 
+        $this->answersSelected[17] = null;
         foreach ($this->questions as $questionId => $questionName) {
             $this->options[$questionId]=Option::where('question_id',$questionId)->pluck('name','id')->toArray();
         }
@@ -47,9 +48,57 @@ class MisPlanesController extends Component
         //     'answersSelected' => 'required|array|size:17',
         //     'answersSelected.*' => 'required|integer',
         // ]);
+        
+        if($this->answersSelected[4] == 1){ //es hombre
+            $TMB = (10*$this->answersSelected[2])+(6.25*$this->answersSelected[3])-(5*$this->answersSelected[1])+5;
+        }elseif($this->answersSelected[4] == 2){ //es mujer
+            $TMB = (10*$this->answersSelected[2])+(6.25*$this->answersSelected[3])-(5*$this->answersSelected[1])-161;
+        }
+        $pesoMagro=$this->answersSelected[2]-($this->answersSelected[10]*$this->answersSelected[2]);
+
+        if($this->answersSelected[15]==16){  //sedentario
+            $frecuenciaFisica=1.2;
+        }elseif($this->answersSelected[15]==17){    //Act. ligera
+            $frecuenciaFisica=1.375;
+        }elseif($this->answersSelected[15]==18){    //moderada
+            $frecuenciaFisica=1.55;
+        }elseif($this->answersSelected[15]==19){    //intensa
+            $frecuenciaFisica=1.725;
+        }elseif($this->answersSelected[15]==20){    //muy intensa
+            $frecuenciaFisica=1.9;
+        }
+        $TMBconActividad=$TMB*$frecuenciaFisica; //caloriasTotales
+
+        if($this->answersSelected[5]==3){ // bajar grasa
+            $grProteina=$pesoMagro*2.4;
+            $grasasNecesaria=.35;
+            $TMBtotal=$TMBconActividad-400;
+        }elseif($this->answersSelected[5]==4){ //aumentar musculo
+            $grProteina=$pesoMagro*2;
+            $grasasNecesaria=.25;
+            $TMBtotal=$TMBconActividad+500;
+        }elseif($this->answersSelected[5]==5){ //recomposicion corporal
+            $grProteina=$pesoMagro*2.4;
+            $grasasNecesaria=.30;
+            $TMBtotal=$TMBconActividad-100;
+        }elseif($this->answersSelected[5]==6){ //mantenimiento
+            $grProteina=$pesoMagro*2;
+            $grasasNecesaria=.25;
+            $TMBtotal=$TMBconActividad;
+        }
+        $caloriasProteinas=$grProteina*4;
+        $caloriasGrasas=$TMBtotal*$grasasNecesaria;
+        $grGrasas=$caloriasGrasas/9;
+        $caloriasCarbos=$TMBtotal-($caloriasProteinas+$caloriasGrasas);
+        $grCarbos=$caloriasCarbos/4;
+
+        if($this->answersSelected[17] == 22){
+            $this->answersSelected[18] = null; // Si el usuario selecciona "No" al pregunta 17 (Preferencia alimentaria), se borra el campo de respuesta 18 que es el campo de texto
+        }
+
         $survey=Survey::create([
             'name' => 'Sondeo',
-            'description' => 'Sondeo de prueba al usuario',
+            'description' => 'Sondeo de Creacion de Plan de Alimentacion',
         ]);
         foreach ($this->answersSelected as $questionId => $optionId) {
             $answer=Answer::create([
@@ -60,11 +109,11 @@ class MisPlanesController extends Component
             ]);
         }
         $meal_plan = MealPlan::create([
-            'name' => 'Plan de comida',
-            'total_calories' => '100',
-            'total_fats' => '100',
-            'total_carbs' => '100',
-            'total_proteins' => '100',
+            'name' => 'Plan Para '.$this->options[5][$this->answersSelected[5]],
+            'total_calories' => $TMBtotal,
+            'total_fats' => $grGrasas,
+            'total_carbs' => $grCarbos,
+            'total_proteins' => $grProteina,
             'user_id' => $this->user,
             'survey_id' => $survey->id,
         ]);
@@ -83,45 +132,45 @@ class MisPlanesController extends Component
     public function seleccionarPorcentajeHombre($valor){
         $this->seleccionadoHombre = $valor;
         if($this->seleccionadoHombre ==1){
-            $this->answersSelected[10] = "3-4%";
+            $this->answersSelected[10] = ".04";
         }elseif($this->seleccionadoHombre==2){
-            $this->answersSelected[10] = "6-7%";
+            $this->answersSelected[10] = ".07";
         }elseif($this->seleccionadoHombre==3){
-            $this->answersSelected[10] = "10-12%";
+            $this->answersSelected[10] = ".12";
         }elseif($this->seleccionadoHombre==4){
-            $this->answersSelected[10] = "15-17%";
+            $this->answersSelected[10] = ".15";
         }elseif($this->seleccionadoHombre==5){
-            $this->answersSelected[10] = "20-22%";
+            $this->answersSelected[10] = ".2";
         }elseif($this->seleccionadoHombre==6){
-            $this->answersSelected[10] = "25-27%";
+            $this->answersSelected[10] = ".25";
         }elseif($this->seleccionadoHombre==7){
-            $this->answersSelected[10] = "30-32%";
+            $this->answersSelected[10] = ".3";
         }elseif($this->seleccionadoHombre==8){
-            $this->answersSelected[10] = "35-37%";
+            $this->answersSelected[10] = ".35";
         }elseif($this->seleccionadoHombre==9){
-            $this->answersSelected[10] = "40-42%";
+            $this->answersSelected[10] = ".4";
         }
     }
     public function seleccionarPorcentajeMujer($valor){
         $this->seleccionadoMujer = $valor;
         if($this->seleccionadoMujer ==1){
-            $this->answersSelected[10] = "12-14%";
+            $this->answersSelected[10] = ".14";
         }elseif($this->seleccionadoMujer==2){
-            $this->answersSelected[10] = "15-17%";
+            $this->answersSelected[10] = ".17";
         }elseif($this->seleccionadoMujer==3){
-            $this->answersSelected[10] = "18-20%";
+            $this->answersSelected[10] = ".2";
         }elseif($this->seleccionadoMujer==4){
-            $this->answersSelected[10] = "21-23%";
+            $this->answersSelected[10] = ".23";
         }elseif($this->seleccionadoMujer==5){
-            $this->answersSelected[10] = "24-26%";
+            $this->answersSelected[10] = ".26";
         }elseif($this->seleccionadoMujer==6){
-            $this->answersSelected[10] = "27-29%";
+            $this->answersSelected[10] = ".29";
         }elseif($this->seleccionadoMujer==7){
-            $this->answersSelected[10] = "30-35%";
+            $this->answersSelected[10] = ".35";
         }elseif($this->seleccionadoMujer==8){
-            $this->answersSelected[10] = "36-40%";
+            $this->answersSelected[10] = ".4";
         }elseif($this->seleccionadoMujer==9){
-            $this->answersSelected[10] = "50+%";
+            $this->answersSelected[10] = ".5";
         }
     }
     public function seleccionarTipoCuerpo($valor){

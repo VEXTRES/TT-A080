@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
                     ['name' => '¿Te gustaría hacer ejercicios de pesas en casa, gimnasio?'],
                     ['name' => '¿Cuál es tu nivel de actividad diaria?'],
                     ['name' => '¿Cuántos tiempo llevas entrenando constantemente(con un lapso no mayor a 15 dias de inactividad)?'],
-                    ['name' => '¿Tienes alguna preferencia alimentaria?']
+                    ['name' => '¿Tienes alguna preferencia alimentaria(Vegetariana,Sin gluten, Sin Lactosa)?']
             ))->create()
     ->each(function ($question) {
         $options = [];
@@ -81,17 +81,21 @@ class DatabaseSeeder extends Seeder
                     Pasos diarios: Entre 5,000 y 7,500 pasos al día.
                     Tiempo de caminata: Aproximadamente 30 a 60 minutos al día (a ritmo moderado).',
                     'Actividad moderada
-                    Ejercicio semanal: Ejercicio moderado de 4 a 6 veces por semana.
+                    Ejercicio semanal: Ejercicio moderado de 3 a 5 veces por semana.
                     Pasos diarios: Entre 7,500 y 10,000 pasos al día.
                     Tiempo de caminata: Aproximadamente 60 a 90 minutos al día (a ritmo moderado o rápido).',
                     'Actividad intensa
-                    Ejercicio semanal: Ejercicio intenso más de 6 veces por semana.
+                    Ejercicio semanal: Ejercicio intenso  6 - 7 veces por semana.
                     Pasos diarios: Más de 10,000 pasos al día.
-                    Tiempo de caminata: 90 minutos o más al día (a ritmo rápido).'
+                    Tiempo de caminata: 90 minutos o más al día (a ritmo rápido).',
+                    'Actividad muy intensa
+                    Ejercicio semanal: Ejercicio Extremo o doble jornada por semana.
+                    Pasos diarios: Más de 15,000 pasos al día.
+                    Tiempo de caminata: 120 minutos o más al día (a ritmo rápido).'
                 ];
                 break;
 
-            case '¿Tienes alguna preferencia alimentaria?':
+            case '¿Tienes alguna preferencia alimentaria(Vegetariana,Sin gluten, Sin Lactosa)?':
                 $options = ['Si', 'No'];
                 break;
         }
