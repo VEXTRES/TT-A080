@@ -25,6 +25,7 @@ class MisPlanesController extends Component
     public $meal_plans,$workout_plans,$user;
     public $answersSelectedYears = [],$answersSelectedMonths = [],$seleccionadoHombre,$seleccionadoMujer;
     public $seleccionadoTipoCuerpo;
+    public $errorMessage = '';
 
     public function mount(){
 
@@ -33,29 +34,71 @@ class MisPlanesController extends Component
         $this->workout_plans= WorkoutPlan::all();
         $this->questions = Question::all()->pluck('name', 'id')->toArray();
 
-        $this->answersSelected[17] = null;
         foreach ($this->questions as $questionId => $questionName) {
             $this->options[$questionId]=Option::where('question_id',$questionId)->pluck('name','id')->toArray();
         }
-
+        $this->answersSelected[18] = null;
         $this->updatePaginatedQuestions();
     }
 
 
     public function CrearPlan(){
 
-        // $this->validate([
-        //     'answersSelected' => 'required|array|size:17',
-        //     'answersSelected.*' => 'required|integer',
-        // ]);
-        
+        try {
+            $rules = [
+                'answersSelected' => 'required|array', // Removemos size:17 para manejar el caso dinámico
+                'answersSelected.1' => 'required|numeric|min:1|max:120', // Edad con límites razonables
+                'answersSelected.2' => 'required|numeric|min:20|max:300', // Peso con límites razonables
+                'answersSelected.3' => 'required|numeric|min:50|max:250', // Altura con límites razonables
+                'answersSelected.4' => 'required|numeric',
+                'answersSelected.5' => 'required|numeric',
+                'answersSelected.6' => 'required|string',
+                'answersSelected.7' => 'required|numeric',
+                'answersSelected.8' => 'required|numeric',
+                'answersSelected.9' => 'required|numeric',
+                'answersSelected.10' => 'required|string', // Para el formato "25-27%"
+                'answersSelected.11' => 'required|string',
+                'answersSelected.12' => 'required|numeric',
+                'answersSelected.13' => 'required|numeric',
+                'answersSelected.14' => 'required|numeric',
+                'answersSelected.15' => 'required|numeric|min:16|max:20', // Nivel de actividad física
+                'answersSelected.16' => 'required|string', // Para el formato "3-1"
+                'answersSelected.17' => 'required|string|filled',
+            ];
+            if($this->answersSelected[17] == 22){
+                unset($this->answersSelected[18]); // Si el usuario selecciona "No" al pregunta 17 (Preferencia alimentaria), se borra el campo de respuesta 18 que es el campo de texto
+            }
+
+            if($this->answersSelected[17] == 21){
+
+                $this->answersSelected[17]=$this->answersSelected[18];
+                unset($this->answersSelected[18]);
+            }
+            $messages = [
+                'answersSelected.1.required' => 'La edad es requerida',
+                'answersSelected.2.required' => 'El peso es requerido',
+                'answersSelected.3.required' => 'La altura es requerida',
+                'answersSelected.18.required' => 'Por favor especifica el tipo de dieta',
+
+            ];
+            $this->validate($rules, $messages);
+
+            // Aquí puedes hacer el dd() si necesitas debuggear
+            session()->flash('success', '¡Plan creado con éxito!');
+
+        } catch (\Throwable $th) {
+
+            session()->flash('failed', 'Llene todos los campos');
+            return null;
+        }
+
+
         if($this->answersSelected[4] == 1){ //es hombre
             $TMB = (10*$this->answersSelected[2])+(6.25*$this->answersSelected[3])-(5*$this->answersSelected[1])+5;
         }elseif($this->answersSelected[4] == 2){ //es mujer
             $TMB = (10*$this->answersSelected[2])+(6.25*$this->answersSelected[3])-(5*$this->answersSelected[1])-161;
         }
         $pesoMagro=$this->answersSelected[2]-($this->answersSelected[10]*$this->answersSelected[2]);
-
         if($this->answersSelected[15]==16){  //sedentario
             $frecuenciaFisica=1.2;
         }elseif($this->answersSelected[15]==17){    //Act. ligera
@@ -92,9 +135,7 @@ class MisPlanesController extends Component
         $caloriasCarbos=$TMBtotal-($caloriasProteinas+$caloriasGrasas);
         $grCarbos=$caloriasCarbos/4;
 
-        if($this->answersSelected[17] == 22){
-            $this->answersSelected[18] = null; // Si el usuario selecciona "No" al pregunta 17 (Preferencia alimentaria), se borra el campo de respuesta 18 que es el campo de texto
-        }
+
 
         $survey=Survey::create([
             'name' => 'Sondeo',
@@ -124,7 +165,7 @@ class MisPlanesController extends Component
         ]);
 
 
-
+        $this->MostrarModal();
 
 
 
