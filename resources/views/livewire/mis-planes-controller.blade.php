@@ -538,8 +538,8 @@
                             @endif
                         </button>
                     </div>
-                    <div class="flex items-center h-full "
-                        x-show="sortOrderAlimentacion == false">
+                    <div x-show="sortOrderAlimentacion == false"
+                    class="flex items-center h-full">
                         <div class="flex-none justify-center text-center mr-8">
                             <button class="rounded-md ml-2 bg-white px-4 py-2 text-sm text-gray-700" wire:click="MostrarModal">
                                 Crear Nuevo Plan
@@ -586,26 +586,31 @@
                         </button>
                     </div>
                     <div x-show="sortOrderEntrenamiento == false"
-                        class="h-full flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        class="flex items-center h-full">
+                    <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <!-- Los elementos "hola" se acomodarán automáticamente en columnas -->
                         @if ($workout_plans->isEmpty())
-                            <div class="col-auto flex items-center ml-4 mt-10 underline text-xl">
-                                <p >No hay plan de entrenamiento disponibles.</p>
-                            </div>
+
+                        <div class="col-auto flex items-center ml-4 mt-4 underline text-xl">
+                            <p >No hay plan de Alimentacion disponibles.</p>
+                        </div>
+
                         @else
                             @foreach ($workout_plans as $workout_plan)
                                 <div class="col-auto flex items-center ml-4 mt-4 mb-4">
-                                    <div class="border border-black py-28 px-4 rounded-md flex flex-col gap-0">
-                                            <div class="text-md font-bold  -mt-24 -ml-2">{{ $workout_plan->id }}</div>
-                                            <div class="text-center mt-20">{{ $workout_plan->name }}</div>
+                                    <div class="border border-black py-28 px-4 rounded-md flex flex-col">
+                                        <div class="text-md font-bold  -mt-24 -ml-2">{{ $workout_plan->id }}</div>
+                                        <div class="text-center mt-5">{{ $workout_plan->name }}</div>
                                         <button
-                                            class="mt-10 p-3 rounded-md border border-black"
+                                            class="mt-5 p-3 w-1/3 mx-auto rounded-md border border-black"
                                             @click="window.location.href = '{{ route('plan-entrenamiento', $workout_plan->id) }}'">
                                                 Ver
                                         </button>
                                     </div>
                                 </div>
-                            @endforeach
+                             @endforeach
                         @endif
+                    </div>
                     </div>
                 </div>
             </div>
