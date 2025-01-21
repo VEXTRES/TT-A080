@@ -10,7 +10,8 @@ class WorkoutPlan extends Model
     protected $fillable = ['name','meal_plan_id'];
 
     public function exercises(){
-        return $this->belongsToMany(Exercise::class);
+        return $this->belongsToMany(Exercise::class, 'exercise_workout_plan')
+                    ->withPivot('series', 'reps');
     }
     public function meal_plan(){
         return $this->hasOne(MealPlan::class);

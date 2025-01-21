@@ -14,8 +14,8 @@ use Livewire\Component;
 
 class MisPlanesController extends Component
 {
-    public $sortOrderAlimentacion = 'close';
-    public $sortOrderEntrenamiento = 'close';
+    public $sortOrderAlimentacion = true;
+    public $sortOrderEntrenamiento = true;
     public $showModal =false;
 
     public $questions,$options;
@@ -33,8 +33,10 @@ class MisPlanesController extends Component
     public function mount(){
 
         $this->user = auth()->user()->id;
-        $this->meal_plans= MealPlan::where('user_id',auth()->user()->id)->get();
-        $this->workout_plans= WorkoutPlan::all();
+
+        $this->loadPlans();
+
+
         $this->questions = Question::all()->pluck('name', 'id')->toArray();
 
         foreach ($this->questions as $questionId => $questionName) {
@@ -221,8 +223,9 @@ class MisPlanesController extends Component
                         //faltaaaaaaaaaaaaaaaaaaaaaaa
 
                     }elseif($this->answersSelected[14]==15){  //en gym
+                        //3 series 8 reps  2 ejercicios x musculo
                         foreach($this->conjunto_de_musculos as $musculo){
-                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(2)->get();
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
                             $ejercicios_con_detalles = [];
                             foreach ($ejercicios_aleatorios as $ejercicio) {
                                 $ejercicios_con_detalles[$ejercicio->id] = [
@@ -230,7 +233,6 @@ class MisPlanesController extends Component
                                     'reps' => '8'    // según tus necesidades
                                 ];
                             }
-
                             // Attach los ejercicios al plan
                             $workout_plan->exercises()->attach($ejercicios_con_detalles);
                         }
@@ -329,9 +331,9 @@ class MisPlanesController extends Component
                     //falta
 
                 }elseif($this->answersSelected[14]==15){  //en gym
-                     //2 series 8 reps  2 ejercicios x musculo
+                     //3 series 8 reps  2 ejercicios x musculo
                      foreach($this->conjunto_de_musculos as $musculo){
-                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(2)->get();
+                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
                         $ejercicios_con_detalles = [];
                         foreach ($ejercicios_aleatorios as $ejercicio) {
                             $ejercicios_con_detalles[$ejercicio->id] = [
@@ -345,7 +347,7 @@ class MisPlanesController extends Component
                 }
             }
 
-
+        $this->loadPlans();
         $this->MostrarModal();
 
 
@@ -420,6 +422,13 @@ class MisPlanesController extends Component
         $this->answersSelected[$questionId] = trim("{$years}-{$months}", '-');
     }
 
+    public function loadPlans(){
+        $this->meal_plans= MealPlan::where('user_id',auth()->user()->id)->get();
+        $this->workout_plans = WorkoutPlan::join('meal_plans', 'meal_plans.id', '=', 'workout_plans.meal_plan_id')
+            ->where('meal_plans.user_id', auth()->user()->id)
+            ->get();
+    }
+
     public function updatePaginatedQuestions(){
         $start = ($this->currentPage - 1) * $this->perPage;
         $this->questionsPaginated = array_slice($this->questions, $start, $this->perPage, true);
@@ -438,11 +447,11 @@ class MisPlanesController extends Component
     }
 
     public function setOrderAlimentacion(){
-        $this->sortOrderAlimentacion= $this->sortOrderAlimentacion == 'open' ? 'close' : 'open';
+        $this->sortOrderAlimentacion= !$this->sortOrderAlimentacion;
 
     }
     public function setOrderEntrenamiento(){
-        $this->sortOrderEntrenamiento=$this->sortOrderEntrenamiento=='open'?'close':'open';
+        $this->sortOrderEntrenamiento=!$this->sortOrderEntrenamiento;
     }
 
     public function MostrarModal(){

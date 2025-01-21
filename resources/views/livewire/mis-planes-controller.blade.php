@@ -527,7 +527,7 @@
                     <div class="flex space-x-4">
                         <p class="text-xl font-black">Plan de Alimentacion</p>
                         <button wire:click="setOrderAlimentacion">
-                            @if ($sortOrderAlimentacion == 'close')
+                            @if ($sortOrderAlimentacion)
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                                 </svg>
@@ -538,9 +538,8 @@
                             @endif
                         </button>
                     </div>
-                    <div class="flex items-center h-full " x-show="sortOrderAlimentacion == 'open'">
-
-
+                    <div class="flex items-center h-full "
+                        x-show="sortOrderAlimentacion == false">
                         <div class="flex-none justify-center text-center mr-8">
                             <button class="rounded-md ml-2 bg-white px-4 py-2 text-sm text-gray-700" wire:click="MostrarModal">
                                 Crear Nuevo Plan
@@ -556,19 +555,17 @@
                             </div>
 
                             @else
-                                @foreach ($meal_plans as $meal_plan)
-                                    <div class="col-auto flex items-center ml-4 mt-4 mb-4">
-                                        <div class="border border-black py-28 px-4 rounded-md flex flex-col gap-0">
-                                            <div class="text-md font-bold  -mt-24 -ml-2">{{ $meal_plan->id }}</div>
-                                            <div class="text-center mt-20">{{ $meal_plan->name }}</div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                                        @foreach ($meal_plans as $meal_plan)
+                                            <div class="col-auto flex items-center ml-4 mt-4 mb-4">
+                                                <div class="border border-black py-28 px-4 rounded-md flex flex-col gap-0">
+                                                    <div class="text-md font-bold  -mt-24 -ml-2">{{ $meal_plan->id }}</div>
+                                                    <div class="text-center mt-20">{{ $meal_plan->name }}</div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                             @endif
-                            <!-- Puedes agregar más elementos "hola" según sea necesario -->
                         </div>
                     </div>
-
 
                 </div>
 
@@ -576,7 +573,7 @@
                     <div class="flex space-x-4">
                         <p class="text-xl font-black">Plan de Entrenamiento</p>
                         <button wire:click="setOrderEntrenamiento">
-                            @if ($sortOrderEntrenamiento == 'close')
+                            @if ($sortOrderEntrenamiento == true)
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                                 </svg>
@@ -588,9 +585,8 @@
 
                         </button>
                     </div>
-                    <div x-show="sortOrderEntrenamiento == 'open'"
-                    class="h-full flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-                    >
+                    <div x-show="sortOrderEntrenamiento == false"
+                        class="h-full flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         @if ($workout_plans->isEmpty())
                             <div class="col-auto flex items-center ml-4 mt-10 underline text-xl">
                                 <p >No hay plan de entrenamiento disponibles.</p>
@@ -599,8 +595,13 @@
                             @foreach ($workout_plans as $workout_plan)
                                 <div class="col-auto flex items-center ml-4 mt-4 mb-4">
                                     <div class="border border-black py-28 px-4 rounded-md flex flex-col gap-0">
-                                        <div class="text-md font-bold  -mt-24 -ml-2">{{ $workout_plan->id }}</div>
-                                        <div class="text-center mt-20">{{ $workout_plan->name }}</div>
+                                            <div class="text-md font-bold  -mt-24 -ml-2">{{ $workout_plan->id }}</div>
+                                            <div class="text-center mt-20">{{ $workout_plan->name }}</div>
+                                        <button
+                                            class="mt-10 p-3 rounded-md border border-black"
+                                            @click="window.location.href = '{{ route('plan-entrenamiento', $workout_plan->id) }}'">
+                                                Ver
+                                        </button>
                                     </div>
                                 </div>
                             @endforeach
