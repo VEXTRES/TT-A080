@@ -3,7 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Answer;
-
+use App\Models\Excersice;
+use App\Models\Exercise;
 use App\Models\MealPlan;
 use App\Models\Option;
 use App\Models\Question;
@@ -26,6 +27,8 @@ class MisPlanesController extends Component
     public $answersSelectedYears = [],$answersSelectedMonths = [],$seleccionadoHombre,$seleccionadoMujer;
     public $seleccionadoTipoCuerpo;
     public $errorMessage = '';
+    public $conjunto_de_musculos = ['espalda','pecho','hombro','bicep','tricep','cuadricep','gluteo','pantorilla','abdomen'];
+
 
     public function mount(){
 
@@ -38,6 +41,10 @@ class MisPlanesController extends Component
             $this->options[$questionId]=Option::where('question_id',$questionId)->pluck('name','id')->toArray();
         }
         $this->answersSelected[18] = null;
+
+
+
+
         $this->updatePaginatedQuestions();
     }
 
@@ -160,9 +167,183 @@ class MisPlanesController extends Component
         ]);
 
         $workout_plan = WorkoutPlan::create([
-            'name' => 'Plan de entrenamiento',
+            'name' => 'Plan de entrenamiento para '.$this->options[5][$this->answersSelected[5]],
             'meal_plan_id' => $meal_plan->id,
         ]);
+
+
+            if($this->answersSelected[12]==7) // practicas deporte? si actual
+            {
+                if($this->answersSelected[13]==10){ //Cuántos días haces ejercicio '1 o nada',
+                    $ejercicioDiario = 1;
+                }elseif($this->answersSelected[13]==11){ // Cuántos días haces ejercicio 2 a 4 dias',
+                    $ejercicioDiario = 2;
+                }elseif($this->answersSelected[13]==12){ // Cuántos días haces ejercicio 5 a 6 dias', '
+                    $ejercicioDiario = 3;
+                }elseif($this->answersSelected[13]==13){ // Cuántos días haces ejercicio 7 o mas dias'
+                    $ejercicioDiario = 4;
+                }
+                if($this->answersSelected[14]==14){  //casa
+                    $lugarDeEjercicio = 1;
+                }elseif($this->answersSelected[14]==15){  //en gym
+                    $lugarDeEjercicio = 2;
+                }
+                if($this->answersSelected[15]==16){ // Nivel de actividad física 'Sedentario
+                    $actividadFisica=1;
+                }elseif($this->answersSelected[15]==17){ // Nivel de actividad física 'Actividad ligera
+                    $actividadFisica=2;
+                }elseif($this->answersSelected[15]==18){ // Nivel de actividad física 'moderada
+                    $actividadFisica=3;
+                }elseif($this->answersSelected[15]==19){ // Nivel de actividad física 'intensa
+                    $actividadFisica=4;
+                }elseif($this->answersSelected[15]==20){ // Nivel de actividad física 'muy intensa
+                    $actividadFisica=5;
+                }
+                $parts = explode('-', $this->answersSelected[16]);
+                $firstNumber = (int) $parts[0];  // Primer número
+                $secondNumber = (int) $parts[1];  // Segundo número
+
+                if (($firstNumber == 0) && ($secondNumber >= 0 && $secondNumber <= 12)) {
+                    $tiempoEntrenando=1;
+                }elseif ((($firstNumber == 1) && ($secondNumber >= 0 && $secondNumber <= 12))||($firstNumber==2 && $secondNumber==0)) {
+                    $tiempoEntrenando=2;
+                }elseif ((($firstNumber >= 2 && $firstNumber<=4) && ($secondNumber >= 0 && $secondNumber <= 12))) {
+                    $tiempoEntrenando=3;
+                }else{
+                    $tiempoEntrenando=4;
+                }
+
+                if($tiempoEntrenando==1&&($ejercicioDiario>=1 && $ejercicioDiario<=4)&&($actividadFisica>=1 && $actividadFisica<=5)){
+                    //2 series 8 reps  2 ejercicios x musculo
+
+                    if($this->answersSelected[14]==14){  //casa
+
+                        //faltaaaaaaaaaaaaaaaaaaaaaaa
+
+                    }elseif($this->answersSelected[14]==15){  //en gym
+                        foreach($this->conjunto_de_musculos as $musculo){
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(2)->get();
+                            $ejercicios_con_detalles = [];
+                            foreach ($ejercicios_aleatorios as $ejercicio) {
+                                $ejercicios_con_detalles[$ejercicio->id] = [
+                                    'series' => '2',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                    'reps' => '8'    // según tus necesidades
+                                ];
+                            }
+
+                            // Attach los ejercicios al plan
+                            $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                        }
+                    }
+
+                }elseif(($tiempoEntrenando==2)&&($ejercicioDiario>=1 && $ejercicioDiario<=4) && ($actividadFisica>=1 && $actividadFisica<=5)){
+
+                    if($this->answersSelected[14]==14){  //casa
+
+                        //faltaaaaaaaaaaaaaaaa
+
+                    }elseif($this->answersSelected[14]==15){  //en gym
+                    //3 series 10 reps 3 ejercicios x musculo
+                        foreach($this->conjunto_de_musculos as $musculo){
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
+                            $ejercicios_con_detalles = [];
+                            foreach ($ejercicios_aleatorios as $ejercicio) {
+                                $ejercicios_con_detalles[$ejercicio->id] = [
+                                    'series' => '3',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                    'reps' => '10'    // según tus necesidades
+                                ];
+                            }
+
+                            // Attach los ejercicios al plan
+                            $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                        }
+                    }
+                }elseif($tiempoEntrenando==3||$tiempoEntrenando==4&&($ejercicioDiario>=1 && $ejercicioDiario<=4) && ($actividadFisica>=1 && $actividadFisica<=5)){
+
+                    if($this->answersSelected[14]==14){  //casa
+
+                        //faltaaaaaaaaaaaaaaaaaaaaaaa
+
+                    }elseif($this->answersSelected[14]==15){  //en gym
+                        //4 series 8 - 10 reps  3 ejercicios x musculo
+                        foreach($this->conjunto_de_musculos as $musculo){
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
+                            $ejercicios_con_detalles = [];
+                            foreach ($ejercicios_aleatorios as $ejercicio) {
+                                $ejercicios_con_detalles[$ejercicio->id] = [
+                                    'series' => '4',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                    'reps' => '10'    // según tus necesidades
+                                ];
+                            }
+
+                            // Attach los ejercicios al plan
+                            $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                        }
+                    }
+                }else{
+                    if($this->answersSelected[14]==14){  //casa
+
+                        //faltaaaaaaaaaaaaaaaaaaaaaaa
+
+                    }elseif($this->answersSelected[14]==15){  //en gym
+                        //4 series 6-8 reps  4 ejercicios x musculo
+                        foreach($this->conjunto_de_musculos as $musculo){
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(4)->get();
+                            $ejercicios_con_detalles = [];
+                            foreach ($ejercicios_aleatorios as $ejercicio) {
+                                $ejercicios_con_detalles[$ejercicio->id] = [
+                                    'series' => '4',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                    'reps' => '8'    // según tus necesidades
+                                ];
+                            }
+
+                            // Attach los ejercicios al plan
+                            $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                        }
+                    }
+                }
+            }elseif($this->answersSelected[12]==8){  // practicas deporte? lo deje pero pacticaba recientemente
+                if($this->answersSelected[14]==14){  //casa
+
+                    //falta
+
+                }elseif($this->answersSelected[14]==15){  //en gym
+                    //3 series 10 reps 3 ejercicios x musculo
+                    foreach($this->conjunto_de_musculos as $musculo){
+                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
+                        $ejercicios_con_detalles = [];
+                        foreach ($ejercicios_aleatorios as $ejercicio) {
+                            $ejercicios_con_detalles[$ejercicio->id] = [
+                                'series' => '3',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                'reps' => '10'    // según tus necesidades
+                            ];
+                        }
+
+                        // Attach los ejercicios al plan
+                        $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                    }
+                }
+            }elseif($this->answersSelected[12]==9){  // practicas deporte? tiene mucho que lo deje O nunca he hecho deporte
+                if($this->answersSelected[14]==14){  //casa
+
+                    //falta
+
+                }elseif($this->answersSelected[14]==15){  //en gym
+                     //2 series 8 reps  2 ejercicios x musculo
+                     foreach($this->conjunto_de_musculos as $musculo){
+                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(2)->get();
+                        $ejercicios_con_detalles = [];
+                        foreach ($ejercicios_aleatorios as $ejercicio) {
+                            $ejercicios_con_detalles[$ejercicio->id] = [
+                                'series' => '2',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                'reps' => '8'    // según tus necesidades
+                            ];
+                        }
+                        // Attach los ejercicios al plan
+                        $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                    }
+                }
+            }
 
 
         $this->MostrarModal();

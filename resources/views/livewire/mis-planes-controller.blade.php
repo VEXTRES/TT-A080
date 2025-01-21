@@ -435,7 +435,7 @@
                                                     required
                                                 >
                                                     <option value="">Años</option>
-                                                    @for ($i = 1; $i <= 20; $i++)
+                                                    @for ($i = 0; $i <= 20; $i++)
                                                         <option value="{{ $i }}">{{ $i }} {{ $i == 1 ? 'Año' : 'Años' }}</option>
                                                     @endfor
                                                 </select>
@@ -448,7 +448,7 @@
                                                     required
                                                 >
                                                     <option value="">Meses</option>
-                                                    @for ($i = 1; $i <= 12; $i++)
+                                                    @for ($i = 0; $i <= 12; $i++)
                                                         <option value="{{ $i }}">{{ $i }} {{ $i == 1 ? 'Mes' : 'Meses' }}</option>
                                                     @endfor
                                                 </select>

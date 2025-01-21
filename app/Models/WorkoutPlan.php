@@ -9,8 +9,8 @@ class WorkoutPlan extends Model
     protected $table = 'workout_plans';
     protected $fillable = ['name','meal_plan_id'];
 
-    public function excercises(){
-        return $this->belongsToMany(Excersice::class);
+    public function exercises(){
+        return $this->belongsToMany(Exercise::class);
     }
     public function meal_plan(){
         return $this->hasOne(MealPlan::class);
