@@ -86,7 +86,7 @@
                                                 class="bg-gray-50 border justify-center w-1/3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                 >
                                             <option value="">Selecciona tu Altura (CM)</option>
-                                                @for ($i = 100; $i <= 250; $i++)
+                                                @for ($i = 120; $i <= 250; $i++)
                                                     <option value="{{ $i }}">{{ $i }}</option>
                                                 @endfor
 
@@ -155,7 +155,7 @@
                                                 class="bg-gray-50 border justify-center w-1/3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                 >
                                                     <option value="">Selecciona</option>
-                                                        @for ($i = 1; $i <= 7; $i++)
+                                                        @for ($i = 2; $i <= 7; $i++)
                                                             <option value="{{ $i }}">{{ $i }}</option>
                                                         @endfor
 
@@ -557,9 +557,15 @@
                             @else
                                         @foreach ($meal_plans as $meal_plan)
                                             <div class="col-auto flex items-center ml-4 mt-4 mb-4">
-                                                <div class="border border-black py-28 px-4 rounded-md flex flex-col gap-0">
-                                                    <div class="text-md font-bold  -mt-24 -ml-2">{{ $meal_plan->id }}</div>
-                                                    <div class="text-center mt-20">{{ $meal_plan->name }}</div>
+                                                <div class="border border-black py-20 px-4 rounded-md flex flex-col gap-0">
+                                                    <div class="text-md font-bold  -mt-14 -ml-2">{{ $meal_plan->id }}</div>
+                                                    <div class="text-center mt-10">{{ $meal_plan->name }}</div>
+                                                    <button
+                                                        class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black mb-2"
+                                                        @click="window.location.href = '{{ route('plan-alimentacion', $meal_plan->id) }}'">
+                                                        Ver
+                                                    </button>
+
                                                 </div>
                                             </div>
                                         @endforeach
@@ -599,10 +605,11 @@
                             @foreach ($workout_plans as $workout_plan)
                             <div class="col-auto flex items-center ml-4 mt-4 mb-4">
                                 <div class="border border-black py-20 px-4 rounded-md flex flex-col">
-                                    <div class="text-md font-bold -mt-16 -ml-2">{{ $workout_plan->id }}</div>
+                                    <div class="text-md font-bold -mt-14 -ml-2">{{ $workout_plan->id }}</div>
                                     <div class="text-center mt-1">{{ $workout_plan->name }}</div>
                                     <button
-                                        class="mt-4 p-3 w-1/3 mx-auto rounded-md border border-black mb-2">
+                                        class="mt-4 p-3 w-1/3 mx-auto rounded-md border border-black mb-2"
+                                        @click="window.location.href = '{{ route('plan-entrenamiento', $workout_plan->id) }}'">
                                         Ver
                                     </button>
                                 </div>

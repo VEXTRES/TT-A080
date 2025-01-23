@@ -26,7 +26,7 @@ class MisPlanesController extends Component
     public $meal_plans,$workout_plans,$user;
     public $answersSelectedYears = [],$answersSelectedMonths = [],$seleccionadoHombre,$seleccionadoMujer;
     public $seleccionadoTipoCuerpo;
-    public $errorMessage = '';
+    public $errorMessage ;
     public $conjunto_de_musculos = ['espalda','pecho','hombro','bicep','tricep','cuadricep','gluteo','pantorilla','abdomen'];
 
 
@@ -56,13 +56,13 @@ class MisPlanesController extends Component
         try {
             $rules = [
                 'answersSelected' => 'required|array', // Removemos size:17 para manejar el caso dinámico
-                'answersSelected.1' => 'required|numeric|min:1|max:120', // Edad con límites razonables
-                'answersSelected.2' => 'required|numeric|min:20|max:300', // Peso con límites razonables
-                'answersSelected.3' => 'required|numeric|min:50|max:250', // Altura con límites razonables
+                'answersSelected.1' => 'required|numeric|min:15|max:65', // Edad con límites razonables
+                'answersSelected.2' => 'required|numeric|min:20|max:150', // Peso con límites razonables
+                'answersSelected.3' => 'required|numeric|min:120|max:250', // Altura con límites razonables
                 'answersSelected.4' => 'required|numeric',
                 'answersSelected.5' => 'required|numeric',
                 'answersSelected.6' => 'required|string',
-                'answersSelected.7' => 'required|numeric',
+                'answersSelected.7' => 'required|numeric|min:2|max:7',
                 'answersSelected.8' => 'required|numeric',
                 'answersSelected.9' => 'required|numeric',
                 'answersSelected.10' => 'required|string', // Para el formato "25-27%"
@@ -83,20 +83,33 @@ class MisPlanesController extends Component
                 $this->answersSelected[17]=$this->answersSelected[18];
                 unset($this->answersSelected[18]);
             }
-            $messages = [
+            $errorMessage  = [
                 'answersSelected.1.required' => 'La edad es requerida',
                 'answersSelected.2.required' => 'El peso es requerido',
                 'answersSelected.3.required' => 'La altura es requerida',
+                'answersSelected.4.required' => 'El sexo es requerido',
+                'answersSelected.5.required' => 'El obejtivo es requerido',
+                'answersSelected.6.required' => 'Alimento Alergico es requerido',
+                'answersSelected.7.required' => 'Seleccione Comidas al Día',
+                'answersSelected.8.required' => 'Seleccione Agua al Día',
+                'answersSelected.9.required' => 'Seleccione Hrs dormidas al Día',
+                'answersSelected.10.required' => 'Seleccione % de grasa corporal',
+                'answersSelected.11.required' => 'Seleccione Tipo de Cuerpo',
+                'answersSelected.12.required' => 'Seleccione si practica deporte o no',
+                'answersSelected.13.required' => 'Seleccione Cuantos dias hace ejercicio',
+                'answersSelected.14.required' => 'Casa o En Gym',
+                'answersSelected.15.required' => 'Seleccione Nivel de Actividad Física',
+                'answersSelected.16.required' => 'Cuanto tiempo practicas deporte',
+                'answersSelected.17.required' => 'Tiene alguna preferencia de dieta',
                 'answersSelected.18.required' => 'Por favor especifica el tipo de dieta',
 
             ];
-            $this->validate($rules, $messages);
+            $this->validate($rules, $errorMessage);
 
-            // Aquí puedes hacer el dd() si necesitas debuggear
+            // Si pasa la validación
             session()->flash('success', '¡Plan creado con éxito!');
-
         } catch (\Throwable $th) {
-
+            // En caso de otros errores
             session()->flash('failed', 'Llene todos los campos');
             return null;
         }
@@ -122,27 +135,28 @@ class MisPlanesController extends Component
         $TMBconActividad=$TMB*$frecuenciaFisica; //caloriasTotales
 
         if($this->answersSelected[5]==3){ // bajar grasa
-            $grProteina=$pesoMagro*2.4;
+            $grProteinaDecimales=$pesoMagro*2.4;
             $grasasNecesaria=.35;
             $TMBtotal=$TMBconActividad-400;
         }elseif($this->answersSelected[5]==4){ //aumentar musculo
-            $grProteina=$pesoMagro*2;
+            $grProteinaDecimales=$pesoMagro*2;
             $grasasNecesaria=.25;
             $TMBtotal=$TMBconActividad+500;
         }elseif($this->answersSelected[5]==5){ //recomposicion corporal
-            $grProteina=$pesoMagro*2.4;
+            $grProteinaDecimales=$pesoMagro*2.4;
             $grasasNecesaria=.30;
             $TMBtotal=$TMBconActividad-100;
         }elseif($this->answersSelected[5]==6){ //mantenimiento
-            $grProteina=$pesoMagro*2;
+            $grProteinaDecimales=$pesoMagro*2;
             $grasasNecesaria=.25;
             $TMBtotal=$TMBconActividad;
         }
+        $grProteina=round($grProteinaDecimales);
         $caloriasProteinas=$grProteina*4;
         $caloriasGrasas=$TMBtotal*$grasasNecesaria;
-        $grGrasas=$caloriasGrasas/9;
+        $grGrasas=round($caloriasGrasas/9);
         $caloriasCarbos=$TMBtotal-($caloriasProteinas+$caloriasGrasas);
-        $grCarbos=$caloriasCarbos/4;
+        $grCarbos=round($caloriasCarbos/4);
 
 
 
@@ -159,7 +173,7 @@ class MisPlanesController extends Component
             ]);
         }
         $meal_plan = MealPlan::create([
-            'name' => 'Plan Para '.$this->options[5][$this->answersSelected[5]],
+            'name' => 'Plan de Alimentacion Para '.$this->options[5][$this->answersSelected[5]],
             'total_calories' => $TMBtotal,
             'total_fats' => $grGrasas,
             'total_carbs' => $grCarbos,

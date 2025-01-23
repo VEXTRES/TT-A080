@@ -32,7 +32,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('plan-alimentacion') }}" :active="request()->routeIs('plan-alimentacion')">
+                    <x-nav-link href="{{ route('mis-planes') }}" :active="request()->routeIs('mis-planes')">
                         {{ __('Mis Planes') }}
                     </x-nav-link>
                 </div>

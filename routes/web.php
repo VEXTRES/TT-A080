@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InicioController;
 use App\Livewire\MisPlanesController;
+use App\Livewire\PlanAlimentacionController;
 use App\Livewire\PlanEntrenamientoController;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
@@ -20,12 +21,16 @@ Route::controller(InicioController::class)->group(function () {
 })->middleware('auth.redirect');
 //Route::get('/nutricion',[InicioController::class, 'nutricion'])->name('nutricion');
 
-Route::get('plan-alimentacion',MisPlanesController::class)
-->name('plan-alimentacion')
+Route::get('mis-planes', MisPlanesController::class)
+->name('mis-planes')
 ->middleware('auth.redirect');
 
 Route::get('plan-entrenamiento/{id}',PlanEntrenamientoController::class)
 ->name('plan-entrenamiento')
+->middleware('auth.redirect');
+
+Route::get('plan-alimentacion/{id}',PlanAlimentacionController::class)
+->name('plan-alimentacion')
 ->middleware('auth.redirect');
 
 Route::middleware([

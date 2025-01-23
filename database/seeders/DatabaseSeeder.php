@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Answer;
 use App\Models\Excersice;
 use App\Models\Exercise;
+use App\Models\Food;
 use App\Models\Option;
 use App\Models\Question;
 use App\Models\Survey;
@@ -260,8 +261,6 @@ class DatabaseSeeder extends Seeder
         ],
     ];
 
-
-
         foreach($muscleGroups as $muscleGroup => $muscles) {
             foreach($muscles as $muscle => $exercises) {
                     $exercise = Exercise::create([
@@ -272,5 +271,293 @@ class DatabaseSeeder extends Seeder
             }
 
         }
+
+        $foods = [
+            'Proteinas' => [
+                'Carne de res' => [
+                    'proteina' => 26,
+                    'carbohidratos' => 0,
+                    'grasas' => 19.5,
+                    'calorias' => 250,
+                ],
+                'Pechuga de pollo' => [
+                    'proteina' => 31,
+                    'carbohidratos' => 0,
+                    'grasas' => 3.6,
+                    'calorias' => 165,
+                ],
+                'Carne de cerdo' => [
+                    'proteina' => 21,
+                    'carbohidratos' => 0,
+                    'grasas' => 12.5,
+                    'calorias' => 242,
+                ],
+                'Huevo' => [
+                    'proteina' => 6,
+                    'carbohidratos' => 0.6,
+                    'grasas' => 5,
+                    'calorias' => 70,
+                ],
+                'Tilapia' => [
+                    'proteina' => 22,
+                    'carbohidratos' => 0,
+                    'grasas' => 5,
+                    'calorias' => 128,
+                ],
+                'Atún' => [
+                    'proteina' => 23,
+                    'carbohidratos' => 0,
+                    'grasas' => 1.5,
+                    'calorias' => 120,
+                ],
+                'Sardina' => [
+                    'proteina' => 25,
+                    'carbohidratos' => 0,
+                    'grasas' => 11,
+                    'calorias' => 208,
+                ],
+                'Salmón' => [
+                    'proteina' => 20,
+                    'carbohidratos' => 0,
+                    'grasas' => 13,
+                    'calorias' => 206,
+                ],
+                'Pulpo' => [
+                    'proteina' => 15,
+                    'carbohidratos' => 0,
+                    'grasas' => 1,
+                    'calorias' => 82,
+                ],
+            ],
+            'Carbohidratos' => [
+                'Arroz' => [
+                    'proteina' => 3,
+                    'carbohidratos' => 23.5,
+                    'grasas' => 0.3,
+                    'calorias' => 130,
+                ],
+                'Tortilla de maíz' => [
+                    'proteina' => 2.5,
+                    'carbohidratos' => 24,
+                    'grasas' => 1.5,
+                    'calorias' => 218,
+                ],
+                'Frijoles' => [
+                    'proteina' => 8,
+                    'carbohidratos' => 23,
+                    'grasas' => 0.8,
+                    'calorias' => 127,
+                ],
+                'Papas' => [
+                    'proteina' => 2,
+                    'carbohidratos' => 20,
+                    'grasas' => 0.1,
+                    'calorias' => 77,
+                ],
+                'Pasta' => [
+                    'proteina' => 2.2,
+                    'carbohidratos' => 25,
+                    'grasas' => 1.5,
+                    'calorias' => 131,
+                ],
+                'Camote' => [
+                    'proteina' => 2,
+                    'carbohidratos' => 20,
+                    'grasas' => 0.1,
+                    'calorias' => 86,
+                ],
+                'Lentejas' => [
+                    'proteina' => 9,
+                    'carbohidratos' => 20,
+                    'grasas' => 0.5,
+                    'calorias' => 116,
+                ],
+                'Garbanzos' => [
+                    'proteina' => 9,
+                    'carbohidratos' => 27,
+                    'grasas' => 2.5,
+                    'calorias' => 164,
+                ],
+            ],
+            'Frutas' => [
+                'Manzana' => [
+                    'proteina' => 0.5,
+                    'carbohidratos' => 25,
+                    'grasas' => 0.3,
+                    'calorias' => 52,
+                ],
+                'Plátano' => [
+                    'proteina' => 1.3,
+                    'carbohidratos' => 23,
+                    'grasas' => 0.3,
+                    'calorias' => 89,
+                ],
+                'Naranja' => [
+                    'proteina' => 0.9,
+                    'carbohidratos' => 21,
+                    'grasas' => 0.1,
+                    'calorias' => 47,
+                ],
+                'Mango' => [
+                    'proteina' => 0.8,
+                    'carbohidratos' => 25,
+                    'grasas' => 0.6,
+                    'calorias' => 60,
+                ],
+                'Fresa' => [
+                    'proteina' => 0.8,
+                    'carbohidratos' => 8,
+                    'grasas' => 0.4,
+                    'calorias' => 32,
+                ],
+                'Papaya' => [
+                    'proteina' => 0.5,
+                    'carbohidratos' => 10,
+                    'grasas' => 0.1,
+                    'calorias' => 43,
+                ],
+                'Guayaba' => [
+                    'proteina' => 4,
+                    'carbohidratos' => 12,
+                    'grasas' => 0.6,
+                    'calorias' => 68,
+                ],
+                'Sandía' => [
+                    'proteina' => 0.6,
+                    'carbohidratos' => 8,
+                    'grasas' => 0.2,
+                    'calorias' => 30,
+                ],
+            ],
+            'Vegetales' => [
+                'Nopal' => [
+                    'proteina' => 1.5,
+                    'carbohidratos' => 4,
+                    'grasas' => 0.1,
+                    'calorias' => 16,
+                ],
+                'Jitomate' => [
+                    'proteina' => 1.2,
+                    'carbohidratos' => 5,
+                    'grasas' => 0.2,
+                    'calorias' => 18,
+                ],
+                'Chícharos' => [
+                    'proteina' => 5.4,
+                    'carbohidratos' => 14.5,
+                    'grasas' => 0.4,
+                    'calorias' => 81,
+                ],
+                'Calabaza' => [
+                    'proteina' => 1.2,
+                    'carbohidratos' => 7,
+                    'grasas' => 0.2,
+                    'calorias' => 26,
+                ],
+                'Espinaca' => [
+                    'proteina' => 2.9,
+                    'carbohidratos' => 3.6,
+                    'grasas' => 0.4,
+                    'calorias' => 23,
+                ],
+                'Lechuga' => [
+                    'proteina' => 1.4,
+                    'carbohidratos' => 3.3,
+                    'grasas' => 0.2,
+                    'calorias' => 15,
+                ],
+                'Brócoli' => [
+                    'proteina' => 4,
+                    'carbohidratos' => 8,
+                    'grasas' => 0.4,
+                    'calorias' => 34,
+                ],
+                'Pepino' => [
+                    'proteina' => 0.8,
+                    'carbohidratos' => 4,
+                    'grasas' => 0.1,
+                    'calorias' => 16,
+                ],
+                'Zanahoria' => [
+                    'proteina' => 0.9,
+                    'carbohidratos' => 9.6,
+                    'grasas' => 0.2,
+                    'calorias' => 41,
+                ],
+                'Chayote' => [
+                    'proteina' => 0.8,
+                    'carbohidratos' => 6,
+                    'grasas' => 0.1,
+                    'calorias' => 19,
+                ],
+            ],
+            'Lácteos' => [
+                'Queso Oaxaca' => [
+                    'proteina' => 25,
+                    'carbohidratos' => 2,
+                    'grasas' => 22,
+                    'calorias' => 321,
+                ],
+                'Queso Machego' => [
+                    'proteina' => 25,
+                    'carbohidratos' => 1,
+                    'grasas' => 33,
+                    'calorias' => 350,
+                ],
+                'Queso Panela' => [
+                    'proteina' => 16,
+                    'carbohidratos' => 1,
+                    'grasas' => 12,
+                    'calorias' => 200,
+                ],
+                'Queso Chihuahua' => [
+                    'proteina' => 23,
+                    'carbohidratos' => 2,
+                    'grasas' => 25,
+                    'calorias' => 320,
+                ],
+                'Yogurt griego Oikos' => [
+                    'proteina' => 10,
+                    'carbohidratos' => 4,
+                    'grasas' => 0,
+                    'calorias' => 59,
+                ],
+                'Yogurt griego Yoplait' => [
+                    'proteina' => 10,
+                    'carbohidratos' => 4,
+                    'grasas' => 0,
+                    'calorias' => 59,
+                ],
+                'Leche Lala 100' => [
+                    'proteina' => 3.4,
+                    'carbohidratos' => 5,
+                    'grasas' => 3.5,
+                    'calorias' => 60,
+                ],
+                'Leche normal' => [
+                    'proteina' => 3.2,
+                    'carbohidratos' => 5,
+                    'grasas' => 3.5,
+                    'calorias' => 61,
+                ],
+            ],
+        ];
+
+
+
+        foreach ($foods as $foodGroup => $items) {
+            foreach ($items as $foodName => $foodDetail) {
+                Food::create([
+                    'name' => $foodName,
+                    'calories' => $foodDetail['calorias'],
+                    'proteins' => $foodDetail['proteina'],
+                    'carbs' => $foodDetail['carbohidratos'],
+                    'fats' => $foodDetail['grasas'],
+                    'type' => $foodGroup,
+                ]);
+            }
+        }
+
+
     }
 }
