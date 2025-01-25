@@ -554,6 +554,7 @@ class DatabaseSeeder extends Seeder
                     'carbs' => $foodDetail['carbohidratos'],
                     'fats' => $foodDetail['grasas'],
                     'type' => $foodGroup,
+                    'photo_url' => $foodName.'.jpg',
                 ]);
             }
         }

@@ -17,15 +17,15 @@ class MealPlan extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function foods(){
-        return $this->belongsToMany(Food::class);
-    }
     public function progress()
     {
         return $this->hasMany(Progress::class);
     }
     public function workout_plan(){
         return $this->belongsTo(WorkoutPlan::class);
+    }
+    public function comidas(){
+        return $this->hasMany(Comida::class);
     }
 
 

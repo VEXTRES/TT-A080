@@ -26,6 +26,7 @@ class PlanEntrenamientoController extends Component
                     'example' => $exercise->example,
                 ];
             }
+            dd($this->exercises);
 
 
     }

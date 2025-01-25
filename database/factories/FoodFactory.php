@@ -24,6 +24,7 @@ class FoodFactory extends Factory
             'carbs' => $this->faker->numberBetween(0, 100),
             'fats' => $this->faker->numberBetween(0, 100),
             'type' => $this->faker->sentence(),
+            'photo_url' => $this->faker->url(),
 
         ];
     }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
+
         Schema::create('foods', function (Blueprint $table) {
             $table->id();
 
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('carbs')->nullable();
             $table->string('proteins')->nullable();
             $table->string('type')->nullable();
-
+            $table->string('photo_url')->nullable();
 
             $table->timestamps();
         });

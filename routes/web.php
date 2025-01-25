@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InicioController;
+use App\Livewire\CrearComidaController;
 use App\Livewire\MisPlanesController;
 use App\Livewire\PlanAlimentacionController;
 use App\Livewire\PlanEntrenamientoController;
@@ -31,6 +32,10 @@ Route::get('plan-entrenamiento/{id}',PlanEntrenamientoController::class)
 
 Route::get('plan-alimentacion/{id}',PlanAlimentacionController::class)
 ->name('plan-alimentacion')
+->middleware('auth.redirect');
+
+Route::get('plan-alimentacion/{id}/crear-comida',CrearComidaController::class)
+->name('plan-alimentacion.crear-comida')
 ->middleware('auth.redirect');
 
 Route::middleware([
