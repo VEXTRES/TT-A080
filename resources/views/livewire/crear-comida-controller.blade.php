@@ -5,12 +5,12 @@
             <div class="p-4 bg-sky-200 text-white w-full ">
                 <div class="flex gap-4"> <!-- Usa gap para añadir separación entre los divs -->
                     <div class="text-black bg-white border border-black p-3 mb-2 w-1/3 rounded-md">
-                        <h2 class="text-lg font-bold mb-2">{{$numComidas}} Comidas al Día</h2>
+                        <h2 class="text-lg font-bold mb-2">{{$numMeals}} Comidas al Día</h2>
                         <p>Cada Comida Contiene:</p>
                         <ul class="list-disc ml-6 mb-4">
-                            <li class="font-bold">Proteínas: {{$proteinasPorComida}} Gr</li>
-                            <li class="font-bold">Carbohidratos: {{$carbosPorComida}} Gr</li>
-                            <li class="font-bold">Grasas: {{$grasasPorComida}} Gr</li>
+                            <li class="font-bold">Proteínas: {{$proteinsPerMeal}} Gr</li>
+                            <li class="font-bold">Carbohidratos: {{$carbsPerMeal}} Gr</li>
+                            <li class="font-bold">Grasas: {{$fatsPerMeal}} Gr</li>
                         </ul>
                     </div>
                     <div class="w-2/3 flex flex-col h-full"> <!-- Asegúrate de que este div ocupe el espacio necesario -->
@@ -40,7 +40,7 @@
                         [&::-webkit-scrollbar-thumb]:bg-gray-300
                         dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                         dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-                            @foreach ($alimentos as $alimento)
+                            @foreach ($foods as $alimento)
                                 @if($alimento->type=='Proteinas')
                                     <div class="border-b border-gray-700 py-2 flex flex-row justify-between">
                                         <p>{{$alimento->name}}</p>
@@ -67,7 +67,7 @@
                         [&::-webkit-scrollbar-thumb]:bg-gray-300
                         dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                         dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-                            @foreach ($alimentos as $alimento)
+                            @foreach ($foods as $alimento)
                                 @if($alimento->type=='Carbohidratos')
                                 <div class="border-b border-gray-700 py-2 flex flex-row justify-between">
                                     <p>{{$alimento->name}}</p>
@@ -93,7 +93,7 @@
                         [&::-webkit-scrollbar-thumb]:bg-gray-300
                         dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                         dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-                            @foreach ($alimentos as $alimento)
+                            @foreach ($foods as $alimento)
                                 @if($alimento->type=='Lácteos')
                                     <div class="border-b border-gray-700 py-2 flex flex-row justify-between">
                                         <p>{{$alimento->name}}</p>
@@ -108,7 +108,7 @@
                     </div>
                     <!-- Columna de frutas -->
                     <div class="bg-gray-800 text-white rounded-md p-2">
-                        <h3 class="text-center font-bold border-b border-gray-700 pb-2 mb-2">Carbohidratos<br>(Cereales y Legumbres)</h3>
+                        <h3 class="text-center font-bold border-b border-gray-700 p-3 mb-2">Frutas y Vegetales</h3>
                         <button class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-1 px-4 mb-2 w-full rounded">
                             + Otro Alimento
                         </button>
@@ -118,7 +118,7 @@
                         [&::-webkit-scrollbar-thumb]:bg-gray-300
                         dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                         dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-                            @foreach ($alimentos as $alimento)
+                            @foreach ($foods as $alimento)
                                 @if($alimento->type=='Frutas'||$alimento->type=='Vegetales')
                                     <div class="border-b border-gray-700 py-2 flex flex-row justify-between">
                                         <p>{{$alimento->name}}</p>
