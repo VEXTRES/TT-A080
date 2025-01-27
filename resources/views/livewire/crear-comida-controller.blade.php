@@ -2,10 +2,10 @@
 
     <x-app-layout>
         <div>
-            <div class="p-4 bg-sky-200 text-white w-full ">
+            <div class="p-4  text-white w-full ">
                 <div class="flex gap-4"> <!-- Usa gap para añadir separación entre los divs -->
                     <div class="text-black bg-white border border-black p-3 mb-2 w-1/3 rounded-md">
-                        <h2 class="text-lg font-bold mb-2">{{$numMeals}} Comidas al Día</h2>
+                        <h2 class="text-lg font-bold mb-2">Comida {{$currentFood}} del Día</h2>
                         <p>Cada Comida Contiene:</p>
                         <ul class="list-disc ml-6 mb-4">
                             <li class="font-bold">Proteínas: {{$proteinsPerMeal}} Gr</li>

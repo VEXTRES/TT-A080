@@ -13,7 +13,7 @@ class CrearComidaController extends Component
     public $plan,$answersSelected,$numMeals,$foods;
     public $proteinsPerMeal,$carbsPerMeal,$fatsPerMeal;
     public $proteinsSelect=[],$carbsSelect=[],$fatsSelect=[],$vegetablesSelect=[];
-    // public $proteinsSelectData=[],$carbsSelectData=[],$fatsSelectData=[],$vegetablesSelectData=[];
+    public $currentFood;
 
 
     public function mount($id){
@@ -27,6 +27,26 @@ class CrearComidaController extends Component
         $this->proteinsPerMeal=round($this->plan->total_proteins/$this->numMeals);
         $this->carbsPerMeal=round($this->plan->total_carbs/$this->numMeals);
         $this->fatsPerMeal=round($this->plan->total_fats/$this->numMeals);
+
+        $meals=Comida::where('meal_plan_id',$id)->get();
+        if($meals->isEmpty()){
+            $this->currentFood=1;
+        }else{
+            $aux = $meals->pluck('num_of_food')->toArray();
+            $min = 1;
+            $max = 5;
+
+            $range = range($min, $max);
+            $missingNumbers = array_diff($range, $aux);
+
+            if (!empty($missingNumbers)) {
+                $this->currentFood = min($missingNumbers);
+            } else {
+                // Si no hay números faltantes, asignar el número máximo existente
+                $this->currentFood = max($meals);
+            }
+        }
+
 
     }
 
@@ -70,8 +90,10 @@ class CrearComidaController extends Component
             $carbaRepartida=$this->carbsPerMeal/$totalFoodsCarbs;
             $grasaRepartida=$this->fatsPerMeal/$totalFoodsFats;
             $vegetalesRepartida=3;
+
+
             $comida= Comida::create([
-                'num_of_food' => $this->numMeals,
+                'num_of_food' => $this->currentFood,
                 'meal_plan_id' => $this->plan->id,
             ]);
 

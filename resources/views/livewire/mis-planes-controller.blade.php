@@ -14,9 +14,7 @@
 
             <div class="   ">
                 <div class="absolute m-auto mt-6 w-3/4 h-screen inset-0" @click.outside="$wire.call('MostrarModal')" style="display: {{ $showModal === true ? 'block' : 'none' }} ;">{{-- {{ $showModal === true ? 'block' : 'none' }} --}}
-                    <div class="bg-slate-800 p-8 rounded-lg shadow-lg"
-
-                    >
+                    <div class="bg-slate-800 p-8 rounded-lg shadow-lg">
                         <!-- Modal Content -->
                         <div class="flex flex-col "
                         >
