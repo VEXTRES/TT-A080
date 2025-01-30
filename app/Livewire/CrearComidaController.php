@@ -6,6 +6,7 @@ use App\Models\Answer;
 use App\Models\Comida;
 use App\Models\Food;
 use App\Models\MealPlan;
+use App\Services\FatSecretService;
 use Livewire\Component;
 
 class CrearComidaController extends Component
@@ -13,7 +14,8 @@ class CrearComidaController extends Component
     public $plan,$answersSelected,$numMeals,$foods;
     public $proteinsPerMeal,$carbsPerMeal,$fatsPerMeal;
     public $proteinsSelect=[],$carbsSelect=[],$fatsSelect=[],$vegetablesSelect=[];
-    public $currentFood;
+    public $currentFood,$showModal=false;
+    public $search,$foodCatalog,$foodsSelect=[];
 
 
     public function mount($id){
@@ -34,7 +36,7 @@ class CrearComidaController extends Component
         }else{
             $aux = $meals->pluck('num_of_food')->toArray();
             $min = 1;
-            $max = 5;
+            $max = $this->numMeals;
 
             $range = range($min, $max);
             $missingNumbers = array_diff($range, $aux);
@@ -47,6 +49,89 @@ class CrearComidaController extends Component
             }
         }
 
+
+
+    }
+
+    public function guardandoAlimento(){
+
+        if(isset($this->foodsSelect)){
+
+            foreach($this->foodCatalog as $keyCatalog => $food){
+
+                foreach ($this->foodsSelect as $keySelect => $value) {
+                    if($value===true){
+                        if($food['food_id']==$keySelect){
+                            $foodnew[$keyCatalog]=$food;
+                        }
+                    }
+                }
+            }
+            foreach ($foodnew as $key => $value) {
+                $name=$value['food_name'];
+
+                if(is_array($value['servings']['serving'])){
+                    foreach ($value['servings']['serving'] as $keyServing => $valueServing) {
+                        if($valueServing['metric_serving_unit']=='g' || $valueServing['metric_serving_unit']=='ml'){
+                            $calories=($valueServing['calories']*100)/$valueServing['metric_serving_amount'];
+                            $proteins=($valueServing['protein']*100)/$valueServing['metric_serving_amount'];
+                            $carbs=($valueServing['carbohydrate']*100)/$valueServing['metric_serving_amount'];
+                            $fats=($valueServing['fat']*100)/$valueServing['metric_serving_amount'];
+                        }
+                    }
+                }elseif($value['servings']['serving']['metric_serving_amount']!=100){
+
+                    $calories=($value['servings']['serving']['calories']*100)/$value['servings']['serving']['metric_serving_amount'];
+                    $proteins=($value['servings']['serving']['protein']*100)/$value['servings']['serving']['metric_serving_amount'];
+                    $carbs=($value['servings']['serving']['carbohydrate']*100)/$value['servings']['serving']['metric_serving_amount'];
+                    $fats=($value['servings']['serving']['fat']*100)/$value['servings']['serving']['metric_serving_amount'];
+
+                }else{
+                    $calories=$value['servings']['serving']['calories'];
+                    $proteins=$value['servings']['serving']['protein'];
+                    $carbs=$value['servings']['serving']['carbohydrate'];
+                    $fats=$value['servings']['serving']['fat'];
+                }
+                $calories=number_format($calories,2);
+                $proteins=number_format($proteins,2);
+                $carbs=number_format($carbs,2);
+                $fats=number_format($fats,2);
+
+                if($proteins>$carbs && $proteins>$fats){
+                    Food::create([
+                        'name'=>$name,
+                        'calories'=>$calories,
+                        'proteins'=>$proteins,
+                        'carbs'=>$carbs,
+                        'fats'=>$fats,
+                        'type'=>'Proteinas',
+                        
+                    ]);
+                }elseif($carbs>$proteins && $carbs>$fats){
+                    Food::create([
+                        'name'=>$name,
+                        'calories'=>$calories,
+                        'proteins'=>$proteins,
+                        'carbs'=>$carbs,
+                        'fats'=>$fats,
+                        'type'=>'Carbohidratos',
+                    ]);
+                }else{
+                    Food::create([
+                        'name'=>$name,
+                        'calories'=>$calories,
+                        'proteins'=>$proteins,
+                        'carbs'=>$carbs,
+                        'fats'=>$fats,
+                        'type'=>'Grasas',
+                    ]);
+                }
+
+            }
+        }else{
+            dd('no existe nada');
+        }
+        dd($foodnew);
 
     }
 
@@ -110,14 +195,24 @@ class CrearComidaController extends Component
                 $comida->foods()->attach($key,['quantity'=>$grOfFatFood[$key]]);
 
             }
-
-
         }
+    }
 
+    public function mostrarModal(){
 
+        $this->showModal=!$this->showModal;
 
     }
 
+    public function buscarAlimento(){
+
+        $fatSecret= new FatSecretService();
+        $foodsSearch=$fatSecret->getFoods($this->search);
+
+        foreach ($foodsSearch['results']['food'] as $key => $food) {
+            $this->foodCatalog[$key]= $food;
+        }
+    }
 
 
 

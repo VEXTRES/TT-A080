@@ -7,7 +7,7 @@
                 <p class="text-xl font-black">Numero de Comidas Al Dia: {{$numComidas}}</p>
             </div>
 
-            <div class="border gap-3 border-black grid grid-cols-3 w-4/5 mx-auto min-h-screen my-14">
+            <div class="border gap-3 border-black grid grid-cols-3 w-4/5 mx-auto my-14">
 
                 <div class="col-span-{{$comidas->isEmpty()?3:1}} bg-white p-3 rounded-md flex flex-col justify-center space-y-4 my-2 mx-2">
                     @if ($comidas->isEmpty())

@@ -12,12 +12,20 @@
                 </h2>
             </x-slot>
 
-            <div class="   ">
-                <div class="absolute m-auto mt-6 w-3/4 h-screen inset-0" @click.outside="$wire.call('MostrarModal')" style="display: {{ $showModal === true ? 'block' : 'none' }} ;">{{-- {{ $showModal === true ? 'block' : 'none' }} --}}
+            <div class=" {{$showModal===true?'fixed inset-0 bg-black/50 backdrop-blur-sm':''}}  ">
+                <div class="absolute m-auto mt-6 w-3/4 max-h-screen overflow-y-auto inset-0
+                [&::-webkit-scrollbar]:w-2
+                        [&::-webkit-scrollbar-track]:rounded-full
+                        [&::-webkit-scrollbar-track]:bg-gray-100
+                        [&::-webkit-scrollbar-thumb]:rounded-full
+                        [&::-webkit-scrollbar-thumb]:bg-gray-300
+                        dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                        dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+                @click.outside="$wire.call('MostrarModal')"
+                style="display: {{ $showModal === true ? 'block' : 'none' }} ;">{{-- {{ $showModal === true ? 'block' : 'none' }} --}}
                     <div class="bg-slate-800 p-8 rounded-lg shadow-lg">
                         <!-- Modal Content -->
-                        <div class="flex flex-col "
-                        >
+                        <div class="flex flex-col ">
                             <div class="flex justify-between">
                                 <h2 class="text-xl font-semibold mx-auto text-white">Sondeo preguntas</h2>
                                 <button wire:click="MostrarModal" class="text-white p-3 rounded-md bg-slate-600 hover:text-gray-300">&times;</button>

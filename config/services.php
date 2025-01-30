@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'fat_secret' => [
+        'url'=> env('FAT_SECRET_URL'),
+        'url_token'=>env('FAT_SECRET_URL_TOKEN'),
+        'client_id'=>env('FAT_SECRET_CLIENT_ID'),
+        'client_secret'=>env('FAT_SECRET_CLIENT_SECRET'),
+    ],
+
 ];

@@ -328,6 +328,24 @@ class DatabaseSeeder extends Seeder
                     'grasas' => 1,
                     'calorias' => 82,
                 ],
+                'Yogurt griego Oikos' => [
+                    'proteina' => 10,
+                    'carbohidratos' => 4,
+                    'grasas' => 0,
+                    'calorias' => 59,
+                ],
+                'Yogurt griego Yoplait' => [
+                    'proteina' => 10,
+                    'carbohidratos' => 4,
+                    'grasas' => 0,
+                    'calorias' => 59,
+                ],
+                'Leche Lala 100 +Proteina' => [
+                    'proteina' => 5.4,
+                    'carbohidratos' => 3.4,
+                    'grasas' => 1,
+                    'calorias' => 44,
+                ],
             ],
             'Carbohidratos' => [
                 'Arroz' => [
@@ -377,6 +395,12 @@ class DatabaseSeeder extends Seeder
                     'carbohidratos' => 27,
                     'grasas' => 2.5,
                     'calorias' => 164,
+                ],
+                'Leche normal' => [
+                    'proteina' => 3.2,
+                    'carbohidratos' => 5,
+                    'grasas' => 3.5,
+                    'calorias' => 61,
                 ],
             ],
             'Frutas' => [
@@ -491,7 +515,7 @@ class DatabaseSeeder extends Seeder
                     'calorias' => 19,
                 ],
             ],
-            'Lácteos' => [
+            'Grasas' => [
                 'Queso Oaxaca' => [
                     'proteina' => 25,
                     'carbohidratos' => 2,
@@ -516,29 +540,47 @@ class DatabaseSeeder extends Seeder
                     'grasas' => 25,
                     'calorias' => 320,
                 ],
-                'Yogurt griego Oikos' => [
-                    'proteina' => 10,
-                    'carbohidratos' => 4,
-                    'grasas' => 0,
-                    'calorias' => 59,
+                'Cacahuate' => [
+                    'proteina' => 25,
+                    'carbohidratos' => 16,
+                    'grasas' => 49,
+                    'calorias' => 567,
                 ],
-                'Yogurt griego Yoplait' => [
-                    'proteina' => 10,
-                    'carbohidratos' => 4,
-                    'grasas' => 0,
-                    'calorias' => 59,
+                'Almendras' => [
+                    'proteina' => 21,
+                    'carbohidratos' => 22,
+                    'grasas' => 49,
+                    'calorias' => 579,
                 ],
-                'Leche Lala 100' => [
-                    'proteina' => 3.4,
-                    'carbohidratos' => 5,
-                    'grasas' => 3.5,
-                    'calorias' => 60,
+                'Nuez' => [
+                    'proteina' => 15,
+                    'carbohidratos' => 14,
+                    'grasas' => 65,
+                    'calorias' => 654,
                 ],
-                'Leche normal' => [
-                    'proteina' => 3.2,
-                    'carbohidratos' => 5,
-                    'grasas' => 3.5,
-                    'calorias' => 61,
+                'Aguacate' => [
+                    'proteina' => 2,
+                    'carbohidratos' => 9,
+                    'grasas' => 15,
+                    'calorias' => 160,
+                ],
+                'Semillas de Chía' => [
+                    'proteina' => 16,
+                    'carbohidratos' => 42,
+                    'grasas' => 31,
+                    'calorias' => 486,
+                ],
+                'Semillas de Girasol' => [
+                    'proteina' => 21,
+                    'carbohidratos' => 20,
+                    'grasas' => 51,
+                    'calorias' => 584,
+                ],
+                'Semillas de Calabaza' => [
+                    'proteina' => 19,
+                    'carbohidratos' => 54,
+                    'grasas' => 19,
+                    'calorias' => 446,
                 ],
             ],
         ];

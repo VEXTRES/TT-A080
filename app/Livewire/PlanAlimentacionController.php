@@ -14,7 +14,7 @@ class PlanAlimentacionController extends Component
 
     public $plan,$answersSelected,$numComidas,$alimentos;
     public $proteinsSelect=[],$carbsSelect=[],$fatsSelect=[],$vegetablesSelect=[];
-    public $comidas,$foods,$idPlan;
+    public $comidas,$foods,$idPlan,$currentFood;
 
     public function mount($id){
         $this->idPlan = $id;
