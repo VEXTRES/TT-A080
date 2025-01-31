@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('total_fats')->nullable();
             $table->string('total_carbs')->nullable();
             $table->string('total_proteins')->nullable();
+            $table->boolean('is_active')->default(false);
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('survey_id')->constrained()->onDelete('cascade');

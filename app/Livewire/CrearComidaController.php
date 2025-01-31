@@ -105,7 +105,7 @@ class CrearComidaController extends Component
                         'carbs'=>$carbs,
                         'fats'=>$fats,
                         'type'=>'Proteinas',
-                        
+
                     ]);
                 }elseif($carbs>$proteins && $carbs>$fats){
                     Food::create([
@@ -131,7 +131,6 @@ class CrearComidaController extends Component
         }else{
             dd('no existe nada');
         }
-        dd($foodnew);
 
     }
 

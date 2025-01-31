@@ -546,35 +546,46 @@
                     </div>
                     <div x-show="sortOrderAlimentacion == false"
                     class="flex items-center h-full">
-                        <div class="flex-none justify-center text-center mr-8">
-                            <button class="rounded-md ml-2 bg-white px-4 py-2 text-sm text-gray-700" wire:click="MostrarModal">
-                                Crear Nuevo Plan
-                            </button>
+                            <div class="flex-none justify-center text-center mr-8 mt-10">
+                                <button class="rounded-md ml-2 bg-white px-4 py-2 text-sm text-gray-700" wire:click="MostrarModal">
+                                    Crear Nuevo Plan
+                                </button>
 
-                        </div>
-                        <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            <!-- Los elementos "hola" se acomodarán automáticamente en columnas -->
-                            @if ($meal_plans->isEmpty())
-
-                            <div class="col-auto flex items-center ml-4 mt-4 underline text-xl">
-                                <p >No hay plan de Alimentacion disponibles.</p>
                             </div>
-
+                        <div  class="flex {{$meal_plans->isEmpty()?'':'overflow-x-scroll scroll-auto'}} gap-4 mx-4 scroll-container
+                                [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */
+                                [&::-webkit-scrollbar]:w-2 /* Ancho del scrollbar vertical */
+                                [&::-webkit-scrollbar-track]:rounded-full
+                                [&::-webkit-scrollbar-track]:bg-gray-100
+                                [&::-webkit-scrollbar-thumb]:rounded-full
+                                [&::-webkit-scrollbar-thumb]:bg-gray-300
+                                dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                                dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+                                style="user-select: none;">
+                            <!-- Mensaje si no hay planes de alimentación -->
+                            @if ($meal_plans->isEmpty())
+                                    <div class="flex mt-16 underline text-xl ">
+                                        <p class="">No hay plan de Alimentación disponibles.</p>
+                                    </div>
                             @else
-                                        @foreach ($meal_plans as $meal_plan)
-                                            <div class="col-auto flex items-center ml-4 mt-4 mb-4">
-                                                <div class="border border-black py-20 px-4 rounded-md flex flex-col gap-0">
-                                                    <div class="text-md font-bold  -mt-14 -ml-2">{{ $meal_plan->id }}</div>
+                                    <!-- Contenedor de los meal_plans -->
+                                    <div class="flex gap-4 my-3" style="min-width: max-content;">
+                                        @foreach ($meal_plans as $key => $meal_plan)
+                                            <!-- Cada meal_plan -->
+                                            <div class="flex-none w-64"> <!-- Ancho fijo para cada columna -->
+                                                <div class="border border-black py-10 px-4 rounded-md flex flex-col gap-0">
+                                                    <div class="text-md font-bold -mt-10 -ml-2">{{ $meal_plan->id }}</div>
                                                     <div class="text-center mt-10">{{ $meal_plan->name }}</div>
+                                                    {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-blue-500 underline">Activo</p>' : '<p class="text-center my-2 font-black">Inactivo</p>' !!}
                                                     <button
                                                         class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black mb-2"
                                                         @click="window.location.href = '{{ route('plan-alimentacion', $meal_plan->id) }}'">
                                                         Ver
                                                     </button>
-
                                                 </div>
                                             </div>
                                         @endforeach
+                                    </div>
                             @endif
                         </div>
                     </div>
@@ -598,31 +609,48 @@
                         </button>
                     </div>
                     <div x-show="sortOrderEntrenamiento == false"
-                        class="flex items-center h-full">
-                    <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <!-- Los elementos "hola" se acomodarán automáticamente en columnas -->
-                        @if ($workout_plans->isEmpty())
+                        class="flex items-center h-full ">
+                        <div class="flex {{$workout_plans->isEmpty()?'':'overflow-x-scroll scroll-auto'}} gap-4 mx-4 scroll-container
+                            [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */
+                            [&::-webkit-scrollbar]:w-2 /* Ancho del scrollbar vertical */
+                            [&::-webkit-scrollbar-track]:rounded-full
+                            [&::-webkit-scrollbar-track]:bg-gray-100
+                            [&::-webkit-scrollbar-thumb]:rounded-full
+                            [&::-webkit-scrollbar-thumb]:bg-gray-300
+                            dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                            dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+                            style="user-select: none;">
+                            <!-- Los elementos "hola" se acomodarán automáticamente en columnas -->
+                            @if ($workout_plans->isEmpty())
 
-                        <div class="col-auto flex items-center ml-4 mt-4 underline text-xl">
-                            <p >No hay plan de Alimentacion disponibles.</p>
-                        </div>
-
-                        @else
-                            @foreach ($workout_plans as $workout_plan)
-                            <div class="col-auto flex items-center ml-4 mt-4 mb-4">
-                                <div class="border border-black py-20 px-4 rounded-md flex flex-col">
-                                    <div class="text-md font-bold -mt-14 -ml-2">{{ $workout_plan->id }}</div>
-                                    <div class="text-center mt-1">{{ $workout_plan->name }}</div>
-                                    <button
-                                        class="mt-4 p-3 w-1/3 mx-auto rounded-md border border-black mb-2"
-                                        @click="window.location.href = '{{ route('plan-entrenamiento', $workout_plan->id) }}'">
-                                        Ver
-                                    </button>
-                                </div>
+                            <div class="col-auto flex items-center ml-4 mt-14 underline text-xl">
+                                <p >No hay plan de Alimentacion disponibles.</p>
                             </div>
-                             @endforeach
-                        @endif
-                    </div>
+
+                            @else
+
+                                <div  class="flex gap-4 my-3" style="min-width: max-content;">
+                                    @foreach ($workout_plans as $key => $workout_plan)
+                                        <!-- Cada meal_plan -->
+                                        <div class="flex-none w-64"> <!-- Ancho fijo para cada columna -->
+                                            <div class="border border-black py-10 px-4 rounded-md flex flex-col gap-0">
+                                                <div class="text-md font-bold -mt-10 -ml-2">{{ $workout_plan->id }}</div>
+                                                <div class="text-center mt-10">{{ $workout_plan->name }}</div>
+                                                {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-blue-500 underline">Activo</p>' : '<p class="text-center my-2 font-black">Inactivo</p>' !!}
+                                                <button
+                                                    class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black mb-2"
+                                                    @click="window.location.href = '{{ route('plan-entrenamiento', $workout_plan->id) }}'">
+                                                    Ver
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+
+
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -633,3 +661,35 @@
 @endauth
 
 </div>
+
+<script>
+   document.querySelectorAll('.scroll-container').forEach(container => {
+    let isDragging = false;
+    let startX, scrollLeft;
+
+    container.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+        container.style.cursor = 'grabbing';
+    });
+
+    container.addEventListener('mouseleave', () => {
+        isDragging = false;
+        container.style.cursor = 'grab';
+    });
+
+    container.addEventListener('mouseup', () => {
+        isDragging = false;
+        container.style.cursor = 'grab';
+    });
+
+    container.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 2;
+        container.scrollLeft = scrollLeft - walk;
+    });
+});
+</script>

@@ -8,7 +8,7 @@ class MealPlan extends Model
 {
     protected $table = 'meal_plans';
     protected $fillable = ['name', 'total_calories', 'total_fats', 'total_carbs',
-    'total_proteins', 'user_id', 'survey_id'];
+    'total_proteins', 'user_id', 'survey_id','is_active'];
 
     public function survey(){
         return $this->hasOne(Survey::class);

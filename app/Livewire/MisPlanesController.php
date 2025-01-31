@@ -172,6 +172,14 @@ class MisPlanesController extends Component
                 'survey_id' => $survey->id,
             ]);
         }
+
+        foreach($this->meal_plans as $meal_plan){
+            if($meal_plan->is_active){
+                $meal_plan->is_active = false;
+                $meal_plan->save();
+            }
+        }
+
         $meal_plan = MealPlan::create([
             'name' => 'Plan de Alimentacion Para '.$this->options[5][$this->answersSelected[5]],
             'total_calories' => $TMBtotal,
@@ -180,6 +188,7 @@ class MisPlanesController extends Component
             'total_proteins' => $grProteina,
             'user_id' => $this->user,
             'survey_id' => $survey->id,
+            'is_active' => true,
         ]);
 
         $workout_plan = WorkoutPlan::create([
@@ -437,10 +446,14 @@ class MisPlanesController extends Component
     }
 
     public function loadPlans(){
-        $this->meal_plans= MealPlan::where('user_id',auth()->user()->id)->get();
+        $this->meal_plans= MealPlan::where('user_id',auth()->user()->id)
+        ->orderby('created_at','desc')
+        ->get();
         $this->workout_plans = WorkoutPlan::join('meal_plans', 'meal_plans.id', '=', 'workout_plans.meal_plan_id')
             ->where('meal_plans.user_id', auth()->user()->id)
+            ->orderby('workout_plans.created_at','desc')
             ->get();
+            $this->answersSelected=[];
     }
 
     public function updatePaginatedQuestions(){

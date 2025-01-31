@@ -15,6 +15,8 @@ class PlanAlimentacionController extends Component
     public $plan,$answersSelected,$numComidas,$alimentos;
     public $proteinsSelect=[],$carbsSelect=[],$fatsSelect=[],$vegetablesSelect=[];
     public $comidas,$foods,$idPlan,$currentFood;
+    public $is_active;
+
 
     public function mount($id){
         $this->idPlan = $id;
@@ -42,6 +44,7 @@ class PlanAlimentacionController extends Component
         $this->plan = MealPlan::find($this->idPlan);
         $userId= $this->plan->user_id;
         $surveyId= $this->plan->survey_id;
+        $this->is_active = $this->plan->is_active;
         $this->answersSelected = Answer::where('user_id',$userId)->where('survey_id',$surveyId)->pluck('option_selected','question_id')->toArray();
         $this->numComidas = $this->answersSelected[7];
 

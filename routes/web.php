@@ -5,6 +5,7 @@ use App\Livewire\CrearComidaController;
 use App\Livewire\MisPlanesController;
 use App\Livewire\PlanAlimentacionController;
 use App\Livewire\PlanEntrenamientoController;
+use App\Livewire\SeguimientoController;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,10 @@ Route::get('plan-alimentacion/{id}',PlanAlimentacionController::class)
 
 Route::get('plan-alimentacion/{id}/crear-comida',CrearComidaController::class)
 ->name('plan-alimentacion.crear-comida')
+->middleware('auth.redirect');
+
+Route::get('seguimiento',SeguimientoController::class)
+->name('seguimiento')
 ->middleware('auth.redirect');
 
 Route::middleware([

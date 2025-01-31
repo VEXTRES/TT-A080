@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('progress', function (Blueprint $table) {
             $table->id();
 
-            $table->string('date')->nullable();
-            $table->string('note')->nullable();
+            $table->string('title')->nullable();
+            $table->text('note')->nullable();
             $table->string('photo')->nullable();
 
             $table->foreignId('meal_plan_id')->constrained();
