@@ -1,5 +1,7 @@
 <div x-data="{
-    sortOrderAlimentacion: @entangle('sortOrderAlimentacion'),
+    sortOrderAlimentacion(){
+        return true;
+    },
     sortOrderEntrenamiento: @entangle('sortOrderEntrenamiento'),
     showAlert: true,
 }">
@@ -544,11 +546,16 @@
                             @endif
                         </button>
                     </div>
-                    <div x-show="sortOrderAlimentacion == false"
+                    <div style="display: {{$sortOrderAlimentacion == false ? 'true' : 'none';}}"
                     class="flex items-center h-full">
                             <div class="flex-none justify-center text-center mr-8 mt-10">
-                                <button class="rounded-md ml-2 bg-white px-4 py-2 text-sm text-gray-700" wire:click="MostrarModal">
-                                    Crear Nuevo Plan
+                                <button type="button"
+                                wire:click="MostrarModal"
+                                class="inline-flex items-center ml-2 px-6 gap-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150" wire:click="crearPlan">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                    <p class="">Crear Nuevo Plan</p>
                                 </button>
 
                             </div>
@@ -608,7 +615,7 @@
 
                         </button>
                     </div>
-                    <div x-show="sortOrderEntrenamiento == false"
+                    <div style="display: {{$sortOrderEntrenamiento == false ? 'true' : 'none';}}"
                         class="flex items-center h-full ">
                         <div class="flex {{$workout_plans->isEmpty()?'':'overflow-x-scroll scroll-auto'}} gap-4 mx-4 scroll-container
                             [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */

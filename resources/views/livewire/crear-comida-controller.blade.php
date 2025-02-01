@@ -86,11 +86,14 @@
                         <p class="w-3/5 h-1/3 border mx-auto text-center p-2 rounded-md bg-slate-400 text-black flex-grow">{{$plan->name}}</p>
 
                         <button
-                        class="inline-flex w-1/5 h-10 ml-auto mt-12 animate-shimmer items-center justify-center rounded-md border border-slate-100
+                        class="inline-flex w-1/5 h-12 ml-auto mt-12 animate-shimmer items-center justify-center rounded-md border border-slate-100
                         bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors
                         focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
                         wire:click="crearComida">
-                            Crear Comidas
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                            <p>Crear Comidas</p>
                         </button>
                     </div>
 

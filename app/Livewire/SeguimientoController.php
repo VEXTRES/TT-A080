@@ -4,17 +4,31 @@ namespace App\Livewire;
 
 use App\Models\MealPlan;
 use App\Models\Progress;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class SeguimientoController extends Component
 {
 
-    public $trackings,$meal_plans;
+    public $trackings,$meal_plans,$showModal=true,$fecha;
 
 
     public function mount(){
         $this->loadPlans();
     }
+
+    public function mostrarModal(){
+        $this->fecha = Carbon::today()->format('d-m-Y');
+        $this->showModal=!$this->showModal;
+
+    }
+
+
+    public function crearSeguimiento(){
+        // $planActual= $this->meal_plans::where('is_active',true)->first();
+        // dd($planActual);
+    }
+
 
 
     public function loadPlans(){
