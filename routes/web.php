@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InicioController;
 use App\Livewire\CrearComidaController;
+use App\Livewire\DetallesSeguimientoController;
 use App\Livewire\MisPlanesController;
 use App\Livewire\PlanAlimentacionController;
 use App\Livewire\PlanEntrenamientoController;
@@ -41,6 +42,10 @@ Route::get('plan-alimentacion/{id}/crear-comida',CrearComidaController::class)
 
 Route::get('seguimiento',SeguimientoController::class)
 ->name('seguimiento')
+->middleware('auth.redirect');
+
+Route::get('seguimiento/detalles/{id}',DetallesSeguimientoController::class)
+->name('seguimiento.detalles')
 ->middleware('auth.redirect');
 
 Route::middleware([

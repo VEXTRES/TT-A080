@@ -1,169 +1,59 @@
 <div>
     <x-app-layout>
         <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white text-center leading-tight">
                 {{ $workoutPlan ? $workoutPlan->name : 'Plan no encontrado' }}
             </h2>
         </x-slot>
 
-        <div class="h-screen w-full">
-            <div class="overflow-x-auto mx-10 my-10">
-                <!-- Título del día -->
-                <div class="bg-cyan-900 text-white text-center p-2">
-                    <h2 class="text-lg font-bold">Día 1 (Espalda y Pecho)</h2>
+        <div class="min-h-screen w-full bg-[#232931]">
+            @php
+                $days = [
+                    'Día 1 (Espalda y Pecho)' => ['pecho', 'espalda'],
+                    'Día 2 (Cuadricep)' => ['cuadricep'],
+                    'Día 3 (Bicep, Tricep y Hombro)' => ['bicep', 'tricep', 'hombro'],
+                    'Día 4 (Gluteo y Pantorrilla)' => ['gluteo', 'pantorrilla'],
+                    'Día 5 (Abdomen)' => ['abdomen']
+                ];
+            @endphp
+
+            @foreach ($days as $day => $muscleGroups)
+                <div class="overflow-x-auto px-10 py-10">
+                    <!-- Título del día -->
+                    <div class="bg-slate-950 hover:bg-black text-cyan-600 text-center p-2">
+                        <h2 class="text-lg font-bold">{{ $day }}</h2>
+                    </div>
+
+                    <!-- Contenedor de la cuadrícula -->
+                    <div class="grid grid-cols-5 border border-gray-900">
+                        <!-- Encabezados -->
+                        <div class="bg-slate-900 text-cyan-600 p-2 font-semibold text-center border border-cyan-900">músculo</div>
+                        <div class="bg-slate-900 text-cyan-600 p-2 font-semibold text-center border border-cyan-900">nombre</div>
+                        <div class="bg-slate-900 text-cyan-600 p-2 font-semibold text-center border border-cyan-900">series</div>
+                        <div class="bg-slate-900 text-cyan-600 p-2 font-semibold text-center border border-cyan-900">repeticiones</div>
+                        <div class="bg-slate-900 text-cyan-600 p-2 font-semibold text-center border border-cyan-900">ejemplo</div>
+
+                        @foreach ($exercises as $exercise)
+                            @if (in_array($exercise['type'], $muscleGroups))
+                                <div class="p-2 text-center bg-blue-100 border border-gray-900">{{ $exercise['type'] }}</div>
+                                <div class="p-2 text-center bg-gray-400 border border-gray-900">{{ $exercise['name'] }}</div>
+                                <div class="p-2 text-center bg-blue-100 border border-gray-900">{{ $exercise['series'] }}</div>
+                                <div class="p-2 text-center bg-gray-400 border border-gray-900">{{ $exercise['reps'] }}</div>
+                                <div class="p-2 text-center bg-blue-100 border border-gray-900 text-blue-500 underline">
+                                    <div class="flex justify-center">
+                                        <button type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#08235d" class="size-8">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
-
-                <!-- Contenedor de la cuadrícula -->
-                <div class="grid grid-cols-5 border border-gray-300">
-                    <!-- Encabezados -->
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">músculo</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">nombre</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">series</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">repeticiones</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">ejemplo</div>
-
-                    <!-- Fila 1 -->
-                    @foreach ($exercises as $exercise)
-                         @if($exercise['type']=='pecho' || $exercise['type']=='espalda')
-                            <div class="p-2 text-center bg-blue-100 border border-gray-300">{{$exercise['type']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['name']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['series']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['reps']}}</div>
-                            <div class="p-2 text-center border border-gray-300 text-blue-500 underline">
-                                <a href="#">ver</a>
-                            </div>
-                         @endif
-                    @endforeach
-                </div>
-            </div>
-
-            <div class="overflow-x-auto mx-10 my-10">
-                <!-- Título del día -->
-                <div class="bg-cyan-900 text-white text-center p-2">
-                    <h2 class="text-lg font-bold">Día 2 (Cuadricep)</h2>
-                </div>
-
-                <!-- Contenedor de la cuadrícula -->
-                <div class="grid grid-cols-5 border border-gray-300">
-                    <!-- Encabezados -->
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">músculo</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">nombre</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">series</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">repeticiones</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">ejemplo</div>
-
-                    @foreach ($exercises as $exercise)
-                        @if ($exercise['type']=='cuadricep')
-                            <div class="p-2 text-center bg-blue-100 border border-gray-300">{{$exercise['type']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['name']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['series']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['reps']}}</div>
-                            <div class="p-2 text-center border border-gray-300 text-blue-500 underline">
-                                <a href="#">ver</a>
-                            </div>
-                        @endif
-                    @endforeach
-
-                </div>
-            </div>
-
-            <div class="overflow-x-auto mx-10 my-10">
-                <!-- Título del día -->
-                <div class="bg-cyan-900 text-white text-center p-2">
-                    <h2 class="text-lg font-bold">Día 3 (Bicep, Tricep y Hombro)</h2>
-                </div>
-
-                <!-- Contenedor de la cuadrícula -->
-                <div class="grid grid-cols-5 border border-gray-300">
-                    <!-- Encabezados -->
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">músculo</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">nombre</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">series</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">repeticiones</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">ejemplo</div>
-
-                    @foreach ($exercises as $exercise)
-                        @if ($exercise['type']=='bicep'|| $exercise['type']=='tricep'|| $exercise['type']=='hombro')
-                            <div class="p-2 text-center bg-blue-100 border border-gray-300">{{$exercise['type']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['name']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['series']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['reps']}}</div>
-                            <div class="p-2 text-center border border-gray-300 text-blue-500 underline">
-                                <a href="#">ver</a>
-                            </div>
-                        @endif
-                    @endforeach
-
-
-
-                </div>
-            </div>
-
-            <div class="overflow-x-auto mx-10 my-10">
-                <!-- Título del día -->
-                <div class="bg-cyan-900 text-white text-center p-2">
-                    <h2 class="text-lg font-bold">Día 4 (Gluteo y Pantorrilla)</h2>
-                </div>
-
-                <!-- Contenedor de la cuadrícula -->
-                <div class="grid grid-cols-5 border border-gray-300">
-                    <!-- Encabezados -->
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">músculo</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">nombre</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">series</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">repeticiones</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">ejemplo</div>
-
-                    @foreach ($exercises as $exercise)
-                        @if ($exercise['type']=='gluteo'||$exercise['type']=='pantorrilla')
-                            <div class="p-2 text-center bg-blue-100 border border-gray-300">{{$exercise['type']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['name']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['series']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['reps']}}</div>
-                            <div class="p-2 text-center border border-gray-300 text-blue-500 underline">
-                                <a href="#">ver</a>
-                            </div>
-                        @endif
-                    @endforeach
-
-
-                </div>
-            </div>
-
-            <div class="overflow-x-auto mx-10 my-10 ">
-                <!-- Título del día -->
-                <div class="bg-cyan-900 text-white text-center p-2">
-                    <h2 class="text-lg font-bold">Día 5 (Abdomen)</h2>
-                </div>
-
-                <!-- Contenedor de la cuadrícula -->
-                <div class="grid grid-cols-5 border border-gray-300 mb-10">
-                    <!-- Encabezados -->
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">músculo</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">nombre</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">series</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">repeticiones</div>
-                    <div class="bg-cyan-600 p-2 font-semibold text-center border border-gray-300">ejemplo</div>
-
-                    @foreach ($exercises as $exercise)
-                        @if ($exercise['type']=='abdomen')
-                            <div class="p-2 text-center bg-blue-100 border border-gray-300">{{$exercise['type']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['name']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['series']}}</div>
-                            <div class="p-2 text-center border border-gray-300">{{$exercise['reps']}}</div>
-                            <div class="p-2 text-center border border-gray-300 text-blue-500 underline">
-                                <a href="#">ver</a>
-                            </div>
-                        @endif
-
-                    @endforeach
-
-                </div>
-            </div>
-
-
-
-
+            @endforeach
         </div>
     </x-app-layout>
 </div>

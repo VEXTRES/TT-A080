@@ -71,29 +71,28 @@
                 </div>
 
             </div>
-            <div class="p-4  text-white w-full ">
+            <div class="p-4  text-white w-full bg-[#232931]">
                 <div class="flex gap-4"> <!-- Usa gap para añadir separación entre los divs -->
-                    <div class="text-black bg-white border border-black p-3 mb-2 w-1/3 rounded-md">
-                        <h2 class="text-lg font-bold mb-2">Comida {{$currentFood}} del Día</h2>
+                    <div class="bg-gray-900  border border-black p-3 mb-2 w-1/3 rounded-md">
+                        <h2 class="text-lg font-bold text-lime-500 mb-2">Comida {{$currentFood}} del Día</h2>
                         <p>Cada Comida Contiene:</p>
-                        <ul class="list-disc ml-6 mb-4">
-                            <li class="font-bold">Proteínas: {{$proteinsPerMeal}} Gr</li>
-                            <li class="font-bold">Carbohidratos: {{$carbsPerMeal}} Gr</li>
-                            <li class="font-bold">Grasas: {{$fatsPerMeal}} Gr</li>
+                        <ul class="list-disc ml-6 mt-2 mb-4 flex flex-col">
+                            <div class="inline-flex gap-3"><li class="font-bold">Proteínas:</li> <p class="text-lime-500 font-bold">{{$proteinsPerMeal}} Gr</p></div>
+                            <div class="inline-flex gap-3"><li class="font-bold">Carbohidratos:</li> <p class="text-lime-500 font-bold">{{$carbsPerMeal}} Gr</p></div>
+                            <div class="inline-flex gap-3"><li class="font-bold">Grasas:</li> <p class="text-lime-500 font-bold">{{$fatsPerMeal}} Gr</p></div>
                         </ul>
                     </div>
                     <div class="w-2/3 flex flex-col h-full">
-                        <p class="w-3/5 h-1/3 border mx-auto text-center p-2 rounded-md bg-slate-400 text-black flex-grow">{{$plan->name}}</p>
+                        <p class="w-3/5 h-1/3 border mx-auto text-center p-2 rounded-md bg-gray-950 text-white flex-grow">{{$plan->name}}</p>
 
                         <button
-                        class="inline-flex w-1/5 h-12 ml-auto mt-12 animate-shimmer items-center justify-center rounded-md border border-slate-100
-                        bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors
-                        focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+                        class="inline-flex w-1/5 gap-2 h-12 ml-auto mt-12 animate-shimmer items-center justify-center rounded-md border bg-gray-900 border-lime-500"
                         wire:click="crearComida">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                            <p>Crear Comidas</p>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
+                          </svg>
+
+                            <p>Crear Comida</p>
                         </button>
                     </div>
 
@@ -103,8 +102,8 @@
                 <div class="grid grid-cols-4 gap-4 ">
                     <!-- Columna de Proteínas -->
 
-                    <div class="bg-black text-white rounded-md p-2">
-                        <h3 class="text-center font-bold border-b border-gray-700 pb-2 mb-2">Proteínas<br>(Carnes o Pescados)</h3>
+                    <div class="bg-gray-950 rounded-md p-2">
+                        <h3 class="text-center font-bold border-b text-white border-gray-700 pb-2 mb-2">Proteínas<br>(Carnes o Pescados)</h3>
                         <button type="button" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-1 px-4 mb-2 w-full rounded"
                         wire:click="mostrarModal">
                             + Otro Alimento
@@ -119,7 +118,13 @@
                                 @if($alimento->type=='Proteinas')
                                     <div class="border-b border-gray-700 py-2 flex flex-row justify-between">
                                         <p>{{$alimento->name}}</p>
-                                        <input  type="checkbox" class="peer h-5 w-5 mr-2 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
+                                        <input  type="checkbox"   class="peer h-5 w-5 mr-2 cursor-pointer transition-all
+                                        appearance-none rounded shadow
+                                        hover:shadow-md
+                                        border border-slate-300
+                                        checked:bg-black
+                                        checked:border-slate-800
+                                        focus:ring-slate-950"
                                         name="{{$alimento->id}}"
                                         id="{{$alimento->id}}"
                                         value="{{$alimento->id}}"
@@ -131,8 +136,8 @@
                     </div>
 
                     <!-- Columna de Carbohidratos -->
-                    <div class="bg-gray-800 text-white rounded-md p-2">
-                        <h3 class="text-center font-bold border-b border-gray-700 pb-2 mb-2">Carbohidratos<br>(Cereales y Legumbres)</h3>
+                    <div class="bg-slate-900  rounded-md p-2">
+                        <h3 class="text-center font-bold border-b text-cyan-500 border-gray-700 pb-2 mb-2">Carbohidratos<br>(Cereales y Legumbres)</h3>
                         <button type="button" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-1 px-4 mb-2 w-full rounded"
                         wire:click="mostrarModal">
                             + Otro Alimento
@@ -158,8 +163,8 @@
                     </div>
 
                     <!-- Columna de Grasas -->
-                    <div class="bg-gray-800 text-white rounded-md p-2">
-                        <h3 class="text-center font-bold border-b border-gray-700 pb-2 mb-2">Grasas<br>(Semillas y Lacteos)</h3>
+                    <div class="bg-gray-950 text-white rounded-md p-2">
+                        <h3 class="text-center font-bold border-b text-white border-gray-700 pb-2 mb-2">Grasas<br>(Semillas y Lacteos)</h3>
                         <button type="button" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-1 px-4 mb-2 w-full rounded"
                         wire:click="mostrarModal">
                             + Otro Alimento
@@ -175,7 +180,13 @@
                                     <div class="border-b border-gray-700 py-2 flex flex-row justify-between">
                                         <p>{{$alimento->name}}</p>
                                     <input type="checkbox" name="{{$alimento->id}}" id="{{$alimento->id}}"
-                                    class="peer h-5 w-5 mr-2 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
+                                    class="peer h-5 w-5 mr-2 cursor-pointer transition-all
+                                        appearance-none rounded shadow
+                                        hover:shadow-md
+                                        border border-slate-300
+                                        checked:bg-black
+                                        checked:border-slate-800
+                                        focus:ring-slate-950"
                                     wire:model="fatsSelect.{{$alimento->id}}"
                                     >
                                     </div>
@@ -184,8 +195,8 @@
                         </div>
                     </div>
                     <!-- Columna de frutas -->
-                    <div class="bg-gray-800 text-white rounded-md p-2">
-                        <h3 class="text-center font-bold border-b border-gray-700 p-3 mb-2">Frutas y Vegetales</h3>
+                    <div class="bg-slate-900 text-white rounded-md p-2">
+                        <h3 class="text-center font-bold border-b text-cyan-500 border-gray-700 p-3 mb-2">Frutas y Vegetales</h3>
                         <button type="button" type="button" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-1 px-4 mb-2 w-full rounded"
                         wire:click="mostrarModal">
                             + Otro Alimento

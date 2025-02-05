@@ -1,16 +1,14 @@
 <div x-data="{
-    sortOrderAlimentacion(){
-        return true;
-    },
-    sortOrderEntrenamiento: @entangle('sortOrderEntrenamiento'),
+    sortOrderAlimentacion: true,
+    sortOrderEntrenamiento:true,
     showAlert: true,
 }">
     @auth
     <x-app-layout>
-        <div class=" w-full bg-slate-400 ">
+        <div class=" w-full bg-[#232931] ">
             <x-slot name="header">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Plan de Alimentacion') }}
+                <h2 class="font-semibold text-xl text-center text-white leading-tight">
+                    {{ __('Mis Planes') }}
                 </h2>
             </x-slot>
 
@@ -30,7 +28,7 @@
                         <div class="flex flex-col ">
                             <div class="flex justify-between">
                                 <h2 class="text-xl font-semibold mx-auto text-white">Sondeo preguntas</h2>
-                                <button wire:click="MostrarModal" class="text-white p-3 rounded-md bg-slate-600 hover:text-gray-300">&times;</button>
+                                <button wire:click="MostrarModal" class="text-white p-3 rounded-md bg-slate-600 hover:bg-slate-700 hover:text-gray-300">&times;</button>
                             </div>
                             <div class="mx-auto ">
                                 @if(session('failed'))
@@ -54,7 +52,7 @@
                         </div>
                         <form wire:submit="CrearPlan" x-on:submit="showAlert = true, setTimeout(()=>showAlert=false, 2000)">
                             <div class="flex justify-end mt-3">
-                                <button type="submit" class=" px-4 py-2 bg-blue-500 text-black font-black rounded-lg">Crear Plan</button>
+                                <button type="submit" class=" px-4 py-2 bg-slate-950 text-blue-400 font-black rounded-lg hover:bg-gray-900 hover:text-blue-400">Crear Plan</button>
                             </div>
                             @if (!empty($questionsPaginated))
                                 @foreach ($questionsPaginated as $questionId => $questionName)
@@ -514,14 +512,14 @@
                         <div class="mt-6 flex justify-between items-center">
                             <button
                                 wire:click="previousPage"
-                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg {{ $currentPage == 1 ? 'opacity-50 cursor-not-allowed' : '' }}"
+                                class="px-4 py-2 bg-gray-300 text-gray-900 rounded-lg hover:bg-slate-950 hover:text-gray-200 {{ $currentPage == 1 ? 'opacity-50 cursor-not-allowed' : '' }}"
                                 {{ $currentPage == 1 ? 'disabled' : '' }}>
-                                <p class="text-black">Anterior</p>
+                                Anterior
                             </button>
                             <p class="text-slate-400">Página {{ $currentPage }}</p>
                             <button
                                 wire:click="nextPage"
-                                class="px-4 py-2 bg-blue-500 text-white rounded-lg {{ (count($questions) <= $currentPage * $perPage) ? 'opacity-50 cursor-not-allowed' : '' }}"
+                                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-slate-950 hover:text-blue-400 {{ (count($questions) <= $currentPage * $perPage) ? 'opacity-50 cursor-not-allowed' : '' }}"
                                 {{ (count($questions) <= $currentPage * $perPage) ? 'disabled' : '' }}>
                                 Siguiente
                             </button>
@@ -530,92 +528,103 @@
                 </div>
             </div>
 
-
-                <div class=" min-h-[50vh] bg-slate-600">
+                <div class=" min-h-[50vh] pt-1">
                     <div class="flex space-x-4">
-                        <p class="text-xl font-black">Plan de Alimentacion</p>
-                        <button wire:click="setOrderAlimentacion">
-                            @if ($sortOrderAlimentacion)
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-                                </svg>
-                            @endif
-                        </button>
-                    </div>
-                    <div style="display: {{$sortOrderAlimentacion == false ? 'true' : 'none';}}"
-                    class="flex items-center h-full">
-                            <div class="flex-none justify-center text-center mr-8 mt-10">
-                                <button type="button"
-                                wire:click="MostrarModal"
-                                class="inline-flex items-center ml-2 px-6 gap-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150" wire:click="crearPlan">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        <div class="inline-flex ml-3 p-1 gap-3 cursor-pointer bg-gray-900 text-lime-500 hover:bg-[#010c02] rounded-md" @click="sortOrderAlimentacion = !sortOrderAlimentacion" style="user-select: none">
+                            <p class="text-xl font-black">Plan de Alimentacion</p>
+                            <button >
+                                <div x-show="sortOrderAlimentacion">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                                     </svg>
-                                    <p class="">Crear Nuevo Plan</p>
-                                </button>
+                                </div>
 
-                            </div>
-                        <div  class="flex {{$meal_plans->isEmpty()?'':'overflow-x-scroll scroll-auto'}} gap-4 mx-4 scroll-container
-                                [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */
-                                [&::-webkit-scrollbar]:w-2 /* Ancho del scrollbar vertical */
-                                [&::-webkit-scrollbar-track]:rounded-full
-                                [&::-webkit-scrollbar-track]:bg-gray-100
-                                [&::-webkit-scrollbar-thumb]:rounded-full
-                                [&::-webkit-scrollbar-thumb]:bg-gray-300
-                                dark:[&::-webkit-scrollbar-track]:bg-neutral-700
-                                dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
-                                style="user-select: none;">
+                                <!-- Icono 2: Se muestra cuando sortOrderAlimentacion es true -->
+                                <div x-show="!sortOrderAlimentacion">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center h-full">
+                        <!-- Botón para crear nuevo plan -->
+                        <div x-show="!sortOrderAlimentacion" class="flex-none justify-center text-center mr-8 mt-10">
+                            <button type="button"
+                                    wire:click="MostrarModal"
+                                    class="inline-flex items-center ml-2 px-6 gap-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md bg-gray-900 text-indigo-400 hover:bg-slate-950"
+                                    wire:click="crearPlan">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                                <p class="">Crear Nuevo Plan</p>
+                            </button>
+                        </div>
+
+                        <!-- Contenedor de los meal_plans -->
+                        <div x-show="!sortOrderAlimentacion"
+                             class="flex {{ $meal_plans->isEmpty() ? '' : 'overflow-x-scroll scroll-auto' }} gap-4 mx-4 scroll-container
+                                    [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */
+                                    [&::-webkit-scrollbar]:w-2 /* Ancho del scrollbar vertical */
+                                    [&::-webkit-scrollbar-track]:rounded-full
+                                    [&::-webkit-scrollbar-track]:bg-gray-100
+                                    [&::-webkit-scrollbar-thumb]:rounded-full
+                                    [&::-webkit-scrollbar-thumb]:bg-gray-300
+                                    dark:[&::-webkit-scrollbar-track]:bg-gray-700
+                                    dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+                             style="user-select: none;">
+
                             <!-- Mensaje si no hay planes de alimentación -->
                             @if ($meal_plans->isEmpty())
-                                    <div class="flex mt-16 underline text-xl ">
-                                        <p class="">No hay plan de Alimentación disponibles.</p>
-                                    </div>
+                                <div class="flex mt-16 underline text-xl">
+                                    <p class="">No hay plan de Alimentación disponibles.</p>
+                                </div>
                             @else
-                                    <!-- Contenedor de los meal_plans -->
-                                    <div class="flex gap-4 my-3" style="min-width: max-content;">
-                                        @foreach ($meal_plans as $key => $meal_plan)
-                                            <!-- Cada meal_plan -->
-                                            <div class="flex-none w-64"> <!-- Ancho fijo para cada columna -->
-                                                <div class="border border-black py-10 px-4 rounded-md flex flex-col gap-0">
-                                                    <div class="text-md font-bold -mt-10 -ml-2">{{ $meal_plan->id }}</div>
-                                                    <div class="text-center mt-10">{{ $meal_plan->name }}</div>
-                                                    {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-blue-500 underline">Activo</p>' : '<p class="text-center my-2 font-black">Inactivo</p>' !!}
-                                                    <button
-                                                        class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black mb-2"
-                                                        @click="window.location.href = '{{ route('plan-alimentacion', $meal_plan->id) }}'">
-                                                        Ver
-                                                    </button>
-                                                </div>
+                                <!-- Contenedor de los meal_plans -->
+                                <div class="flex gap-4 my-3 ml-6 " style="min-width: max-content;">
+                                    @foreach ($meal_plans as $key => $meal_plan)
+                                        <!-- Cada meal_plan -->
+                                        <div class="flex-none w-64"> <!-- Ancho fijo para cada columna -->
+                                            <div class="border-2 border-lime-950  bg-gray-900 text-lime-500 hover:bg-slate-950 py-10 px-4 rounded-md flex flex-col gap-0">
+                                                <div class="text-md font-bold -mt-10 -ml-2 text-white">{{ $meal_plan->id }}</div>
+                                                <div class="text-center mt-10 ">{{ $meal_plan->name }}</div>
+                                                {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-indigo-400 underline">Activo</p>' : '<p class="text-center my-2 text-gray-400 font-black">Inactivo</p>' !!}
+                                                <button
+                                                    class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black hover:bg-slate-800 mb-2"
+                                                    @click="window.location.href = '{{ route('plan-alimentacion', $meal_plan->id) }}'">
+                                                    Ver
+                                                </button>
                                             </div>
-                                        @endforeach
-                                    </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             @endif
                         </div>
                     </div>
 
                 </div>
 
-                <div class=" min-h-[50vh] bg-slate-300">
+                <div class=" min-h-[50vh] mt-3">
                     <div class="flex space-x-4">
-                        <p class="text-xl font-black">Plan de Entrenamiento</p>
-                        <button wire:click="setOrderEntrenamiento">
-                            @if ($sortOrderEntrenamiento == true)
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-                                </svg>
-                            @endif
+                        <div class="inline-flex ml-3 p-1 gap-3 cursor-pointer border border-cyan-900 bg-gray-950 hover:bg-black text-cyan-600 rounded-md " @click="sortOrderEntrenamiento = !sortOrderEntrenamiento" style="user-select: none">
+                            <p class="text-xl font-black">Plan de Entrenamiento</p>
+                            <button >
+                                <div x-show="sortOrderEntrenamiento">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
 
-                        </button>
+                                <div x-show="!sortOrderEntrenamiento">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </div>
                     </div>
-                    <div style="display: {{$sortOrderEntrenamiento == false ? 'true' : 'none';}}"
+                    <div x-show="!sortOrderEntrenamiento"
                         class="flex items-center h-full ">
                         <div class="flex {{$workout_plans->isEmpty()?'':'overflow-x-scroll scroll-auto'}} gap-4 mx-4 scroll-container
                             [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */
@@ -624,7 +633,7 @@
                             [&::-webkit-scrollbar-track]:bg-gray-100
                             [&::-webkit-scrollbar-thumb]:rounded-full
                             [&::-webkit-scrollbar-thumb]:bg-gray-300
-                            dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                            dark:[&::-webkit-scrollbar-track]:bg-gray-700
                             dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
                             style="user-select: none;">
                             <!-- Los elementos "hola" se acomodarán automáticamente en columnas -->
@@ -636,16 +645,16 @@
 
                             @else
 
-                                <div  class="flex gap-4 my-3" style="min-width: max-content;">
+                                <div  class="flex gap-4 my-3 " style="min-width: max-content;">
                                     @foreach ($workout_plans as $key => $workout_plan)
                                         <!-- Cada meal_plan -->
                                         <div class="flex-none w-64"> <!-- Ancho fijo para cada columna -->
-                                            <div class="border border-black py-10 px-4 rounded-md flex flex-col gap-0">
-                                                <div class="text-md font-bold -mt-10 -ml-2">{{ $workout_plan->id }}</div>
-                                                <div class="text-center mt-10">{{ $workout_plan->name }}</div>
-                                                {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-blue-500 underline">Activo</p>' : '<p class="text-center my-2 font-black">Inactivo</p>' !!}
+                                            <div class="border  border-cyan-950 bg-gray-900 hover:bg-slate-950 text-cyan-600 py-10 px-4 rounded-md flex flex-col gap-0">
+                                                <div class="text-md font-bold -mt-10 -ml-2 text-white">{{ $workout_plan->id }}</div>
+                                                <div class="text-center font-black mt-10">{{ $workout_plan->name }}</div>
+                                                {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-blue-500 underline">Activo</p>' : '<p class="text-center my-2 text-gray-400 font-black">Inactivo</p>' !!}
                                                 <button
-                                                    class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black mb-2"
+                                                    class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black mb-2 hover:bg-slate-800"
                                                     @click="window.location.href = '{{ route('plan-entrenamiento', $workout_plan->id) }}'">
                                                     Ver
                                                 </button>
