@@ -376,6 +376,12 @@ class MisPlanesController extends Component
 
 
     }
+
+    // public function deleteMealPlan($id){
+    //     MealPlan::where('id',$id)->delete();
+    //     $this->loadPlans();
+    // }
+
     public function seleccionarPorcentajeHombre($valor){
         $this->seleccionadoHombre = $valor;
         if($this->seleccionadoHombre ==1){
@@ -446,6 +452,10 @@ class MisPlanesController extends Component
     }
 
     public function loadPlans(){
+        $this->reset( 'answersSelected', 'answersSelectedYears', 'answersSelectedMonths', 'seleccionadoHombre', 'seleccionadoMujer', 'seleccionadoTipoCuerpo');
+        $this->currentPage = 1;
+
+
         $this->meal_plans= MealPlan::where('user_id',auth()->user()->id)
         ->orderby('created_at','desc')
         ->get();

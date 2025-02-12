@@ -20,35 +20,34 @@
         @endif
     </head>
     <body class="font-sans antialiased">
-        <div class="w-full h-screen flex flex-col">
+        <div class="w-full h-screen flex flex-col ">
             <header class="sticky top-0 left-0 right-0 bg-black bg-opacity-90 text-white p-8 shadow-lg h-24 flex items-center justify-between">
                 @if (Route::has('login'))
-                    <div class="w-full">
-                        
+                    <div class="w-full ">
+
                             <div class="text-center">
                                 <a href="{{url('/nutricion')}}"><strong>LOGO</strong></a>
-
                             </div>
                             <nav class="mt-4 navbar flex items-center w-full mx-auto overflow-hidden">
                                 <ul class="navbar__menu flex w-3/4 space-x-32">
                                     <li class="navbar__item group relative">
-                                        <a href="{{ url('/nutricion') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-red-600 transition-all duration-500">
+                                        <a href="{{ url('/nutricion') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-cyan-500 transition-all duration-500">
                                             <i data-feather="home" class="transition-all duration-500"></i>Nutricion
                                         </a>
                                     </li>
                                     <li class="navbar__item group relative">
-                                        <a href="{{ url('/fitness') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-red-600 transition-all duration-500">
+                                        <a href="{{ url('/fitness') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-cyan-500 transition-all duration-500">
                                             <i data-feather="message-square" class="transition-all duration-500"></i>Fitness
                                         </a>
                                     </li>
 
                                     <li class="navbar__item group relative">
-                                        <a href="{{ url('/salud') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-red-600 transition-all duration-500">
+                                        <a href="{{ url('/salud') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-cyan-500 transition-all duration-500">
                                             <i data-feather="folder" class="transition-all duration-500"></i>SALUD
                                         </a>
                                     </li>
                                     <li class="navbar__item group relative">
-                                        <a href="{{ url('/acerca') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-red-600 transition-all duration-500">
+                                        <a href="{{ url('/acerca') }}" class="navbar__link flex flex-col items-center justify-center gap-2 text-white uppercase text-sm hover:text-cyan-500 transition-all duration-500">
                                             <i data-feather="archive" class="transition-all duration-500"></i>ACERCA DE NOSOTROS
                                         </a>
                                     </li>
@@ -56,12 +55,12 @@
 
                                 <ul class="navbar__menu flex justify-evenly w-1/4">
                                     <li class="navbar__item group relative">
-                                        <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-blue-600">
+                                        <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-blue-600 hover:border hover:border-white">
                                             Log in
                                         </a>
 
                                         @if (Route::has('register'))
-                                            <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-blue-600">
+                                            <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-blue-600 hover:border hover:border-white">
                                                 Register
                                             </a>
                                         @endif

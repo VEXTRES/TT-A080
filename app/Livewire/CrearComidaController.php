@@ -16,10 +16,12 @@ class CrearComidaController extends Component
     public $proteinsSelect=[],$carbsSelect=[],$fatsSelect=[],$vegetablesSelect=[];
     public $currentFood,$showModal=false;
     public $search,$foodCatalog,$foodsSelect=[];
+    public $idPlan;
 
 
     public function mount($id){
         $this->plan = MealPlan::find($id);
+        $this->idPlan = $id;
         $this->foods=Food::all();
         $userId= $this->plan->user_id;
         $surveyId= $this->plan->survey_id;
@@ -195,6 +197,10 @@ class CrearComidaController extends Component
 
             }
         }
+
+        session()->flash('success', '¡Plan creado con éxito!');
+        return redirect()->route('plan-alimentacion', ['id' => $this->idPlan]);
+
     }
 
     public function mostrarModal(){

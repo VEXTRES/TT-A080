@@ -28,7 +28,7 @@
                         <!-- Modal Content -->
                         <div class="flex flex-col ">
                             <div class="flex justify-between">
-                                <h2 class="text-xl font-semibold mx-auto text-white">Crear Seguimiento</h2>
+                                <h2 class="text-xl font-semibold mx-auto text-white">Nuevo Seguimiento</h2>
                                 <button wire:click="mostrarModal" class="text-white p-3 rounded-md bg-slate-600 hover:bg-slate-700 hover:text-gray-300">&times;</button>
                             </div>
                             <div class="mt-6">
@@ -41,12 +41,17 @@
                                 @if ($meal_plan->is_active)
                                     <p class="text-lg font-bold text-blue-400">{{$meal_plan->name}} (Plan Actual Activo)</p>
                                     <label for="observaciones" class="mt-6 text-white">Observaciones o Cambios Notados</label>
-                                    <textarea  type="text" id="observaciones" rows="5" cols="50"
-                                    wire:model="observaciones"
-                                    class="mt-2 placeholder:text-white placeholder:text-center txt bg-slate-600 text-white text-sm rounded-lg
-                                    focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600
-                                    dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Escribe Aqui tu Observaciones o Cambios Notados"></textarea>
+                                    <textarea id="observaciones"
+                                        wire:model="observaciones"
+                                        class="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 min-h-[150px]
+                                        mt-2 placeholder:text-white placeholder:text-center
+                                        bg-slate-600 text-white text-sm rounded-lg
+                                        focus:ring-blue-500 focus:border-blue-500 block p-2.5
+                                        dark:bg-gray-700 dark:border-gray-600
+                                        dark:placeholder-gray-400 dark:text-white
+                                        dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Escribe Aquí tus Observaciones o Cambios Notados">
+                                    </textarea>
 
                                     <div>
                                         @if (session()->has('message'))
@@ -121,73 +126,52 @@
         </div>
 
 
-            <div>
-                <div class="flex gap-4 ml-3">
-                    <button type="button"
-                    class="inline-flex items-center mt-4 px-6 gap-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md
+        <div class="container mx-auto px-4">
+            <!-- Botón Crear Seguimiento -->
+            <div class="flex gap-4 justify-center sm:justify-start">
+                <button type="button"
+                    class="inline-flex items-center mt-4 px-6 py-2 border border-transparent text-sm font-medium rounded-md
                     bg-slate-950 text-cyan-600 hover:bg-black"
                     wire:click="mostrarModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                        <p class="">Crear Seguimiento</p>
-                    </button>
-                </div>
-                <div>
-                    {{-- @foreach ($trackings as $tracking)
-                        {{$tracking->note}}
-                        <p>{{$tracking->title}}</p>
-                        <img src="{{ Storage::disk('public')->url($tracking->photo) }}" width="300" height="300">
-                    @endforeach --}}
-                    <div class="container bg-[#232931] w-[540px] mx-auto shadow-lg">
-                        <div class="box">
-                          <div class="container-3 w-20 inline-block whitespace-nowrap ">
-                            <span class="icon absolute z-10 text-[#4f5b66] mt-[1.3em] ml-[31.5em]">
-                              <i class="fa fa-search"></i>
-                            </span>
-                            <div class="inline-flex justify-center items-center">
-                                <input
-                              type="search"
-                              id="search"
-                              placeholder="Search..."
-                              class="w-[150px] h-[30px] bg-gray-900 text-lime-500 hover:bg-slate-950 border-none text-[10pt]  rounded-md mt-[0.9em] ml-[28.5em] shadow-lg placeholder-[#50d890] pl-2"
-                            />
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-9 mt-2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                              </svg>
-                            </div>
-
-                          </div>
-                        </div>
-
-                        <div class="rightbox pr-[34rem] h-full">
-                          <div class="rb-container font-['PT_Sans'] w-1/2 mx-auto block">
-                            <ul class="rb my-2 p-0 inline-block ">
-                              @foreach ($mealPlanIds as $key=> $mealPlanId)
-                              <li class="rb-item list-none mx-auto ml-[10em] min-h-[50px] border-l-[1px] border-dashed border-white pl-[30px] mb-5">
-                                <div class="item-title text-white">
-                                    Id:{{$key}}
-                                </div>
-                                <div class="timestamp w-72 ">
-                                  <p class="text-[#50d890] text-lg ">{{$mealPlanId}}</p>
-                                  <a href="{{ route('seguimiento.detalles', $key) }}" class="inline-flex border border-black bg-gray-900 text-cyan-600 hover:bg-slate-950 p-1 rounded-lg  gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-                                    </svg>
-                                    <p class="">Ver Detalles</p>
-                                </a>
-
-                                </div>
-                              </li>
-
-                              @endforeach
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                </div>
-
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    <p>Crear Seguimiento</p>
+                </button>
             </div>
+
+            <!-- Contenedor principal -->
+            <div class="bg-[#232931] max-w-4xl mx-auto shadow-lg p-4 mt-4 rounded-lg">
+                <!-- Input de búsqueda -->
+                <div class="flex items-center justify-center sm:justify-end">
+                    <input type="search" id="search" placeholder="Buscar..."
+                        class="w-full sm:w-64 h-10 bg-gray-900 text-lime-500 hover:bg-slate-950 border-none text-[10pt] rounded-md
+                        shadow-lg placeholder-[#50d890] px-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-9 ml-2 text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </div>
+
+                <!-- Lista de Seguimientos -->
+                <div class="mt-6">
+                    <ul class="space-y-4">
+                        @foreach ($mealPlanIds as $key => $mealPlanId)
+                        <li class="border-l-2 border-dashed border-white pl-4">
+                            <div class="text-white font-semibold">ID: {{$key}}</div>
+                            <p class="text-[#50d890] text-lg">{{$mealPlanId}}</p>
+                            <a href="{{ route('seguimiento.detalles', $key) }}" class="inline-flex items-center border border-black bg-gray-900 text-cyan-600 hover:bg-slate-950 p-2 rounded-lg gap-2 mt-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                                </svg>
+                                <p>Ver Detalles</p>
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+
 
         @endif
 

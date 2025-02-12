@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-black text-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -6,41 +6,54 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <p>Logo</p>
+                        <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Logo</p>
+
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('nutricion') }}" :active="request()->routeIs('nutricion')">
-                        {{ __('nutricion') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('fitness') }}" :active="request()->routeIs('fitness')">
-                        {{ __('Fitness') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('salud') }}" :active="request()->routeIs('salud')">
-                        {{ __('Salud') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('acerca') }}" :active="request()->routeIs('acerca')">
-                        {{ __('Acerca de nosotros') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('mis-planes') }}" :active="request()->routeIs('mis-planes')">
-                        {{ __('Mis Planes') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('seguimiento') }}" :active="request()->routeIs('seguimiento')">
-                        {{ __('Seguimiento') }}
-                    </x-nav-link>
-                </div>
+
+                @if (Auth::user()->email === 'admin@admin.com')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                        <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
+                            <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Dashboard</p>
+
+                        </x-nav-link>
+                    </div>
+                @else
+                    <div class=" hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                        <x-nav-link  href="{{ route('nutricion') }}" :active="request()->routeIs('nutricion')">
+                            <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Nutricion</p>
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="{{ route('fitness') }}" :active="request()->routeIs('fitness')">
+                            <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Fitness</p>
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="{{ route('salud') }}" :active="request()->routeIs('salud')">
+                            <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Salud</p>
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="{{ route('acerca') }}" :active="request()->routeIs('acerca')">
+                            <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Acerca de nosotros</p>
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="{{ route('mis-planes') }}" :active="request()->routeIs('mis-planes')">
+                            <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Mis Planes</p>
+
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                        <x-nav-link href="{{ route('seguimiento') }}" :active="request()->routeIs('seguimiento')">
+                            <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Seguimiento</p>
+                        </x-nav-link>
+                    </div>
+                @endif
+
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -164,9 +177,52 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+            {{-- <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            </x-responsive-nav-link> --}}
+
+            <!-- Navigation Links -->
+            @if (Auth::user()->email === 'admin@admin.com')
+                <div class=" space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
+                        <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Dashboard</p>
+                    </x-responsive-nav-link>
+                </div>
+            @else
+                <div class=" space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-responsive-nav-link  href="{{ route('nutricion') }}" :active="request()->routeIs('nutricion')">
+                        <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Nutricion</p>
+                    </x-responsive-nav-link>
+                </div>
+
+                <div class=" space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                    <x-responsive-nav-link href="{{ route('fitness') }}" :active="request()->routeIs('fitness')">
+                        <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Fitness</p>
+                    </x-responsive-nav-link>
+                </div>
+
+                <div class=" space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-responsive-nav-link href="{{ route('salud') }}" :active="request()->routeIs('salud')">
+                        <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Salud</p>
+                    </x-responsive-nav-link>
+                </div>
+                <div class=" space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-responsive-nav-link href="{{ route('acerca') }}" :active="request()->routeIs('acerca')">
+                        <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Acerca de nosotros</p>
+                    </x-responsive-nav-link>
+                </div>
+                <div class=" space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-responsive-nav-link href="{{ route('mis-planes') }}" :active="request()->routeIs('mis-planes')">
+                        <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Mis Planes</p>
+
+                    </x-responsive-nav-link>
+                </div>
+                <div class=" space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-responsive-nav-link href="{{ route('seguimiento') }}" :active="request()->routeIs('seguimiento')">
+                        <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Seguimiento</p>
+                    </x-responsive-nav-link>
+                </div>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

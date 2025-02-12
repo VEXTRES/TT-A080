@@ -7,6 +7,19 @@
 
             <div class="flex justify-center pt-10">
                 <p class="text-xl font-black bg-gray-900 text-cyan-500  p-2 rounded-md">Numero de Comidas Al Dia: {{$numComidas}}</p>
+
+                @if (session('success'))
+                    <div
+                        class="alert alert-success"
+                        x-data="{showAlert: true}"
+                        x-show="showAlert"
+                        x-init="setTimeout(() => showAlert = false, 2000)"
+                    >
+                        <p class="text-green-500 border border-green-500 p-2">{{ session('success') }}</p>
+                    </div>
+
+                @endif
+
             </div>
 
             <div class="border gap-3 border-black grid grid-cols-3 w-4/5 mx-auto my-14 bg-gray-900  ">

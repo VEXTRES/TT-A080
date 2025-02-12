@@ -13,7 +13,7 @@
             </x-slot>
 
             <div class=" {{$showModal===true?'fixed inset-0 bg-black/50 backdrop-blur-sm':''}}  ">
-                <div class="absolute m-auto mt-6 w-3/4 max-h-screen overflow-y-auto inset-0
+                <div class="absolute m-auto mt-6 w-3/4 max-h-screen  overflow-y-auto inset-0
                 [&::-webkit-scrollbar]:w-2
                         [&::-webkit-scrollbar-track]:rounded-full
                         [&::-webkit-scrollbar-track]:bg-gray-100
@@ -528,147 +528,156 @@
                 </div>
             </div>
 
-                <div class=" min-h-[50vh] pt-1">
-                    <div class="flex space-x-4">
-                        <div class="inline-flex ml-3 p-1 gap-3 cursor-pointer bg-gray-900 text-lime-500 hover:bg-[#010c02] rounded-md" @click="sortOrderAlimentacion = !sortOrderAlimentacion" style="user-select: none">
-                            <p class="text-xl font-black">Plan de Alimentacion</p>
-                            <button >
-                                <div x-show="sortOrderAlimentacion">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </div>
-
-                                <!-- Icono 2: Se muestra cuando sortOrderAlimentacion es true -->
-                                <div x-show="!sortOrderAlimentacion">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="flex items-center h-full">
-                        <!-- Botón para crear nuevo plan -->
-                        <div x-show="!sortOrderAlimentacion" class="flex-none justify-center text-center mr-8 mt-10">
-                            <button type="button"
-                                    wire:click="MostrarModal"
-                                    class="inline-flex items-center ml-2 px-6 gap-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md bg-gray-900 text-indigo-400 hover:bg-slate-950"
-                                    wire:click="crearPlan">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            <div class=" min-h-[50vh] pt-1">
+                <div class="flex space-x-4">
+                    <div class="inline-flex ml-3 p-1 gap-3 cursor-pointer bg-gray-900 text-lime-500 hover:bg-[#010c02] rounded-md" @click="sortOrderAlimentacion = !sortOrderAlimentacion" style="user-select: none">
+                        <p class="text-xl font-black">Plan de Alimentacion</p>
+                        <button >
+                            <div x-show="sortOrderAlimentacion">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                                 </svg>
-                                <p class="">Crear Nuevo Plan</p>
-                            </button>
-                        </div>
-
-                        <!-- Contenedor de los meal_plans -->
-                        <div x-show="!sortOrderAlimentacion"
-                             class="flex {{ $meal_plans->isEmpty() ? '' : 'overflow-x-scroll scroll-auto' }} gap-4 mx-4 scroll-container
-                                    [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */
-                                    [&::-webkit-scrollbar]:w-2 /* Ancho del scrollbar vertical */
-                                    [&::-webkit-scrollbar-track]:rounded-full
-                                    [&::-webkit-scrollbar-track]:bg-gray-100
-                                    [&::-webkit-scrollbar-thumb]:rounded-full
-                                    [&::-webkit-scrollbar-thumb]:bg-gray-300
-                                    dark:[&::-webkit-scrollbar-track]:bg-gray-700
-                                    dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
-                             style="user-select: none;">
-
-                            <!-- Mensaje si no hay planes de alimentación -->
-                            @if ($meal_plans->isEmpty())
-                                <div class="flex mt-16 underline text-xl">
-                                    <p class="">No hay plan de Alimentación disponibles.</p>
-                                </div>
-                            @else
-                                <!-- Contenedor de los meal_plans -->
-                                <div class="flex gap-4 my-3 ml-6 " style="min-width: max-content;">
-                                    @foreach ($meal_plans as $key => $meal_plan)
-                                        <!-- Cada meal_plan -->
-                                        <div class="flex-none w-64"> <!-- Ancho fijo para cada columna -->
-                                            <div class="border-2 border-lime-950  bg-gray-900 text-lime-500 hover:bg-slate-950 py-10 px-4 rounded-md flex flex-col gap-0">
-                                                <div class="text-md font-bold -mt-10 -ml-2 text-white">{{ $meal_plan->id }}</div>
-                                                <div class="text-center mt-10 ">{{ $meal_plan->name }}</div>
-                                                {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-indigo-400 underline">Activo</p>' : '<p class="text-center my-2 text-gray-400 font-black">Inactivo</p>' !!}
-                                                <button
-                                                    class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black hover:bg-slate-800 mb-2"
-                                                    @click="window.location.href = '{{ route('plan-alimentacion', $meal_plan->id) }}'">
-                                                    Ver
-                                                </button>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class=" min-h-[50vh] mt-3">
-                    <div class="flex space-x-4">
-                        <div class="inline-flex ml-3 p-1 gap-3 cursor-pointer border border-cyan-900 bg-gray-950 hover:bg-black text-cyan-600 rounded-md " @click="sortOrderEntrenamiento = !sortOrderEntrenamiento" style="user-select: none">
-                            <p class="text-xl font-black">Plan de Entrenamiento</p>
-                            <button >
-                                <div x-show="sortOrderEntrenamiento">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </div>
-
-                                <div x-show="!sortOrderEntrenamiento">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                    <div x-show="!sortOrderEntrenamiento"
-                        class="flex items-center h-full ">
-                        <div class="flex {{$workout_plans->isEmpty()?'':'overflow-x-scroll scroll-auto'}} gap-4 mx-4 scroll-container
-                            [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */
-                            [&::-webkit-scrollbar]:w-2 /* Ancho del scrollbar vertical */
-                            [&::-webkit-scrollbar-track]:rounded-full
-                            [&::-webkit-scrollbar-track]:bg-gray-100
-                            [&::-webkit-scrollbar-thumb]:rounded-full
-                            [&::-webkit-scrollbar-thumb]:bg-gray-300
-                            dark:[&::-webkit-scrollbar-track]:bg-gray-700
-                            dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
-                            style="user-select: none;">
-                            <!-- Los elementos "hola" se acomodarán automáticamente en columnas -->
-                            @if ($workout_plans->isEmpty())
-
-                            <div class="col-auto flex items-center ml-4 mt-14 underline text-xl">
-                                <p >No hay plan de Alimentacion disponibles.</p>
                             </div>
 
-                            @else
-
-                                <div  class="flex gap-4 my-3 " style="min-width: max-content;">
-                                    @foreach ($workout_plans as $key => $workout_plan)
-                                        <!-- Cada meal_plan -->
-                                        <div class="flex-none w-64"> <!-- Ancho fijo para cada columna -->
-                                            <div class="border  border-cyan-950 bg-gray-900 hover:bg-slate-950 text-cyan-600 py-10 px-4 rounded-md flex flex-col gap-0">
-                                                <div class="text-md font-bold -mt-10 -ml-2 text-white">{{ $workout_plan->id }}</div>
-                                                <div class="text-center font-black mt-10">{{ $workout_plan->name }}</div>
-                                                {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-blue-500 underline">Activo</p>' : '<p class="text-center my-2 text-gray-400 font-black">Inactivo</p>' !!}
-                                                <button
-                                                    class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black mb-2 hover:bg-slate-800"
-                                                    @click="window.location.href = '{{ route('plan-entrenamiento', $workout_plan->id) }}'">
-                                                    Ver
-                                                </button>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-
-
-
-                            @endif
-                        </div>
+                            <!-- Icono 2: Se muestra cuando sortOrderAlimentacion es true -->
+                            <div x-show="!sortOrderAlimentacion">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                                </svg>
+                            </div>
+                        </button>
                     </div>
                 </div>
+                <div class="flex items-center h-full">
+                    <!-- Botón para crear nuevo plan -->
+                    <div x-show="!sortOrderAlimentacion" class="flex-none justify-center text-center mr-8 mt-10">
+                        <button type="button"
+                                wire:click="MostrarModal"
+                                class="inline-flex items-center ml-2 px-6 gap-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md bg-gray-900 text-indigo-400 hover:bg-slate-950"
+                                wire:click="crearPlan">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            <p class="">Crear Nuevo Plan</p>
+                        </button>
+                    </div>
+
+                    <!-- Contenedor de los meal_plans -->
+                    <div x-show="!sortOrderAlimentacion"
+                         class="flex {{ $meal_plans->isEmpty() ? '' : 'overflow-x-scroll scroll-auto' }} gap-4 mx-4 scroll-container
+                                [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */
+                                [&::-webkit-scrollbar]:w-2 /* Ancho del scrollbar vertical */
+                                [&::-webkit-scrollbar-track]:rounded-full
+                                [&::-webkit-scrollbar-track]:bg-gray-100
+                                [&::-webkit-scrollbar-thumb]:rounded-full
+                                [&::-webkit-scrollbar-thumb]:bg-gray-300
+                                dark:[&::-webkit-scrollbar-track]:bg-gray-700
+                                dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+                         style="user-select: none;">
+
+                        <!-- Mensaje si no hay planes de alimentación -->
+                        @if ($meal_plans->isEmpty())
+                            <div class="flex mt-[12%] underline text-xl">
+                                <p class=" border border-black p-3 bg-white text-black rounded-md">No hay plan de Alimentación disponibles.</p>
+                            </div>
+                        @else
+                            <!-- Contenedor de los meal_plans -->
+                            <div class="flex gap-4 my-3 ml-6 " style="min-width: max-content;">
+                                @foreach ($meal_plans as $key => $meal_plan)
+                                    <!-- Cada meal_plan -->
+                                    <div class="flex-none w-64"> <!-- Ancho fijo para cada columna -->
+                                        <div class="border-2 border-lime-950  bg-gray-900 text-lime-500 hover:bg-slate-950 py-10 px-4 rounded-md flex flex-col gap-0">
+                                            <div class="text-md font-bold -mt-10 -ml-2 text-white flex justify-between">
+                                                <p>{{ $meal_plan->id }}</p>
+                                                {{-- <button type="button" wire:click="deleteMealPlan({{$meal_plan->id}})">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mt-2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                      </svg>
+                                                </button> --}}
+
+                                            </div>
+                                            <div class="text-center mt-10 ">{{ $meal_plan->name }}</div>
+                                            {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-indigo-400 underline">Activo</p>' : '<p class="text-center my-2 text-gray-400 font-black">Inactivo</p>' !!}
+                                            <button
+                                                class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black hover:bg-slate-800 mb-2"
+                                                @click="window.location.href = '{{ route('plan-alimentacion', $meal_plan->id) }}'">
+                                                Ver
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+            </div>
+
+            <div class=" min-h-[50vh] mt-3">
+                <div class="flex space-x-4">
+                    <div class="inline-flex ml-3 p-1 gap-3 cursor-pointer border border-cyan-900 bg-gray-950 hover:bg-black text-cyan-600 rounded-md " @click="sortOrderEntrenamiento = !sortOrderEntrenamiento" style="user-select: none">
+                        <p class="text-xl font-black">Plan de Entrenamiento</p>
+                        <button >
+                            <div x-show="sortOrderEntrenamiento">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+
+                            <div x-show="!sortOrderEntrenamiento">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div x-show="!sortOrderEntrenamiento"
+                    class="flex items-center h-full ">
+                    <div class="flex {{$workout_plans->isEmpty()?'':'overflow-x-scroll scroll-auto'}} gap-4 mx-4 scroll-container
+                        [&::-webkit-scrollbar]:h-2 /* Altura del scrollbar horizontal */
+                        [&::-webkit-scrollbar]:w-2 /* Ancho del scrollbar vertical */
+                        [&::-webkit-scrollbar-track]:rounded-full
+                        [&::-webkit-scrollbar-track]:bg-gray-100
+                        [&::-webkit-scrollbar-thumb]:rounded-full
+                        [&::-webkit-scrollbar-thumb]:bg-gray-300
+                        dark:[&::-webkit-scrollbar-track]:bg-gray-700
+                        dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+                        style="user-select: none;">
+                        <!-- Los elementos "hola" se acomodarán automáticamente en columnas -->
+                        @if ($workout_plans->isEmpty())
+
+                        <div class="col-auto flex items-center  mt-14 underline text-xl">
+                            <p class="border border-black p-3 bg-white text-black rounded-md">No hay plan de Alimentacion disponibles.</p>
+                        </div>
+
+                        @else
+
+                            <div  class="flex gap-4 my-3 " style="min-width: max-content;">
+                                @foreach ($workout_plans as $key => $workout_plan)
+                                    <!-- Cada meal_plan -->
+                                    <div class="flex-none w-64"> <!-- Ancho fijo para cada columna -->
+                                        <div class="border  border-cyan-950 bg-gray-900 hover:bg-slate-950 text-cyan-600 py-10 px-4 rounded-md flex flex-col gap-0">
+                                            <div class="text-md font-bold -mt-10 -ml-2 text-white">{{ $workout_plan->id }}</div>
+                                            <div class="text-center font-black mt-10">{{ $workout_plan->name }}</div>
+                                            {!! isset($meal_plans[$key]) && $meal_plans[$key]->is_active ? '<p class="text-center my-2 font-black text-blue-500 underline">Activo</p>' : '<p class="text-center my-2 text-gray-400 font-black">Inactivo</p>' !!}
+                                            <button
+                                                class="p-2 mt-4 w-1/3 mx-auto rounded-md border border-black mb-2 hover:bg-slate-800"
+                                                @click="window.location.href = '{{ route('plan-entrenamiento', $workout_plan->id) }}'">
+                                                Ver
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+
+
+                        @endif
+                    </div>
+                </div>
+            </div>
+
             </div>
 
 
