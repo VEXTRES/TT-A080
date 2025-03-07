@@ -30,6 +30,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'uriel.ss@hotmail.com',
             'password' => bcrypt('12345678'),
         ]);
+        User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('12345678'),
+        ]);
 
         Question::factory()
             ->count(17)
