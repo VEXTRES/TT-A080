@@ -42,8 +42,7 @@ class FatSecretService{
         }
     }
 
-    public function getRecipes(string $search = '')
-    {
+    public function getRecipes(string $search = ''){
         try {
             $response = $this->http->get($this->url . '/recipes/search/v3', [
                 'headers' => [

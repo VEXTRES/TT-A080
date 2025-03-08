@@ -42,4 +42,9 @@ return [
         'client_secret'=>env('FAT_SECRET_CLIENT_SECRET'),
     ],
 
+    'news_api'=>[
+        'token'=>env('NEWS_API_TOKEN'),
+        'url'=>env('NEWS_API_URL'),
+    ]
+
 ];

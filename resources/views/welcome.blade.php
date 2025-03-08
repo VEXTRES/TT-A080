@@ -21,7 +21,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="w-full h-screen flex flex-col ">
-            <header class="sticky top-0 left-0 right-0 bg-black bg-opacity-90 text-white p-8 shadow-lg h-24 flex items-center justify-between">
+            <header class=" top-0 left-0 right-0 bg-black bg-opacity-90 text-white p-8 shadow-lg h-24 flex items-center justify-between">
                 @if (Route::has('login'))
                     <div class="w-full ">
 
@@ -78,6 +78,7 @@
                     @yield('content')
                 </div>
             </main>
+
 
             <footer class="bg-black text-white p-4">
                 <!-- Pie de página aquí -->
