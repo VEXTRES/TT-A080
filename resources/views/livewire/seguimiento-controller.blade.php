@@ -8,8 +8,8 @@
         <div class="w-full bg-[#232931] min-h-screen">
 
         @if ($meal_plans->isEmpty())
-            <div>
-                <p>No hay plan de Posible creacion de seguimiento disponibles. Debe crear un plan</p>
+            <div class="flex pt-4">
+                <p class="bg-white rounded-md p-4 ml-4">No hay plan de Posible creacion de seguimiento disponibles. Debe crear un plan</p>
             </div>
         @else
 
