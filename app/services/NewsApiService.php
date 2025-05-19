@@ -25,13 +25,14 @@ class NewsApiService{
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer '. $this->token,
                 ],
-                'form_params' => [
+                'query' => [ // 👈 AQUÍ
                     'source.country.code' => 'mx',
                     'category.name' => 'Health',
                     'title' => $search,
-                    'per_page' => 30,
+                    'per_page' => 10, // verifica si este valor está dentro del límite permitido
                 ],
             ]);
+
 
             $body = $response->getBody()->getContents();
             $data = json_decode($body, true);
