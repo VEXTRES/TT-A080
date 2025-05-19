@@ -377,10 +377,10 @@ class MisPlanesController extends Component
 
     }
 
-    // public function deleteMealPlan($id){
-    //     MealPlan::where('id',$id)->delete();
-    //     $this->loadPlans();
-    // }
+    public function deleteMealPlan($id){
+        MealPlan::where('id',$id)->delete();
+        $this->loadPlans();
+    }
 
     public function seleccionarPorcentajeHombre($valor){
         $this->seleccionadoHombre = $valor;

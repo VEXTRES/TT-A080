@@ -16,11 +16,7 @@ class DetallesSeguimientoController extends Component
 
         $this->title= $this->trackings->pluck('title','meal_plan_id')->unique()->toArray();
 
-
-
     }
-
-
 
     public function render()
     {

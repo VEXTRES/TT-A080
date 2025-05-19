@@ -49,7 +49,12 @@ class SeguimientoController extends Component
 
         $this->reset(['photos', 'tempImages']);
         session()->flash('message', 'Imágenes subidas correctamente.');
+
+        $this->showModal = false;
+
+        $this->loadPlans(); // <-- ESTO es lo que refresca los tracking correctamente
     }
+
 
     public function removeImage($index)
     {
@@ -73,25 +78,27 @@ class SeguimientoController extends Component
     public function mount(){
         $this->loadPlans();
     }
+    public function loadPlans()
+    {
+        $this->trackings = Progress::join('meal_plans', 'meal_plans.id', '=', 'progress.meal_plan_id')
+            ->where('meal_plans.user_id', auth()->user()->id)
+            ->orderBy('progress.created_at', 'desc')
+            ->get();
 
-    public function loadPlans(){
-        $tracking = Progress::join('meal_plans', 'meal_plans.id', '=', 'progress.meal_plan_id')
-        ->where('meal_plans.user_id', auth()->user()->id)
-        ->orderBy('progress.created_at', 'desc')
-        ->get();
-
-        $this->mealPlanIds = $tracking->pluck('title','meal_plan_id')->unique()->toArray();
-
+        $this->mealPlanIds = $this->trackings->pluck('title','meal_plan_id')->unique()->toArray();
 
         $this->meal_plans = MealPlan::where('user_id',auth()->user()->id)
-        ->orderby('created_at','desc')
-        ->get();
+            ->orderby('created_at','desc')
+            ->get();
 
         $this->plan_active = $this->meal_plans->firstWhere('is_active', true);
-
-
+        $this->observaciones = [];
     }
 
+    public function deleteTracking($key){
+        Progress::where('meal_plan_id', $key)->delete();
+        $this->loadPlans();
+    }
 
     public function render()
     {

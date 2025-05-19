@@ -16,7 +16,7 @@ class CrearComidaController extends Component
     public $proteinsSelect=[],$carbsSelect=[],$fatsSelect=[],$vegetablesSelect=[];
     public $currentFood,$showModal=false;
     public $search,$foodCatalog,$foodsSelect=[];
-    public $idPlan;
+    public $idPlan,$notification;
 
 
     public function mount($id){
@@ -56,7 +56,7 @@ class CrearComidaController extends Component
     }
 
     public function guardandoAlimento(){
-
+        $foodnew = [];
         if(isset($this->foodsSelect)){
 
             foreach($this->foodCatalog as $keyCatalog => $food){
@@ -70,37 +70,31 @@ class CrearComidaController extends Component
                 }
             }
             foreach ($foodnew as $key => $value) {
-                $name=$value['food_name'];
+                $name = $value['food_name'];
 
-                if(is_array($value['servings']['serving'])){
-                    foreach ($value['servings']['serving'] as $keyServing => $valueServing) {
-                        if($valueServing['metric_serving_unit']=='g' || $valueServing['metric_serving_unit']=='ml'){
-                            $calories=($valueServing['calories']*100)/$valueServing['metric_serving_amount'];
-                            $proteins=($valueServing['protein']*100)/$valueServing['metric_serving_amount'];
-                            $carbs=($valueServing['carbohydrate']*100)/$valueServing['metric_serving_amount'];
-                            $fats=($valueServing['fat']*100)/$valueServing['metric_serving_amount'];
-                        }
-                    }
-                }elseif($value['servings']['serving']['metric_serving_amount']!=100){
+                $servings = $value['servings']['serving'];
 
-                    $calories=($value['servings']['serving']['calories']*100)/$value['servings']['serving']['metric_serving_amount'];
-                    $proteins=($value['servings']['serving']['protein']*100)/$value['servings']['serving']['metric_serving_amount'];
-                    $carbs=($value['servings']['serving']['carbohydrate']*100)/$value['servings']['serving']['metric_serving_amount'];
-                    $fats=($value['servings']['serving']['fat']*100)/$value['servings']['serving']['metric_serving_amount'];
-
-                }else{
-                    $calories=$value['servings']['serving']['calories'];
-                    $proteins=$value['servings']['serving']['protein'];
-                    $carbs=$value['servings']['serving']['carbohydrate'];
-                    $fats=$value['servings']['serving']['fat'];
+                // Si es un array asociativo (único serving)
+                if (isset($servings['metric_serving_unit'])) {
+                    $servings = [$servings]; // lo convertimos en un array de 1 elemento
                 }
-                $calories=number_format($calories,2);
-                $proteins=number_format($proteins,2);
-                $carbs=number_format($carbs,2);
-                $fats=number_format($fats,2);
+
+                foreach ($servings as $keyServing => $valueServing) {
+                    if ($valueServing['metric_serving_unit'] == 'g' || $valueServing['metric_serving_unit'] == 'ml') {
+                        $calories = ($valueServing['calories'] * 100) / $valueServing['metric_serving_amount'];
+                        $proteins = ($valueServing['protein'] * 100) / $valueServing['metric_serving_amount'];
+                        $carbs = ($valueServing['carbohydrate'] * 100) / $valueServing['metric_serving_amount'];
+                        $fats = ($valueServing['fat'] * 100) / $valueServing['metric_serving_amount'];
+                    }
+                }
+
+                $calories = number_format($calories, 2);
+                $proteins = number_format($proteins, 2);
+                $carbs = number_format($carbs, 2);
+                $fats = number_format($fats, 2);
 
                 if($proteins>$carbs && $proteins>$fats){
-                    Food::create([
+                    Food::updateOrCreate([
                         'name'=>$name,
                         'calories'=>$calories,
                         'proteins'=>$proteins,
@@ -110,7 +104,7 @@ class CrearComidaController extends Component
 
                     ]);
                 }elseif($carbs>$proteins && $carbs>$fats){
-                    Food::create([
+                    Food::updateOrCreate([
                         'name'=>$name,
                         'calories'=>$calories,
                         'proteins'=>$proteins,
@@ -119,7 +113,7 @@ class CrearComidaController extends Component
                         'type'=>'Carbohidratos',
                     ]);
                 }else{
-                    Food::create([
+                    Food::updateOrCreate([
                         'name'=>$name,
                         'calories'=>$calories,
                         'proteins'=>$proteins,
@@ -133,13 +127,14 @@ class CrearComidaController extends Component
         }else{
             dd('no existe nada');
         }
-
+        $this->foods = Food::all();
+        $this->mostrarModal();
     }
 
     public function crearComida(){
 
         if(empty($this->proteinsSelect)||empty($this->carbsSelect)||empty($this->fatsSelect)||empty($this->vegetablesSelect)){
-            dd('no hay nada');
+            $this->notification=0;
         }else{
 
             foreach ($this->proteinsSelect as $key => $value) {
@@ -196,11 +191,8 @@ class CrearComidaController extends Component
                 $comida->foods()->attach($key,['quantity'=>$grOfFatFood[$key]]);
 
             }
+            return redirect()->route('plan-alimentacion', ['id' => $this->idPlan]);
         }
-
-        session()->flash('success', '¡Plan creado con éxito!');
-        return redirect()->route('plan-alimentacion', ['id' => $this->idPlan]);
-
     }
 
     public function mostrarModal(){
@@ -208,14 +200,17 @@ class CrearComidaController extends Component
         $this->showModal=!$this->showModal;
 
     }
-
     public function buscarAlimento(){
 
         $fatSecret= new FatSecretService();
         $foodsSearch=$fatSecret->getFoods($this->search);
-
-        foreach ($foodsSearch['results']['food'] as $key => $food) {
-            $this->foodCatalog[$key]= $food;
+        // dd($foodsSearch);
+        if(isset($foodsSearch['results']['food'])){
+            foreach ($foodsSearch['results']['food'] as $key => $food) {
+                $this->foodCatalog[$key]= $food;
+            }
+        }else{
+            $this->foodCatalog[0]= ['food_id'=>0,'food_name'=>'Nada'];
         }
     }
 

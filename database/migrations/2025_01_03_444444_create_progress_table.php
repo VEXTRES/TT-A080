@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->string('photo')->nullable();
 
-            $table->foreignId('meal_plan_id')->constrained();
+            $table->foreignId('meal_plan_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
         });

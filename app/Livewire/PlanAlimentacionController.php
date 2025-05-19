@@ -22,14 +22,12 @@ class PlanAlimentacionController extends Component
         $this->idPlan = $id;
         $this->loadData();
 
-
-
-
     }
 
     public function eliminarComida($id){
         $meal=Comida::where('meal_plan_id',$this->idPlan)->where('num_of_food',$id)->first();
         $meal->delete();
+        $this->reset('foods', 'comidas');
         $this->loadData();
     }
 
@@ -49,7 +47,6 @@ class PlanAlimentacionController extends Component
         $this->numComidas = $this->answersSelected[7];
 
         $this->comidas=Comida::where('meal_plan_id',$this->idPlan)->get();
-
         if($this->comidas->isEmpty()){
             $this->currentFood=1;
         }else{
@@ -60,8 +57,6 @@ class PlanAlimentacionController extends Component
             }
             ksort($this->foods);
         }
-
-
     }
 
     public function render()

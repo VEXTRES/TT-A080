@@ -1,7 +1,7 @@
 <div>
 
     <x-app-layout>
-        <div>
+        <div x-data="{showNotification: false}">
             {{--               --}}
             <div class=" {{$showModal===true?'fixed inset-0 bg-black/50 backdrop-blur-sm':''}} ">
 
@@ -50,15 +50,19 @@
                                     <ul>
                                         @foreach ($foodCatalog as $key => $food)
                                             <div class="flex w-3/5 mx-auto justify-center items-center gap-5 border-b mb-5 border-slate-600">
-                                                <li><p class="text-xl text-zinc-400">{{$food['food_name']}}</p></li>
-                                                <input
-                                                    type="checkbox"
-                                                    name="{{$food['food_id']}}"
-                                                    id="{{$food['food_id']}}"
-                                                    value="{{$food['food_id']}}"
-                                                    wire:model="foodsSelect.{{$food['food_id']}}"
-                                                    class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
-                                                >
+                                                @if ($food['food_name'] =='Nada')
+                                                <p class="text-xl text-zinc-400">No hay nada que buscar</p>
+                                                @else
+                                                    <li><p class="text-xl text-zinc-400">{{$food['food_name']}}</p></li>
+                                                    <input
+                                                        type="checkbox"
+                                                        name="{{$food['food_id']}}"
+                                                        id="{{$food['food_id']}}"
+                                                        value="{{$food['food_id']}}"
+                                                        wire:model="foodsSelect.{{$food['food_id']}}"
+                                                        class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
+                                                    >
+                                                @endif
                                             </div>
                                         @endforeach
                                     </ul>
@@ -71,6 +75,25 @@
                 </div>
 
             </div>
+
+            <div
+                x-data="{ notification: @entangle('notification') }"
+                x-effect="
+                    if (notification !== null) {
+                        setTimeout(() => notification = null, 2000)
+                    }
+                "
+            >
+            <div class="relative" x-show="notification === 0">
+                <div class="absolute w-2/5 right-3 top-3">
+                    <div class="inline-flex items-center bg-gray-200 border-2 border-lime-500 text-black rounded-md p-3 w-full">
+                        <p>
+                            Seleccione <span class="font-bold">1 alimento</span> por categoría
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <div class="p-4  text-white w-full bg-[#232931]">
                 <div class="flex gap-4"> <!-- Usa gap para añadir separación entre los divs -->
                     <div class="bg-gray-900  border border-black p-3 mb-2 w-1/3 rounded-md">
@@ -87,7 +110,8 @@
 
                         <button
                         class="inline-flex w-1/5 gap-2 h-12 ml-auto mt-12 animate-shimmer items-center justify-center rounded-md border bg-gray-900 border-lime-500"
-                        wire:click="crearComida">
+                        wire:click="crearComida"
+                        x-on:click="showNotification = true, setTimeout(()=>showNotification=false, 2000)">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
                           </svg>

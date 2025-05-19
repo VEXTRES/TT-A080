@@ -5,17 +5,18 @@
 
 
 
-            <div class="flex justify-center pt-10">
-                <p class="text-xl font-black bg-gray-900 text-cyan-500  p-2 rounded-md">Numero de Comidas Al Dia: {{$numComidas}}</p>
-
+            <div class="flex-row pt-10">
+                <div class="w-1/5 mx-auto">
+                    <p class="text-xl font-black bg-gray-900 text-cyan-500  p-2 rounded-md">Numero de Comidas Al Dia: {{$numComidas}}</p>
+                </div>
                 @if (session('success'))
                     <div
-                        class="alert alert-success"
+                        class="alert alert-success mt-3 mx-auto w-1/6"
                         x-data="{showAlert: true}"
                         x-show="showAlert"
                         x-init="setTimeout(() => showAlert = false, 2000)"
                     >
-                        <p class="text-green-500 border border-green-500 p-2">{{ session('success') }}</p>
+                        <p class="text-green-500 border p-2 rounded-md text-center border-green-500">{{ session('success') }}</p>
                     </div>
 
                 @endif
