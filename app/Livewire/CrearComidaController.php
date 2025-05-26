@@ -93,36 +93,23 @@ class CrearComidaController extends Component
                 $carbs = number_format($carbs, 2);
                 $fats = number_format($fats, 2);
 
-                if($proteins>$carbs && $proteins>$fats){
-                    Food::updateOrCreate([
-                        'name'=>$name,
-                        'calories'=>$calories,
-                        'proteins'=>$proteins,
-                        'carbs'=>$carbs,
-                        'fats'=>$fats,
-                        'type'=>'Proteinas',
+                if (!Food::where('name', $name)->exists()) {
+                    $type = 'Grasas';
+                    if ($proteins > $carbs && $proteins > $fats) {
+                        $type = 'Proteinas';
+                    } elseif ($carbs > $proteins && $carbs > $fats) {
+                        $type = 'Carbohidratos';
+                    }
 
-                    ]);
-                }elseif($carbs>$proteins && $carbs>$fats){
-                    Food::updateOrCreate([
-                        'name'=>$name,
-                        'calories'=>$calories,
-                        'proteins'=>$proteins,
-                        'carbs'=>$carbs,
-                        'fats'=>$fats,
-                        'type'=>'Carbohidratos',
-                    ]);
-                }else{
-                    Food::updateOrCreate([
-                        'name'=>$name,
-                        'calories'=>$calories,
-                        'proteins'=>$proteins,
-                        'carbs'=>$carbs,
-                        'fats'=>$fats,
-                        'type'=>'Grasas',
+                    Food::create([
+                        'name' => $name,
+                        'calories' => $calories,
+                        'proteins' => $proteins,
+                        'carbs' => $carbs,
+                        'fats' => $fats,
+                        'type' => $type,
                     ]);
                 }
-
             }
         }else{
             dd('no existe nada');
@@ -163,14 +150,13 @@ class CrearComidaController extends Component
                 if($value==false){
                 }elseif($value==true){
                     $vegetablesSelectData[$key]= Food::where('id','=',$key)->first();
-                    $totalFoodsVegetables = count($vegetablesSelectData);
+                    $totalVegetables = count($vegetablesSelectData);
                 }
             }
 
             $proteinaRepartida=$this->proteinsPerMeal/$totalFoodsProtein;
             $carbaRepartida=$this->carbsPerMeal/$totalFoodsCarbs;
             $grasaRepartida=$this->fatsPerMeal/$totalFoodsFats;
-            $vegetalesRepartida=3;
 
 
             $comida= Comida::create([
@@ -189,8 +175,18 @@ class CrearComidaController extends Component
             foreach ($fatsSelectData as $key => $value) {
                 $grOfFatFood[$key]=round(($grasaRepartida*100)/$value->fats);
                 $comida->foods()->attach($key,['quantity'=>$grOfFatFood[$key]]);
-
             }
+            foreach ($vegetablesSelectData as $key => $value) {
+                if($totalVegetables >= 4 && $totalVegetables <= 6){
+                    $grOfVegetablesFood[$key] = random_int(30, 60);
+                }elseif($totalVegetables >= 7){
+                    $grOfVegetablesFood[$key] = random_int(20, 40);
+                }else{
+                    $grOfVegetablesFood[$key] = random_int(40, 100);
+                }
+                $comida->foods()->attach($key, ['quantity' => $grOfVegetablesFood[$key]]);
+            }
+
             return redirect()->route('plan-alimentacion', ['id' => $this->idPlan]);
         }
     }
@@ -204,7 +200,7 @@ class CrearComidaController extends Component
 
         $fatSecret= new FatSecretService();
         $foodsSearch=$fatSecret->getFoods($this->search);
-        // dd($foodsSearch);
+        //dd($foodsSearch);
         if(isset($foodsSearch['results']['food'])){
             foreach ($foodsSearch['results']['food'] as $key => $food) {
                 $this->foodCatalog[$key]= $food;
