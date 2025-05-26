@@ -30,24 +30,32 @@
                                 <h2 class="text-xl font-semibold mx-auto text-white">Sondeo preguntas</h2>
                                 <button wire:click="MostrarModal" class="text-white p-3 rounded-md bg-slate-600 hover:bg-slate-700 hover:text-gray-300">&times;</button>
                             </div>
-                            <div class="mx-auto ">
-                                @if(session('failed'))
-                                    <div
-                                        class="alert alert-danger"
-                                        x-show="showAlert"
-                                    >
-                                        <p class="text-red-500 border border-red-500 p-2">{{ session('failed') }}</p>
+                            <div class="mx-auto w-full">
+                                @if (session('success'))
+                                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4" x-show="showAlert">
+                                        <p class="font-bold">¡Éxito!</p>
+                                        <p>{{ session('success') }}</p>
                                     </div>
                                 @endif
-                                @if(session('success'))
-                                    <div
-                                        class="alert alert-success"
-                                        x-show="showAlert"
-                                    >
-                                        <p class="text-green-500 border border-green-500 p-2">{{ session('success') }}</p>
+
+                                @if (session('failed'))
+                                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" x-show="showAlert">
+                                        <p><span class="font-bold">¡Error!</span> {{ session('failed') }}</p>
+                                    </div>
+                                @endif
+
+                                @if ($errors->any())
+                                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                                        <p class="font-bold">Faltan campos por completar:</p>
+                                        <ul class="list-disc list-inside mt-2">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 @endif
                             </div>
+
 
                         </div>
                         <form wire:submit="CrearPlan" x-on:submit="showAlert = true, setTimeout(()=>showAlert=false, 2000)">
@@ -510,19 +518,26 @@
                             @endif
                         </form>
                         <div class="mt-6 flex justify-between items-center">
-                            <button
-                                wire:click="previousPage"
-                                class="px-4 py-2 bg-gray-300 text-gray-900 rounded-lg hover:bg-slate-950 hover:text-gray-200 {{ $currentPage == 1 ? 'opacity-50 cursor-not-allowed' : '' }}"
-                                {{ $currentPage == 1 ? 'disabled' : '' }}>
-                                Anterior
-                            </button>
+                            @if ($currentPage > 1)
+                                <button
+                                    wire:click="previousPage"
+                                    class="px-4 py-2 bg-gray-300 text-gray-900 rounded-lg hover:bg-slate-950 hover:text-gray-200 {{ $currentPage == 1 ? 'opacity-50 cursor-not-allowed' : '' }}"
+                                    {{ $currentPage == 1 ? 'disabled' : '' }}>
+                                    Anterior
+                                </button>
+                            @else
+                                <div></div>
+                            @endif
                             <p class="text-slate-400">Página {{ $currentPage }}</p>
-                            <button
-                                wire:click="nextPage"
-                                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-slate-950 hover:text-blue-400 {{ (count($questions) <= $currentPage * $perPage) ? 'opacity-50 cursor-not-allowed' : '' }}"
-                                {{ (count($questions) <= $currentPage * $perPage) ? 'disabled' : '' }}>
-                                Siguiente
-                            </button>
+                            @if (count($questions) > $currentPage * $perPage)
+                                <button
+                                    wire:click="nextPage"
+                                    class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-slate-950 hover:text-blue-400">
+                                    Siguiente
+                                </button>
+                            @else
+                                <div></div> {{-- Espacio vacío para mantener alineación --}}
+                            @endif
                         </div>
                     </div>
                 </div>
