@@ -82,7 +82,7 @@
                                     @foreach ($meal as $keyfood => $food)
                                         <div class="flex flex-row justify-between items-center"> <!-- Flexbox para alinear -->
                                             <p class="text-white">{{$meal[$keyfood]['name']}}</p>
-                                            <p class="text-sm font-black">{{$meal[$keyfood]['quantity']}} Gr</p>
+                                            <p class="text-sm font-black">{{$meal[$keyfood]['quantity']}} gr</p>
                                         </div>
                                     @endforeach
                                 </div>
