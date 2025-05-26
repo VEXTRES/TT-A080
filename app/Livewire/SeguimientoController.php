@@ -35,26 +35,48 @@ class SeguimientoController extends Component
 
     public function crearSeguimiento()
     {
-        $this->validate();
+        // Limpiar errores previos
+        $this->resetErrorBag();
 
-        foreach ($this->photos as $photo) {
-            $path = $photo->store('progress', 'public');
-            Progress::create([
-                'title'=> $this->plan_active->name,
-                'note'=> $this->observaciones,
-                'photo' => $path,
-                'meal_plan_id' => $this->plan_active->id,
-            ]);
+        // Validar que se hayan subido fotos
+        if (empty($this->photos)) {
+            $this->addError('photos', 'Debes subir al menos una imagen.');
+            return;
         }
 
-        $this->reset(['photos', 'tempImages']);
-        session()->flash('message', 'Imágenes subidas correctamente.');
+        $this->validate([
+            'photos' => 'required|array|min:1',
+            'photos.*' => 'image|max:4000',
+            'observaciones' => 'required|string|min:5',
+        ], [
+            'photos.required' => 'Debes subir al menos una imagen.',
+            'photos.min' => 'Debes subir al menos una imagen.',
+            'photos.*.image' => 'El archivo debe ser una imagen válida.',
+            'photos.*.max' => 'La imagen no debe superar los 4MB.',
+            'observaciones.required' => 'Debes escribir una observación.',
+            'observaciones.min' => 'La observación debe tener al menos 5 caracteres.',
+        ]);
 
-        $this->showModal = false;
+        try {
+            foreach ($this->photos as $photo) {
+                $path = $photo->store('progress', 'public');
+                Progress::create([
+                    'title'=> $this->plan_active->name,
+                    'note'=> $this->observaciones,
+                    'photo' => $path,
+                    'meal_plan_id' => $this->plan_active->id,
+                ]);
+            }
 
-        $this->loadPlans(); // <-- ESTO es lo que refresca los tracking correctamente
+            $this->reset(['photos', 'tempImages','observaciones']);
+            session()->flash('message', 'Imágenes subidas correctamente.');
+            $this->showModal = false;
+            $this->loadPlans(); // <-- ESTO es lo que refresca los tracking correctamente
+
+        } catch (\Exception $e) {
+            $this->addError('general', 'Ocurrió un error al subir las imágenes. Inténtalo de nuevo.');
+        }
     }
-
 
     public function removeImage($index)
     {
@@ -67,17 +89,18 @@ class SeguimientoController extends Component
         $this->photos = array_values($this->photos);
     }
 
-
-
     public function mostrarModal(){
         $this->fecha = Carbon::today()->format('d-m-Y');
         $this->showModal=!$this->showModal;
 
+        // Limpiar errores cuando se abre/cierra el modal
+        $this->resetErrorBag();
     }
 
     public function mount(){
         $this->loadPlans();
     }
+
     public function loadPlans()
     {
         $this->trackings = Progress::join('meal_plans', 'meal_plans.id', '=', 'progress.meal_plan_id')

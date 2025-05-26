@@ -23,8 +23,11 @@
                 dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
                 style="display: {{ $showModal === true ? 'block' : 'none' }} ;">{{-- {{ $showModal === true ? 'block' : 'none' }} --}}
-                    <div class="bg-slate-800 p-8 rounded-lg shadow-lg mb-10"
-                    @click.outside="$wire.call('mostrarModal')">
+                <div
+                    x-data="{ showError: true }"
+                    class="bg-slate-800 p-8 rounded-lg shadow-lg mb-10"
+                    @click.outside="$wire.call('mostrarModal')"
+                >
                         <!-- Modal Content -->
                         <div class="flex flex-col ">
                             <div class="flex justify-between">
@@ -54,11 +57,46 @@
                                     </textarea>
 
                                     <div>
-                                        @if (session()->has('message'))
-                                            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
-                                                {{ session('message') }}
-                                            </div>
-                                        @endif
+                                        <!-- Reemplaza la sección del modal donde muestras los errores -->
+<div>
+    @if (session()->has('message'))
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+            {{ session('message') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div
+            class="mt-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded"
+            x-data="{ show: true }"
+            x-show="show"
+            x-init="setTimeout(() => show = false, 3000)"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90"
+        >
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="font-bold">Errores:</p>
+                    <ul class="list-disc list-inside text-sm mt-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                <button
+                    @click="show = false"
+                    class="ml-4 text-red-500 hover:text-red-700 font-bold text-lg leading-none"
+                >
+                    &times;
+                </button>
+            </div>
+        </div>
+    @endif
+</div>
 
                                         <div class="mt-6 space-y-4">
                                             <div class="inline-flex gap-3">
