@@ -131,15 +131,15 @@ class MisPlanesController extends Component
         }
         $pesoMagro=$this->answersSelected[2]-($this->answersSelected[10]*$this->answersSelected[2]);
 
-        if($this->answersSelected[15]==16){  //sedentario
+        if($this->answersSelected[14]==14){  //sedentario
             $frecuenciaFisica=1.2;
-        }elseif($this->answersSelected[15]==17){    //Act. ligera
+        }elseif($this->answersSelected[14]==15){    //Act. ligera
             $frecuenciaFisica=1.375;
-        }elseif($this->answersSelected[15]==18){    //moderada
+        }elseif($this->answersSelected[14]==16){    //moderada
             $frecuenciaFisica=1.55;
-        }elseif($this->answersSelected[15]==19){    //intensa
+        }elseif($this->answersSelected[14]==17){    //intensa
             $frecuenciaFisica=1.725;
-        }elseif($this->answersSelected[15]==20){    //muy intensa
+        }elseif($this->answersSelected[14]==18){    //muy intensa
             $frecuenciaFisica=1.9;
         }
         $TMBconActividad=$TMB*$frecuenciaFisica; //caloriasTotales
@@ -218,20 +218,20 @@ class MisPlanesController extends Component
                 }elseif($this->answersSelected[13]==13){ // Cuántos días haces ejercicio 7 o mas dias'
                     $ejercicioDiario = 4;
                 }
-                if($this->answersSelected[14]==14){  //casa
+                if($this->answersSelected[15]==19){  //casa
                     $lugarDeEjercicio = 1;
-                }elseif($this->answersSelected[14]==15){  //en gym
+                }elseif($this->answersSelected[15]==20){  //en gym
                     $lugarDeEjercicio = 2;
                 }
-                if($this->answersSelected[15]==16){ // Nivel de actividad física 'Sedentario
+                if($this->answersSelected[14]==14){ // Nivel de actividad física 'Sedentario
                     $actividadFisica=1;
-                }elseif($this->answersSelected[15]==17){ // Nivel de actividad física 'Actividad ligera
+                }elseif($this->answersSelected[14]==15){ // Nivel de actividad física 'Actividad ligera
                     $actividadFisica=2;
-                }elseif($this->answersSelected[15]==18){ // Nivel de actividad física 'moderada
+                }elseif($this->answersSelected[14]==16){ // Nivel de actividad física 'moderada
                     $actividadFisica=3;
-                }elseif($this->answersSelected[15]==19){ // Nivel de actividad física 'intensa
+                }elseif($this->answersSelected[14]==17){ // Nivel de actividad física 'intensa
                     $actividadFisica=4;
-                }elseif($this->answersSelected[15]==20){ // Nivel de actividad física 'muy intensa
+                }elseif($this->answersSelected[14]==18){ // Nivel de actividad física 'muy intensa
                     $actividadFisica=5;
                 }
                 $parts = explode('-', $this->answersSelected[16]);
@@ -251,14 +251,25 @@ class MisPlanesController extends Component
                 if($tiempoEntrenando==1&&($ejercicioDiario>=1 && $ejercicioDiario<=4)&&($actividadFisica>=1 && $actividadFisica<=5)){
                     //2 series 8 reps  2 ejercicios x musculo
 
-                    if($this->answersSelected[14]==14){  //casa
+                    if($this->answersSelected[15]==19){  //casa
 
-                        //faltaaaaaaaaaaaaaaaaaaaaaaa
+                        foreach($this->conjunto_de_musculos as $musculo){
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',0)->inRandomOrder()->take(3)->get();
+                            $ejercicios_con_detalles = [];
+                            foreach ($ejercicios_aleatorios as $ejercicio) {
+                                $ejercicios_con_detalles[$ejercicio->id] = [
+                                    'series' => '2',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                    'reps' => '8'    // según tus necesidades
+                                ];
+                            }
+                            // Attach los ejercicios al plan
+                            $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                        }
 
-                    }elseif($this->answersSelected[14]==15){  //en gym
+                    }elseif($this->answersSelected[15]==20){  //en gym
                         //3 series 8 reps  2 ejercicios x musculo
                         foreach($this->conjunto_de_musculos as $musculo){
-                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',1)->inRandomOrder()->take(3)->get();
                             $ejercicios_con_detalles = [];
                             foreach ($ejercicios_aleatorios as $ejercicio) {
                                 $ejercicios_con_detalles[$ejercicio->id] = [
@@ -273,14 +284,25 @@ class MisPlanesController extends Component
 
                 }elseif(($tiempoEntrenando==2)&&($ejercicioDiario>=1 && $ejercicioDiario<=4) && ($actividadFisica>=1 && $actividadFisica<=5)){
 
-                    if($this->answersSelected[14]==14){  //casa
+                    if($this->answersSelected[15]==19){  //casa
 
-                        //faltaaaaaaaaaaaaaaaa
+                        foreach($this->conjunto_de_musculos as $musculo){
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',0)->inRandomOrder()->take(3)->get();
+                            $ejercicios_con_detalles = [];
+                            foreach ($ejercicios_aleatorios as $ejercicio) {
+                                $ejercicios_con_detalles[$ejercicio->id] = [
+                                    'series' => '3',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                    'reps' => '10'    // según tus necesidades
+                                ];
+                            }
+                            // Attach los ejercicios al plan
+                            $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                        }
 
-                    }elseif($this->answersSelected[14]==15){  //en gym
+                    }elseif($this->answersSelected[15]==20){  //en gym
                     //3 series 10 reps 3 ejercicios x musculo
                         foreach($this->conjunto_de_musculos as $musculo){
-                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',1)->inRandomOrder()->take(3)->get();
                             $ejercicios_con_detalles = [];
                             foreach ($ejercicios_aleatorios as $ejercicio) {
                                 $ejercicios_con_detalles[$ejercicio->id] = [
@@ -295,14 +317,25 @@ class MisPlanesController extends Component
                     }
                 }elseif($tiempoEntrenando==3||$tiempoEntrenando==4&&($ejercicioDiario>=1 && $ejercicioDiario<=4) && ($actividadFisica>=1 && $actividadFisica<=5)){
 
-                    if($this->answersSelected[14]==14){  //casa
+                    if($this->answersSelected[15]==19){  //casa
 
-                        //faltaaaaaaaaaaaaaaaaaaaaaaa
+                        foreach($this->conjunto_de_musculos as $musculo){
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',0)->inRandomOrder()->take(3)->get();
+                            $ejercicios_con_detalles = [];
+                            foreach ($ejercicios_aleatorios as $ejercicio) {
+                                $ejercicios_con_detalles[$ejercicio->id] = [
+                                    'series' => '4',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                    'reps' => '10'    // según tus necesidades
+                                ];
+                            }
+                            // Attach los ejercicios al plan
+                            $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                        }
 
-                    }elseif($this->answersSelected[14]==15){  //en gym
+                    }elseif($this->answersSelected[15]==20){  //en gym
                         //4 series 8 - 10 reps  3 ejercicios x musculo
                         foreach($this->conjunto_de_musculos as $musculo){
-                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',1)->inRandomOrder()->take(3)->get();
                             $ejercicios_con_detalles = [];
                             foreach ($ejercicios_aleatorios as $ejercicio) {
                                 $ejercicios_con_detalles[$ejercicio->id] = [
@@ -316,14 +349,25 @@ class MisPlanesController extends Component
                         }
                     }
                 }else{
-                    if($this->answersSelected[14]==14){  //casa
+                    if($this->answersSelected[15]==19){  //casa
 
-                        //faltaaaaaaaaaaaaaaaaaaaaaaa
+                        foreach($this->conjunto_de_musculos as $musculo){
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',0)->inRandomOrder()->take(3)->get();
+                            $ejercicios_con_detalles = [];
+                            foreach ($ejercicios_aleatorios as $ejercicio) {
+                                $ejercicios_con_detalles[$ejercicio->id] = [
+                                    'series' => '4',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                    'reps' => '8'    // según tus necesidades
+                                ];
+                            }
+                            // Attach los ejercicios al plan
+                            $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                        }
 
-                    }elseif($this->answersSelected[14]==15){  //en gym
+                    }elseif($this->answersSelected[15]==20){  //en gym
                         //4 series 6-8 reps  4 ejercicios x musculo
                         foreach($this->conjunto_de_musculos as $musculo){
-                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(4)->get();
+                            $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',1)->inRandomOrder()->take(4)->get();
                             $ejercicios_con_detalles = [];
                             foreach ($ejercicios_aleatorios as $ejercicio) {
                                 $ejercicios_con_detalles[$ejercicio->id] = [
@@ -338,14 +382,25 @@ class MisPlanesController extends Component
                     }
                 }
             }elseif($this->answersSelected[12]==8){  // practicas deporte? lo deje pero pacticaba recientemente
-                if($this->answersSelected[14]==14){  //casa
+                if($this->answersSelected[15]==19){  //casa
 
-                    //falta
+                    foreach($this->conjunto_de_musculos as $musculo){
+                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',0)->inRandomOrder()->take(3)->get();
+                        $ejercicios_con_detalles = [];
+                        foreach ($ejercicios_aleatorios as $ejercicio) {
+                            $ejercicios_con_detalles[$ejercicio->id] = [
+                                'series' => '3',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                'reps' => '10'    // según tus necesidades
+                            ];
+                        }
+                        // Attach los ejercicios al plan
+                        $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                    }
 
-                }elseif($this->answersSelected[14]==15){  //en gym
+                }elseif($this->answersSelected[15]==20){  //en gym
                     //3 series 10 reps 3 ejercicios x musculo
                     foreach($this->conjunto_de_musculos as $musculo){
-                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
+                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',1)->inRandomOrder()->take(3)->get();
                         $ejercicios_con_detalles = [];
                         foreach ($ejercicios_aleatorios as $ejercicio) {
                             $ejercicios_con_detalles[$ejercicio->id] = [
@@ -359,14 +414,25 @@ class MisPlanesController extends Component
                     }
                 }
             }elseif($this->answersSelected[12]==9){  // practicas deporte? tiene mucho que lo deje O nunca he hecho deporte
-                if($this->answersSelected[14]==14){  //casa
+                if($this->answersSelected[15]==19){  //casa
 
-                    //falta
+                    foreach($this->conjunto_de_musculos as $musculo){
+                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',0)->inRandomOrder()->take(3)->get();
+                        $ejercicios_con_detalles = [];
+                        foreach ($ejercicios_aleatorios as $ejercicio) {
+                            $ejercicios_con_detalles[$ejercicio->id] = [
+                                'series' => '2',  // Puedes ajustar estos valores o hacerlos dinámicos
+                                'reps' => '8'    // según tus necesidades
+                            ];
+                        }
+                        // Attach los ejercicios al plan
+                        $workout_plan->exercises()->attach($ejercicios_con_detalles);
+                    }
 
-                }elseif($this->answersSelected[14]==15){  //en gym
+                }elseif($this->answersSelected[15]==20){  //en gym
                      //3 series 8 reps  2 ejercicios x musculo
                      foreach($this->conjunto_de_musculos as $musculo){
-                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->inRandomOrder()->take(3)->get();
+                        $ejercicios_aleatorios = Exercise::where('type',$musculo)->where('isgym',1)->inRandomOrder()->take(3)->get();
                         $ejercicios_con_detalles = [];
                         foreach ($ejercicios_aleatorios as $ejercicio) {
                             $ejercicios_con_detalles[$ejercicio->id] = [
