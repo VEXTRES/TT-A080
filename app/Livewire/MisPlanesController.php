@@ -49,7 +49,17 @@ class MisPlanesController extends Component
 
 
     public function CrearPlan(){
-        $this->validateAllPages();
+        if (!$this->validateCurrentPage()) {
+            return; // No continúa si faltan respuestas en la página actual
+        }
+
+        // Luego validar todas las páginas
+        try {
+            $this->validateAllPages();
+        } catch (\Exception $e) {
+            $this->pageValidationError = $e->getMessage();
+            return;
+        }
 
         try {
             $rules = [
@@ -105,6 +115,9 @@ class MisPlanesController extends Component
 
             $this->validate($rules, $errorMessage);
             session()->flash('success', '¡Plan creado con éxito!');
+
+            // Limpiar el error de validación si todo salió bien
+            $this->pageValidationError = '';
         } catch (\Throwable $th) {
             session()->flash('failed', 'Llene todos los campos');
             return null;
@@ -369,9 +382,6 @@ class MisPlanesController extends Component
 
         $this->loadPlans();
         $this->MostrarModal();
-
-
-
     }
 
     public function deleteMealPlan($id){
@@ -472,37 +482,44 @@ class MisPlanesController extends Component
         }
 
         if (!empty($missingAnswers)) {
-            $this->pageValidationError = 'Debes responder todas las preguntas antes de continuar: ' . implode(', ', $missingAnswers);
+            $this->pageValidationError = implode(', ', $missingAnswers);
             return false;
         }
 
         return true;
     }
     private function validateAllPages()
-    {
-        $totalQuestions = count($this->questions);
-        $totalPages = ceil($totalQuestions / $this->perPage);
+{
+    $totalQuestions = count($this->questions);
+    $totalPages = ceil($totalQuestions / $this->perPage);
+    $missingAnswers = [];
 
-        for ($page = 1; $page <= $totalPages; $page++) {
-            $start = ($page - 1) * $this->perPage;
-            $pageQuestions = array_slice($this->questions, $start, $this->perPage, true);
+    for ($page = 1; $page <= $totalPages; $page++) {
+        $start = ($page - 1) * $this->perPage;
+        $pageQuestions = array_slice($this->questions, $start, $this->perPage, true);
 
-            foreach (array_keys($pageQuestions) as $questionId) {
-                if (!isset($this->answersSelected[$questionId]) ||
-                    $this->answersSelected[$questionId] === null ||
-                    $this->answersSelected[$questionId] === '') {
+        foreach (array_keys($pageQuestions) as $questionId) {
+            if (!isset($this->answersSelected[$questionId]) ||
+                $this->answersSelected[$questionId] === null ||
+                $this->answersSelected[$questionId] === '') {
 
-                    if ($questionId == 18) {
-                        if (isset($this->answersSelected[17]) && $this->answersSelected[17] == 21) {
-                            throw new \Exception("Falta responder la pregunta: {$this->questions[$questionId]}");
-                        }
-                    } else {
-                        throw new \Exception("Falta responder la pregunta: {$this->questions[$questionId]}");
+                if ($questionId == 18) {
+                    if (isset($this->answersSelected[17]) && $this->answersSelected[17] == 21) {
+                        $missingAnswers[] = "Página {$page}: {$this->questions[$questionId]}";
                     }
+                } else {
+                    $missingAnswers[] = "Página {$page}: {$this->questions[$questionId]}";
                 }
             }
         }
     }
+
+    if (!empty($missingAnswers)) {
+        throw new \Exception("Faltan respuestas en: " . implode(', ', $missingAnswers));
+    }
+
+    return true;
+}
 
     public function loadPlans(){
         $this->reset('answersSelected', 'answersSelectedYears', 'answersSelectedMonths', 'seleccionadoHombre', 'seleccionadoMujer', 'seleccionadoTipoCuerpo', 'pageValidationError');
@@ -522,7 +539,12 @@ class MisPlanesController extends Component
         $start = ($this->currentPage - 1) * $this->perPage;
         $this->questionsPaginated = array_slice($this->questions, $start, $this->perPage, true);
     }
-
+    public function isLastPage()
+    {
+        $totalQuestions = count($this->questions);
+        $totalPages = ceil($totalQuestions / $this->perPage);
+        return $this->currentPage >= $totalPages;
+    }
     public function nextPage(){
         // Validar página actual antes de avanzar
         if (!$this->validateCurrentPage()) {
@@ -552,6 +574,13 @@ class MisPlanesController extends Component
 
     public function MostrarModal(){
         $this->showModal = !$this->showModal;
+
+        // Si se está abriendo el modal (showModal se vuelve true)
+        if ($this->showModal) {
+            $this->currentPage = 1;
+            $this->pageValidationError = '';
+            $this->updatePaginatedQuestions();
+        }
     }
 
 

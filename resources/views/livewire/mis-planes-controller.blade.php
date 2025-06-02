@@ -56,11 +56,9 @@
                                 @endif
                                 <!-- Mensaje de error de validación de página -->
                                 @if ($pageValidationError)
-                                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
-                                        x-data="{ show: true }"
-                                        x-show="show"
-                                        x-init="setTimeout(() => show = false, 5000)">
-                                        <p><span class="font-bold">¡Error!</span> {{ $pageValidationError }}</p>
+                                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                                        <p><span class="font-bold">¡Error! Debes responder todas las preguntas antes de continuar:</span></p>
+                                        <p>{{ $pageValidationError }}</p>
                                     </div>
                                 @endif
                             </div>
@@ -68,9 +66,14 @@
 
                         </div>
                         <form wire:submit="CrearPlan" x-on:submit="showAlert = true, setTimeout(()=>showAlert=false, 2000)">
+                            @if ($this->isLastPage())
                             <div class="flex justify-end mt-3">
-                                <button type="submit" class=" px-4 py-2 bg-slate-950 text-blue-400 font-black rounded-lg hover:bg-gray-900 hover:text-blue-400">Crear Plan</button>
+                                <button type="submit"
+                                        class=" px-4 py-2 bg-slate-950 text-blue-400 font-black rounded-lg hover:bg-gray-900 hover:text-blue-400">
+                                    Crear Plan
+                                </button>
                             </div>
+                            @endif
                             @if (!empty($questionsPaginated))
                                 @foreach ($questionsPaginated as $questionId => $questionName)
                                     <p class="my-3 text-center text-white">{{ $questionName }}</p>
