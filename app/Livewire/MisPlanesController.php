@@ -17,7 +17,7 @@ class MisPlanesController extends Component
 
         public $sortOrderAlimentacion = true;
         public $sortOrderEntrenamiento = true;
-        public $showModal = true;
+        public $showModal = false;
 
         public $questions, $options;
         public $currentPage = 1;
