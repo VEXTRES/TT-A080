@@ -24,17 +24,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create();
+// OPCIÓN 1: Sin factory (Recomendada para usuarios específicos)
+        User::firstOrCreate(
+            ['email' => 'uriel.ss@hotmail.com'],
+            [
+                'name' => 'uriel sanchez soria',
+                'email' => 'uriel.ss@hotmail.com',
+                'password' => bcrypt('12345678'),
+                'email_verified_at' => now(),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'uriel sanchez soria',
-            'email' => 'uriel.ss@hotmail.com',
-            'password' => bcrypt('12345678'),
-        ]);
-        User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('12345678'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'admin',
+                'email' => 'admin@admin.com',
+                'password' => bcrypt('12345678'),
+                'email_verified_at' => now(),
+            ]
+        );
 
         Question::factory()
             ->count(17)
