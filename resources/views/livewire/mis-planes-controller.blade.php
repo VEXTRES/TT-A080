@@ -54,6 +54,15 @@
                                         </ul>
                                     </div>
                                 @endif
+                                <!-- Mensaje de error de validación de página -->
+                                @if ($pageValidationError)
+                                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
+                                        x-data="{ show: true }"
+                                        x-show="show"
+                                        x-init="setTimeout(() => show = false, 5000)">
+                                        <p><span class="font-bold">¡Error!</span> {{ $pageValidationError }}</p>
+                                    </div>
+                                @endif
                             </div>
 
 
@@ -521,22 +530,25 @@
                             @if ($currentPage > 1)
                                 <button
                                     wire:click="previousPage"
-                                    class="px-4 py-2 bg-gray-300 text-gray-900 rounded-lg hover:bg-slate-950 hover:text-gray-200 {{ $currentPage == 1 ? 'opacity-50 cursor-not-allowed' : '' }}"
-                                    {{ $currentPage == 1 ? 'disabled' : '' }}>
+                                    class="px-4 py-2 bg-gray-300 text-gray-900 rounded-lg hover:bg-slate-950 hover:text-gray-200">
                                     Anterior
                                 </button>
                             @else
                                 <div></div>
                             @endif
+
                             <p class="text-slate-400">Página {{ $currentPage }}</p>
+
                             @if (count($questions) > $currentPage * $perPage)
                                 <button
                                     wire:click="nextPage"
-                                    class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-slate-950 hover:text-blue-400">
+                                    class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-slate-950 hover:text-blue-400"
+                                    @click="setTimeout(() => { if ($wire.pageValidationError) { $wire.set('pageValidationError', '') } }, 3000)"
+                                    >
                                     Siguiente
                                 </button>
                             @else
-                                <div></div> {{-- Espacio vacío para mantener alineación --}}
+                                <div></div>
                             @endif
                         </div>
                     </div>

@@ -45,15 +45,15 @@ class DatabaseSeeder extends Seeder
                     ['name' => '¿Cuál es tu Sexo?'],
                     ['name' => '¿Cuál es tu Objetivo Fisico?'],
                     ['name' => '¿A que alimentos eres alergico?'],
-                    ['name' => '¿En cuantas comidas te gustaria hacer por dia?'],
+                    ['name' => '¿Cuantas comidas te gustaria hacer por dia?'],
                     ['name' => '¿Cuanta agua consumes diariamente?'],
                     ['name' => '¿Cuantas horas duermes diariamente?'],
                     ['name' => '¿Que % de grasa tienes actualmente?'],
                     ['name' => '¿Cual es tu tipo de cuerpo?'],
-                    ['name' => '¿Haz practicado deporte o practicas actualmente?'],
-                    ['name' => '¿Cuántos días haces ejercicio(ejercicio de pesas o alguna otra actividad aerobica) a la semana?'],
+                    ['name' => '¿Haz practicado deporte o practicas alguno actualmente?'],
+                    ['name' => '¿Cuántos días haces ejercicio (ejercicio de pesas o alguna otra actividad aerobica) a la semana?'],
+                    ['name' => '¿Cuál es tu nivel de pasos diarios?'],
                     ['name' => '¿Te gustaría hacer ejercicios de pesas en casa, gimnasio?'],
-                    ['name' => '¿Cuál es tu nivel de actividad diaria?'],
                     ['name' => '¿Cuántos tiempo llevas entrenando en total siendo lo mas constante posible?'],
                     ['name' => '¿Tienes alguna preferencia alimentaria(Vegetariana,Sin gluten, Sin Lactosa)?']
             ))->create()
@@ -68,41 +68,46 @@ class DatabaseSeeder extends Seeder
                 $options = ['Bajar Grasa', 'Aumentar Musculo', 'Recomposicion corporal', 'Mantenimiento'];
                 break;
 
-            case '¿Haz practicado deporte o practicas actualmente?':
-                $options = ['Si, Practico Actualmente', 'Lo deje pero pacticaba recientemente (1 mes o menos)', 'Tiene mucho que lo deje (Mas de 1 mes) O Nunca he hecho deporte'];
+            case '¿Haz practicado deporte o practicas alguno actualmente?':
+                $options = ['Si, Practico Actualmente', 'Lo deje recientemente', 'Nunca he hecho deporte'];
                 break;
 
-            case '¿Cuántos días haces ejercicio(ejercicio de pesas o alguna otra actividad aerobica) a la semana?':
-                $options = ['1 o nada', '2 a 4 dias', '5 a 6 dias', '7 o mas dias'];
+            case '¿Cuántos días haces ejercicio (ejercicio de pesas o alguna otra actividad aerobica) a la semana?':
+                $options = ['Nada', '1 a 3 dias', '4 a 6 dias', 'Toda la semana'];
+                break;
+
+            case '¿Cuál es tu nivel de pasos diarios?':
+                $options = [
+                        // Ejercicio semanal: Sin ejercicio o mínimo esfuerzo físico.
+                        // o
+                        'Sedentario
+                        Pasos diarios: Menos de 5,000 pasos al día.
+                        (Equivalente a tiempo de caminata: Aproximadamente 30 minutos o menos al día a ritmo suave).',
+                        // Ejercicio semanal: Ejercicio ligero de 1 a 3 veces por semana.
+                        // o
+                        'Actividad ligera
+                        Pasos diarios: Entre 5,000 y 7,500 pasos al día.
+                        (Equivalente a tiempo de caminata: Aproximadamente 30 a 60 minutos al día a ritmo moderado).',
+                        // Ejercicio semanal: Ejercicio moderado de 3 a 5 veces por semana.
+                        // o
+                        'Actividad moderada
+                        Pasos diarios: Entre 7,500 y 10,000 pasos al día.
+                        (Equivalente a tiempo de caminata: Aproximadamente 60 a 90 minutos al día a ritmo moderado o rápido).',
+                        // Ejercicio semanal: Ejercicio intenso  6 - 7 veces por semana.
+                        // o
+                        'Actividad intensa
+                        Pasos diarios: Más de 10,000 pasos al día.
+                        (Equivalente a tiempo de caminata: 90 minutos a 120 min al día a ritmo rápido).',
+                        // Ejercicio semanal: Ejercicio Extremo o doble jornada por semana.
+                        // o
+                        'Actividad muy intensa
+                        Pasos diarios: Más de 15,000 pasos al día.
+                        (Equivalente a tiempo de caminata: 120 minutos o más al día a ritmo rápido).'
+                ];
                 break;
 
             case '¿Te gustaría hacer ejercicios de pesas en casa, gimnasio?':
                 $options = ['En casa', 'En gimnasio'];
-                break;
-
-            case '¿Cuál es tu nivel de actividad diaria?':
-                $options = [
-                    'Sedentario
-                    Ejercicio semanal: Sin ejercicio o mínimo esfuerzo físico.
-                    Pasos diarios: Menos de 5,000 pasos al día.
-                    Tiempo de caminata: Aproximadamente 30 minutos o menos al día (a ritmo suave).',
-                    'Actividad ligera
-                    Ejercicio semanal: Ejercicio ligero de 1 a 3 veces por semana.
-                    Pasos diarios: Entre 5,000 y 7,500 pasos al día.
-                    Tiempo de caminata: Aproximadamente 30 a 60 minutos al día (a ritmo moderado).',
-                    'Actividad moderada
-                    Ejercicio semanal: Ejercicio moderado de 3 a 5 veces por semana.
-                    Pasos diarios: Entre 7,500 y 10,000 pasos al día.
-                    Tiempo de caminata: Aproximadamente 60 a 90 minutos al día (a ritmo moderado o rápido).',
-                    'Actividad intensa
-                    Ejercicio semanal: Ejercicio intenso  6 - 7 veces por semana.
-                    Pasos diarios: Más de 10,000 pasos al día.
-                    Tiempo de caminata: 90 minutos o más al día (a ritmo rápido).',
-                    'Actividad muy intensa
-                    Ejercicio semanal: Ejercicio Extremo o doble jornada por semana.
-                    Pasos diarios: Más de 15,000 pasos al día.
-                    Tiempo de caminata: 120 minutos o más al día (a ritmo rápido).'
-                ];
                 break;
 
             case '¿Tienes alguna preferencia alimentaria(Vegetariana,Sin gluten, Sin Lactosa)?':

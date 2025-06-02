@@ -14,102 +14,98 @@ use Livewire\Component;
 
 class MisPlanesController extends Component
 {
-    public $sortOrderAlimentacion = true;
-    public $sortOrderEntrenamiento = true;
-    public $showModal =false;
 
-    public $questions,$options;
-    public $currentPage = 1;
-    public $perPage = 3;
-    public $questionsPaginated = [];
-    public $answersSelected=[], $questionId, $answerId ;
-    public $meal_plans,$workout_plans,$user;
-    public $answersSelectedYears = [],$answersSelectedMonths = [],$seleccionadoHombre,$seleccionadoMujer;
-    public $seleccionadoTipoCuerpo;
-    public $errorMessage ;
+        public $sortOrderAlimentacion = true;
+        public $sortOrderEntrenamiento = true;
+        public $showModal = true;
+
+        public $questions, $options;
+        public $currentPage = 1;
+        public $perPage = 3;
+        public $questionsPaginated = [];
+        public $answersSelected = [], $questionId, $answerId;
+        public $meal_plans, $workout_plans, $user;
+        public $answersSelectedYears = [], $answersSelectedMonths = [], $seleccionadoHombre, $seleccionadoMujer;
+        public $seleccionadoTipoCuerpo;
+        public $errorMessage;
     public $conjunto_de_musculos = ['espalda','pecho','hombro','bicep','tricep','cuadricep','gluteo','pantorilla','abdomen'];
 
 
+    public $pageValidationError = '';
+
     public function mount(){
-
         $this->user = auth()->user()->id;
-
         $this->loadPlans();
-
-
         $this->questions = Question::all()->pluck('name', 'id')->toArray();
 
         foreach ($this->questions as $questionId => $questionName) {
-            $this->options[$questionId]=Option::where('question_id',$questionId)->pluck('name','id')->toArray();
+            $this->options[$questionId] = Option::where('question_id', $questionId)->pluck('name','id')->toArray();
         }
-        $this->answersSelected[18] = null;
 
-
-
+        // Ya no necesitas inicializar answersSelected[18] = null
 
         $this->updatePaginatedQuestions();
     }
 
 
     public function CrearPlan(){
+        $this->validateAllPages();
 
         try {
             $rules = [
-                'answersSelected' => 'required|array', // Removemos size:17 para manejar el caso dinámico
-                'answersSelected.1' => 'required|numeric|min:15|max:65', // Edad con límites razonables
-                'answersSelected.2' => 'required|numeric|min:20|max:150', // Peso con límites razonables
-                'answersSelected.3' => 'required|numeric|min:120|max:250', // Altura con límites razonables
+                'answersSelected' => 'required|array',
+                'answersSelected.1' => 'required|numeric|min:15|max:65',
+                'answersSelected.2' => 'required|numeric|min:20|max:150',
+                'answersSelected.3' => 'required|numeric|min:120|max:250',
                 'answersSelected.4' => 'required|numeric',
                 'answersSelected.5' => 'required|numeric',
                 'answersSelected.6' => 'required|string',
                 'answersSelected.7' => 'required|numeric|min:2|max:7',
                 'answersSelected.8' => 'required|numeric',
                 'answersSelected.9' => 'required|numeric',
-                'answersSelected.10' => 'required|string', // Para el formato "25-27%"
+                'answersSelected.10' => 'required|string',
                 'answersSelected.11' => 'required|string',
                 'answersSelected.12' => 'required|numeric',
                 'answersSelected.13' => 'required|numeric',
                 'answersSelected.14' => 'required|numeric',
-                'answersSelected.15' => 'required|numeric|min:16|max:20', // Nivel de actividad física
-                'answersSelected.16' => 'required|string', // Para el formato "3-1"
+                'answersSelected.15' => 'required|numeric|min:16|max:20',
+                'answersSelected.16' => 'required|string',
                 'answersSelected.17' => 'required|string|filled',
             ];
+
             if($this->answersSelected[17] == 22){
-                unset($this->answersSelected[18]); // Si el usuario selecciona "No" al pregunta 17 (Preferencia alimentaria), se borra el campo de respuesta 18 que es el campo de texto
+                unset($this->answersSelected[18]);
             }
 
             if($this->answersSelected[17] == 21){
-
-                $this->answersSelected[17]=$this->answersSelected[18];
+                $this->answersSelected[17] = $this->answersSelected[18];
                 unset($this->answersSelected[18]);
             }
-            $errorMessage  = [
+
+            $errorMessage = [
                 'answersSelected.1.required' => 'La edad es requerida',
                 'answersSelected.2.required' => 'El peso es requerido',
                 'answersSelected.3.required' => 'La altura es requerida',
                 'answersSelected.4.required' => 'El sexo es requerido',
-                'answersSelected.5.required' => 'El obejtivo es requerido',
-                'answersSelected.6.required' => 'Alimento Alergico es requerido',
+                'answersSelected.5.required' => 'El objetivo es requerido',
+                'answersSelected.6.required' => 'Alimento Alérgico es requerido',
                 'answersSelected.7.required' => 'Seleccione Comidas al Día',
                 'answersSelected.8.required' => 'Seleccione Agua al Día',
                 'answersSelected.9.required' => 'Seleccione Hrs dormidas al Día',
                 'answersSelected.10.required' => 'Seleccione % de grasa corporal',
                 'answersSelected.11.required' => 'Seleccione Tipo de Cuerpo',
                 'answersSelected.12.required' => 'Seleccione si practica deporte o no',
-                'answersSelected.13.required' => 'Seleccione Cuantos dias hace ejercicio',
+                'answersSelected.13.required' => 'Seleccione Cuántos días hace ejercicio',
                 'answersSelected.14.required' => 'Casa o En Gym',
                 'answersSelected.15.required' => 'Seleccione Nivel de Actividad Física',
-                'answersSelected.16.required' => 'Cuanto tiempo practicas deporte',
+                'answersSelected.16.required' => 'Cuánto tiempo practicas deporte',
                 'answersSelected.17.required' => 'Tiene alguna preferencia de dieta',
                 'answersSelected.18.required' => 'Por favor especifica el tipo de dieta',
-
             ];
-            $this->validate($rules, $errorMessage);
 
-            // Si pasa la validación
+            $this->validate($rules, $errorMessage);
             session()->flash('success', '¡Plan creado con éxito!');
         } catch (\Throwable $th) {
-            // En caso de otros errores
             session()->flash('failed', 'Llene todos los campos');
             return null;
         }
@@ -121,6 +117,7 @@ class MisPlanesController extends Component
             $TMB = (10*$this->answersSelected[2])+(6.25*$this->answersSelected[3])-(5*$this->answersSelected[1])-161;
         }
         $pesoMagro=$this->answersSelected[2]-($this->answersSelected[10]*$this->answersSelected[2]);
+
         if($this->answersSelected[15]==16){  //sedentario
             $frecuenciaFisica=1.2;
         }elseif($this->answersSelected[15]==17){    //Act. ligera
@@ -450,20 +447,75 @@ class MisPlanesController extends Component
         $months = $this->answersSelectedMonths[$questionId] ?? '';
         $this->answersSelected[$questionId] = trim("{$years}-{$months}", '-');
     }
+    private function validateCurrentPage()
+    {
+        $this->pageValidationError = '';
+        $currentQuestionIds = array_keys($this->questionsPaginated);
+        $missingAnswers = [];
+
+        foreach ($currentQuestionIds as $questionId) {
+            // Verificar si la pregunta requiere respuesta
+            if (!isset($this->answersSelected[$questionId]) ||
+                $this->answersSelected[$questionId] === null ||
+                $this->answersSelected[$questionId] === '') {
+
+                // Casos especiales
+                if ($questionId == 18) {
+                    // La pregunta 18 solo es requerida si la 17 tiene valor 21
+                    if (isset($this->answersSelected[17]) && $this->answersSelected[17] == 21) {
+                        $missingAnswers[] = $this->questions[$questionId];
+                    }
+                } else {
+                    $missingAnswers[] = $this->questions[$questionId];
+                }
+            }
+        }
+
+        if (!empty($missingAnswers)) {
+            $this->pageValidationError = 'Debes responder todas las preguntas antes de continuar: ' . implode(', ', $missingAnswers);
+            return false;
+        }
+
+        return true;
+    }
+    private function validateAllPages()
+    {
+        $totalQuestions = count($this->questions);
+        $totalPages = ceil($totalQuestions / $this->perPage);
+
+        for ($page = 1; $page <= $totalPages; $page++) {
+            $start = ($page - 1) * $this->perPage;
+            $pageQuestions = array_slice($this->questions, $start, $this->perPage, true);
+
+            foreach (array_keys($pageQuestions) as $questionId) {
+                if (!isset($this->answersSelected[$questionId]) ||
+                    $this->answersSelected[$questionId] === null ||
+                    $this->answersSelected[$questionId] === '') {
+
+                    if ($questionId == 18) {
+                        if (isset($this->answersSelected[17]) && $this->answersSelected[17] == 21) {
+                            throw new \Exception("Falta responder la pregunta: {$this->questions[$questionId]}");
+                        }
+                    } else {
+                        throw new \Exception("Falta responder la pregunta: {$this->questions[$questionId]}");
+                    }
+                }
+            }
+        }
+    }
 
     public function loadPlans(){
-        $this->reset( 'answersSelected', 'answersSelectedYears', 'answersSelectedMonths', 'seleccionadoHombre', 'seleccionadoMujer', 'seleccionadoTipoCuerpo');
+        $this->reset('answersSelected', 'answersSelectedYears', 'answersSelectedMonths', 'seleccionadoHombre', 'seleccionadoMujer', 'seleccionadoTipoCuerpo', 'pageValidationError');
         $this->currentPage = 1;
 
-
-        $this->meal_plans= MealPlan::where('user_id',auth()->user()->id)
-        ->orderby('created_at','desc')
-        ->get();
+        $this->meal_plans = MealPlan::where('user_id', auth()->user()->id)
+            ->orderby('created_at', 'desc')
+            ->get();
         $this->workout_plans = WorkoutPlan::join('meal_plans', 'meal_plans.id', '=', 'workout_plans.meal_plan_id')
             ->where('meal_plans.user_id', auth()->user()->id)
-            ->orderby('workout_plans.created_at','desc')
+            ->orderby('workout_plans.created_at', 'desc')
             ->get();
-            $this->answersSelected=[];
+        $this->answersSelected = [];
     }
 
     public function updatePaginatedQuestions(){
@@ -472,29 +524,36 @@ class MisPlanesController extends Component
     }
 
     public function nextPage(){
+        // Validar página actual antes de avanzar
+        if (!$this->validateCurrentPage()) {
+            return; // No avanza si hay errores
+        }
+
         $this->currentPage++;
+        $this->pageValidationError = ''; // Limpiar errores al avanzar
         $this->updatePaginatedQuestions();
     }
 
     public function previousPage(){
         if ($this->currentPage > 1) {
             $this->currentPage--;
+            $this->pageValidationError = ''; // Limpiar errores al retroceder
             $this->updatePaginatedQuestions();
         }
     }
 
     public function setOrderAlimentacion(){
-        $this->sortOrderAlimentacion= !$this->sortOrderAlimentacion;
-
+        $this->sortOrderAlimentacion = !$this->sortOrderAlimentacion;
     }
+
     public function setOrderEntrenamiento(){
-        $this->sortOrderEntrenamiento=!$this->sortOrderEntrenamiento;
+        $this->sortOrderEntrenamiento = !$this->sortOrderEntrenamiento;
     }
 
     public function MostrarModal(){
         $this->showModal = !$this->showModal;
-
     }
+
 
 
 
