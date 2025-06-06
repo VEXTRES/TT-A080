@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 
 
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
+Route::get('/', function () {
+    return redirect()->route('nutricion');
+});
 
 Route::controller(InicioController::class)->group(function () {
     Route::get('/nutricion', 'nutricion')->name('nutricion');
