@@ -1,8 +1,14 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <a href="/" class="font-semibold text-xl">
+                TT-A080
+            </a>
+
         </x-slot>
+        <p class="font-semibold text-xl my-3 mx-auto">
+            Confirma Contraseña
+        </p>
 
         <div class="mb-4 text-sm text-gray-600">
             {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}

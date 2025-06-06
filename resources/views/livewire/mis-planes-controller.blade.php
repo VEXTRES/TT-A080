@@ -86,7 +86,7 @@
                                             wire:model="answersSelected.{{1}}"
                                             >
                                                 <option value="">Selecciona una edad</option>
-                                                    @for ($i = 18; $i <= 50; $i++)
+                                                    @for ($i = 18; $i <= 45; $i++)
                                                         <option value="{{ $i }}">{{ $i }}</option>
                                                     @endfor
                                             </select>
@@ -119,46 +119,55 @@
                                             </select>
                                             </div>
                                             @break
-                                        @case(4)
+                                            @case(4)
                                             <div class="flex gap-4 w-full max-w-md mx-auto">
                                                 @foreach ($options[$questionId] as $optionId => $optionName)
-                                                    <div class="flex items-center justify-center w-full px-4 py-3 gap-2 border border-gray-200 rounded dark:border-gray-700">
+                                                    <div class="relative flex-1">
                                                         <input
                                                             id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
                                                             name="radioAnswer_{{ $questionId }}"
                                                             type="radio"
                                                             value="{{ $optionId }}"
                                                             wire:model="answersSelected.{{ 4 }}"
-                                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                            class="peer sr-only"
                                                         >
                                                         <label
                                                             for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                            class="text-sm text-center w-full font-medium text-gray-900 dark:text-gray-300"
+                                                            class="flex items-center justify-center w-full px-4 py-3 gap-2 border-2 border-gray-200 rounded-lg dark:border-gray-700 cursor-pointer
+                                                                   peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20
+                                                                   hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200
+                                                                   peer-checked:ring-2 peer-checked:ring-blue-500 peer-checked:ring-opacity-50"
                                                         >
-                                                            {{ $optionName }}
+                                                            <span class="text-sm text-center w-full font-medium text-gray-900 dark:text-gray-300">
+                                                                {{ $optionName }}
+                                                            </span>
                                                         </label>
                                                     </div>
                                                 @endforeach
                                             </div>
-
                                             @break
-                                        @case(5)
-                                            <div class="flex gap-4 w-full ">
+                                            @case(5)
+                                            <div class="flex gap-4 w-full">
                                                 @foreach ($options[$questionId] as $optionId => $optionName)
-                                                    <div class="flex items-center justify-center w-full px-2 py-2 gap-2 border border-gray-200 rounded dark:border-gray-700">
+                                                    <div class="relative flex-1">
                                                         <input
                                                             id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
                                                             name="radioAnswer_{{ $questionId }}"
                                                             type="radio"
                                                             value="{{ $optionId }}"
                                                             wire:model="answersSelected.{{ 5 }}"
-                                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                            class="peer sr-only"
                                                         >
                                                         <label
                                                             for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                            class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300"
+                                                            class="flex items-center justify-center w-full px-2 py-2 gap-2 border-2 border-gray-200 rounded-lg dark:border-gray-700 cursor-pointer
+                                                                   peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20
+                                                                   hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 min-h-[80px]
+                                                                   peer-checked:ring-2 peer-checked:ring-blue-500 peer-checked:ring-opacity-50"
                                                         >
-                                                            {{ $optionName }}
+                                                            <span class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300">
+                                                                {{ $optionName }}
+                                                            </span>
                                                         </label>
                                                     </div>
                                                 @endforeach
@@ -195,7 +204,7 @@
                                                 class="bg-gray-50 border justify-center w-1/3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                 >
                                                     <option value="">Selecciona </option>
-                                                        @for ($i = 1; $i <= 15; $i++)
+                                                        @for ($i = 1; $i <= 10; $i++)
                                                             @if ($i==1)
                                                                 <option value="{{ $i }}">{{ $i }} Litro</option>
                                                             @else
@@ -213,7 +222,7 @@
                                                 class="bg-gray-50 border justify-center w-1/3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                 >
                                                     <option value="">Selecciona</option>
-                                                        @for ($i = 3; $i <= 11; $i++)
+                                                        @for ($i = 3; $i <= 12; $i++)
                                                             <option value="{{ $i }}">{{ $i }} Hrs</option>
                                                         @endfor
 
@@ -363,89 +372,149 @@
                                                 </div>
                                             @endif
                                             @break
-                                        @case(12)
-                                            <div class="flex gap-4 w-full ">
+                                            @case(12)
+                                            <div class="flex gap-4 w-full">
                                                 @foreach ($options[$questionId] as $optionId => $optionName)
-                                                    <div class="flex items-center justify-center w-full px-2 py-2 gap-2 border border-gray-200 rounded dark:border-gray-700">
+                                                    <div class="relative flex-1">
                                                         <input
                                                             id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
                                                             name="radioAnswer_{{ $questionId }}"
                                                             type="radio"
                                                             value="{{ $optionId }}"
                                                             wire:model="answersSelected.{{ 12 }}"
-                                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                            class="peer sr-only"
                                                         >
                                                         <label
                                                             for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                            class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300"
+                                                            class="flex items-center justify-center w-full px-2 py-2 gap-2 border-2 border-gray-200 rounded-lg dark:border-gray-700 cursor-pointer
+                                                                   peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20
+                                                                   hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 min-h-[80px]
+                                                                   peer-checked:ring-2 peer-checked:ring-blue-500 peer-checked:ring-opacity-50"
                                                         >
-                                                            {{ $optionName }}
+                                                            <span class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300">
+                                                                {{ $optionName }}
+                                                            </span>
                                                         </label>
                                                     </div>
                                                 @endforeach
                                             </div>
                                             @break
-                                        @case(13)
-                                            <div class="flex gap-4 w-full ">
+                                            @case(13)
+                                            <div class="flex gap-4 w-full">
                                                 @foreach ($options[$questionId] as $optionId => $optionName)
-                                                    <div class="flex items-center justify-center w-full px-2 py-2 gap-2 border border-gray-200 rounded dark:border-gray-700">
+                                                    <div class="relative flex-1">
                                                         <input
                                                             id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
                                                             name="radioAnswer_{{ $questionId }}"
                                                             type="radio"
                                                             value="{{ $optionId }}"
                                                             wire:model="answersSelected.{{ 13 }}"
-                                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                            class="peer sr-only"
                                                         >
                                                         <label
                                                             for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                            class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300"
+                                                            class="flex items-center justify-center w-full px-2 py-2 gap-2 border-2 border-gray-200 rounded-lg dark:border-gray-700 cursor-pointer
+                                                                   peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20
+                                                                   hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 min-h-[80px]
+                                                                   peer-checked:ring-2 peer-checked:ring-blue-500 peer-checked:ring-opacity-50"
                                                         >
-                                                            {{ $optionName }}
+                                                            <span class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300">
+                                                                {{ $optionName }}
+                                                            </span>
                                                         </label>
                                                     </div>
                                                 @endforeach
                                             </div>
                                             @break
-                                        @case(14)
-                                            <div class="flex gap-4 w-full justify-center ">
-                                                @foreach ($options[$questionId] as $optionId => $optionName)
-                                                    <div class="flex items-center justify-center w-1/3 px-2 py-2 gap-2 border border-gray-200 rounded dark:border-gray-700">
-                                                        <input
-                                                            id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                            name="radioAnswer_{{ $questionId }}"
-                                                            type="radio"
-                                                            value="{{ $optionId }}"
-                                                            wire:model="answersSelected.{{ 14 }}"
-                                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                        >
-                                                        <label
-                                                            for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                            class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300"
-                                                        >
-                                                            {{ $optionName }}
-                                                        </label>
-                                                    </div>
-                                                @endforeach
+                                            @case(14)
+                                            <div class="w-full px-4">
+                                                <!-- Grid compacto con versiones cortas del texto -->
+                                                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 w-full max-w-5xl mx-auto">
+                                                    @foreach ($options[$questionId] as $optionId => $optionName)
+                                                        @php
+                                                            // Crear versiones cortas para mejor legibilidad
+                                                            $shortName = '';
+                                                            $subtitle = '';
+
+                                                            if (str_contains($optionName, 'Sedentario')) {
+                                                                $shortName = 'Sedentario';
+                                                                $subtitle = '< 5,000 pasos';
+                                                            } elseif (str_contains($optionName, 'ligera')) {
+                                                                $shortName = 'Ligera';
+                                                                $subtitle = '5,000-7,500 pasos';
+                                                            } elseif (str_contains($optionName, 'moderada')) {
+                                                                $shortName = 'Moderada';
+                                                                $subtitle = '7,500-10,000 pasos';
+                                                            } elseif (str_contains($optionName, 'intensa') && !str_contains($optionName, 'muy')) {
+                                                                $shortName = 'Intensa';
+                                                                $subtitle = '10,000-15,000 pasos';
+                                                            } elseif (str_contains($optionName, 'muy intensa')) {
+                                                                $shortName = 'Muy Intensa';
+                                                                $subtitle = '> 15,000 pasos';
+                                                            } else {
+                                                                $shortName = $optionName;
+                                                            }
+                                                        @endphp
+
+                                                        <div class="relative">
+                                                            <input
+                                                                id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
+                                                                name="radioAnswer_{{ $questionId }}"
+                                                                type="radio"
+                                                                value="{{ $optionId }}"
+                                                                wire:model="answersSelected.{{ 14 }}"
+                                                                class="peer sr-only"
+                                                            >
+                                                            <label
+                                                                for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
+                                                                class="flex flex-col items-center justify-center px-3 py-4 gap-1 border-2 border-gray-200 rounded-lg dark:border-gray-700 cursor-pointer
+                                                                       peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20
+                                                                       hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 min-h-[100px]
+                                                                       peer-checked:ring-2 peer-checked:ring-blue-500 peer-checked:ring-opacity-50"
+                                                            >
+                                                                <div class="text-sm font-semibold text-gray-900 dark:text-gray-300 text-center">
+                                                                    {{ $shortName }}
+                                                                </div>
+                                                                @if($subtitle)
+                                                                    <div class="text-xs text-gray-500 dark:text-gray-400 text-center">
+                                                                        {{ $subtitle }}
+                                                                    </div>
+                                                                @endif
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+
+                                                <!-- Información adicional -->
+                                                <div class="mt-4 text-center">
+                                                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                        💡 Incluye caminata, ejercicio y actividades diarias
+                                                    </p>
+                                                </div>
                                             </div>
                                             @break
-                                        @case(15)
-                                            <div class="flex gap-4 w-full ">
+                                            @case(15)
+                                            <div class="flex gap-4 w-full">
                                                 @foreach ($options[$questionId] as $optionId => $optionName)
-                                                    <div class="flex items-center justify-center w-full px-2 py-2 gap-2 border border-gray-200 rounded dark:border-gray-700">
+                                                    <div class="relative flex-1">
                                                         <input
                                                             id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
                                                             name="radioAnswer_{{ $questionId }}"
                                                             type="radio"
                                                             value="{{ $optionId }}"
                                                             wire:model="answersSelected.{{ 15 }}"
-                                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                            class="peer sr-only"
                                                         >
                                                         <label
                                                             for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                            class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300"
+                                                            class="flex items-center justify-center w-full px-2 py-2 gap-2 border-2 border-gray-200 rounded-lg dark:border-gray-700 cursor-pointer
+                                                                   peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20
+                                                                   hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 min-h-[80px]
+                                                                   peer-checked:ring-2 peer-checked:ring-blue-500 peer-checked:ring-opacity-50"
                                                         >
-                                                            {{ $optionName }}
+                                                            <span class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300">
+                                                                {{ $optionName }}
+                                                            </span>
                                                         </label>
                                                     </div>
                                                 @endforeach
@@ -481,12 +550,12 @@
                                             </div>
 
                                             @break
-                                        @case(17)
+                                            @case(17)
                                             <div class="flex flex-col gap-4 w-full justify-center"
                                                 x-data="{ openInput: false }">
                                                 <div class="flex gap-4 justify-center">
                                                     @foreach ($options[$questionId] as $optionId => $optionName)
-                                                        <div class="flex w-1/3 items-center justify-center px-2 py-2 gap-2 border border-gray-200 rounded dark:border-gray-700">
+                                                        <div class="relative flex-1 max-w-xs">
                                                             <input
                                                                 id="radioAnswer_{{ $questionId }}_{{ $optionId }}"
                                                                 name="radioAnswer_{{ $questionId }}"
@@ -494,33 +563,37 @@
                                                                 value="{{ $optionId }}"
                                                                 wire:model="answersSelected.{{ 17 }}"
                                                                 x-on:click="openInput = {{$optionId == 21 ? 'true' : 'false'}}"
-                                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                                class="peer sr-only"
                                                             >
                                                             <label
                                                                 for="radioAnswer_{{ $questionId }}_{{ $optionId }}"
-                                                                class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300"
+                                                                class="flex items-center justify-center px-2 py-2 gap-2 border-2 border-gray-200 rounded-lg dark:border-gray-700 cursor-pointer
+                                                                       peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20
+                                                                       hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 min-h-[80px]
+                                                                       peer-checked:ring-2 peer-checked:ring-blue-500 peer-checked:ring-opacity-50"
                                                             >
-                                                                {{ $optionName }}
+                                                                <span class="text-sm text-center w-full p-2 font-medium text-gray-900 dark:text-gray-300">
+                                                                    {{ $optionName }}
+                                                                </span>
                                                             </label>
                                                         </div>
                                                     @endforeach
-                                                    </div>
-                                                    <div class="w-full">
-                                                        <input
-                                                            type="text"
-                                                            class="w-full px-4 py-2 border border-gray-300 rounded dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 focus:ring focus:ring-blue-500"
-                                                            x-show="openInput"
-                                                            name="answersSelected.17"
-                                                            id="answer_17"
-                                                            placeholder=""
-                                                            wire:model="answersSelected.18"
-                                                            placeholder="Escribe tu Preferencia de dieta"
-                                                            x-cloak
-
-                                                        >
-                                                    </div>
+                                                </div>
+                                                <div class="w-full">
+                                                    <input
+                                                        type="text"
+                                                        class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300
+                                                               focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                                                        x-show="openInput"
+                                                        name="answersSelected.17"
+                                                        id="answer_17"
+                                                        wire:model="answersSelected.18"
+                                                        placeholder="Escribe tu Preferencia de dieta"
+                                                        x-cloak
+                                                    >
+                                                </div>
                                             </div>
-                                        @break
+                                            @break
                                     @default
                                 @endswitch
                             @endforeach

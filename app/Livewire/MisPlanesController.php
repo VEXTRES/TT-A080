@@ -37,12 +37,9 @@ class MisPlanesController extends Component
         $this->user = auth()->user()->id;
         $this->loadPlans();
         $this->questions = Question::all()->pluck('name', 'id')->toArray();
-
         foreach ($this->questions as $questionId => $questionName) {
             $this->options[$questionId] = Option::where('question_id', $questionId)->pluck('name','id')->toArray();
         }
-
-        // Ya no necesitas inicializar answersSelected[18] = null
 
         $this->updatePaginatedQuestions();
     }
@@ -64,21 +61,21 @@ class MisPlanesController extends Component
         try {
             $rules = [
                 'answersSelected' => 'required|array',
-                'answersSelected.1' => 'required|numeric|min:15|max:65',
+                'answersSelected.1' => 'required|numeric|min:15|max:45',
                 'answersSelected.2' => 'required|numeric|min:20|max:150',
                 'answersSelected.3' => 'required|numeric|min:120|max:250',
                 'answersSelected.4' => 'required|numeric',
                 'answersSelected.5' => 'required|numeric',
                 'answersSelected.6' => 'required|string',
                 'answersSelected.7' => 'required|numeric|min:2|max:7',
-                'answersSelected.8' => 'required|numeric',
-                'answersSelected.9' => 'required|numeric',
+                'answersSelected.8' => 'required|numeric|min:1|max:10',
+                'answersSelected.9' => 'required|numeric|min:3|max:12',
                 'answersSelected.10' => 'required|string',
                 'answersSelected.11' => 'required|string',
                 'answersSelected.12' => 'required|numeric',
                 'answersSelected.13' => 'required|numeric',
                 'answersSelected.14' => 'required|numeric',
-                'answersSelected.15' => 'required|numeric|min:16|max:20',
+                'answersSelected.15' => 'required|numeric',
                 'answersSelected.16' => 'required|string',
                 'answersSelected.17' => 'required|string|filled',
             ];

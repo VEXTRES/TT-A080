@@ -1,8 +1,14 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <a href="/" class="font-semibold text-xl">
+                TT-A080
+            </a>
+
         </x-slot>
+        <p class="font-semibold text-xl my-3 mx-auto">
+            Restablecer Contraseña
+        </p>
 
         <x-validation-errors class="mb-4" />
 

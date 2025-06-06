@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create();
-// OPCIÓN 1: Sin factory (Recomendada para usuarios específicos)
+
         User::firstOrCreate(
             ['email' => 'uriel.ss@hotmail.com'],
             [
