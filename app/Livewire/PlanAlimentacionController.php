@@ -14,12 +14,23 @@ class PlanAlimentacionController extends Component
 
     public $plan,$answersSelected,$numComidas,$alimentos;
     public $proteinsSelect=[],$carbsSelect=[],$fatsSelect=[],$vegetablesSelect=[];
-    public $comidas,$foods,$idPlan,$currentFood;
+    public $comidas,$foods,$idPlan,$currentFood,$numMeals;
     public $is_active;
+
+    public $proteinsPerMeal,$carbsPerMeal,$fatsPerMeal;
 
 
     public function mount($id){
         $this->idPlan = $id;
+        $this->plan = MealPlan::find($id);
+        $userId= $this->plan->user_id;
+        $surveyId= $this->plan->survey_id;
+        $this->answersSelected = Answer::where('user_id',$userId)->where('survey_id',$surveyId)->pluck('option_selected','question_id')->toArray();
+        $this->numMeals = $this->answersSelected[7];
+        $this->proteinsPerMeal=round($this->plan->total_proteins/$this->numMeals);
+        $this->carbsPerMeal=round($this->plan->total_carbs/$this->numMeals);
+        $this->fatsPerMeal=round($this->plan->total_fats/$this->numMeals);
+
         $this->loadData();
 
     }
