@@ -11,7 +11,132 @@
                     {{ __('Mis Planes') }}
                 </h2>
             </x-slot>
+            <div class="{{$showConfirmationModal===true?'fixed inset-0 bg-black/70 backdrop-blur-sm z-50':''}}"
+            style="display: {{ $showConfirmationModal === true ? 'block' : 'none' }};">
+            <div class="absolute m-auto mt-6 w-4/5 max-w-4xl max-h-screen overflow-y-auto inset-0
+                    [&::-webkit-scrollbar]:w-2
+                    [&::-webkit-scrollbar-track]:rounded-full
+                    [&::-webkit-scrollbar-track]:bg-gray-100
+                    [&::-webkit-scrollbar-thumb]:rounded-full
+                    [&::-webkit-scrollbar-thumb]:bg-gray-300
+                    dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                    dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
 
+                    <div class="bg-slate-800 p-8 rounded-lg shadow-xl border border-slate-600">
+                        <!-- Header del Modal -->
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-yellow-400">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                </svg>
+                                Aviso Importante
+                            </h2>
+                            <button wire:click="cerrarConfirmacion"
+                                    class="text-gray-400 hover:text-white p-2 rounded-md bg-slate-700 hover:bg-slate-600 transition-colors">
+                                &times;
+                            </button>
+                        </div>
+
+                        <!-- Contenido del Modal -->
+                        <div class="space-y-6 text-gray-200">
+
+                            <!-- Aviso Médico -->
+                            <div class="bg-red-900/30 border border-red-500 rounded-lg p-4">
+                                <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                    </svg>
+                                    Descargo de Responsabilidad Médica
+                                </h3>
+                                <div class="space-y-2 text-sm">
+                                    <p>• <strong>Este plan NO sustituye el consejo médico profesional.</strong></p>
+                                    <p>• Si tienes alguna condición médica, embarazo, lactancia, diabetes, hipertensión, problemas cardíacos, trastornos alimentarios o cualquier otra condición de salud, <strong>consulta a tu médico antes de seguir cualquier plan</strong>.</p>
+                                    <p>• No nos hacemos responsables por efectos adversos derivados del uso de esta aplicación.</p>
+                                    <p>• En caso de sentir malestar, suspende el plan y consulta a un profesional de la salud.</p>
+                                </div>
+                            </div>
+
+                            <!-- Aviso de Privacidad -->
+                            <div class="bg-blue-900/30 border border-blue-500 rounded-lg p-4">
+                                <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                                    </svg>
+                                    Aviso de Privacidad
+                                </h3>
+                                <div class="space-y-2 text-sm">
+                                    <p>• Tus datos personales serán utilizados únicamente para crear tu plan personalizado de alimentación y entrenamiento.</p>
+                                    <p>• La información proporcionada se mantendrá confidencial y no será compartida con terceros.</p>
+                                    <p>• Puedes solicitar la eliminación de tus datos en cualquier momento.</p>
+                                    <p>• Al continuar, aceptas nuestros términos y condiciones de uso.</p>
+                                </div>
+                            </div>
+
+                            <!-- Información del Plan -->
+                            <div class="bg-green-900/30 border border-green-500 rounded-lg p-4">
+                                <h3 class="text-lg font-semibold text-green-400 mb-3 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                    </svg>
+                                    Información del Plan
+                                </h3>
+                                <div class="space-y-2 text-sm">
+                                    <p>• El plan se genera basado en la información que proporciones en el cuestionario.</p>
+                                    <p>• Es importante responder todas las preguntas de manera honesta y precisa.</p>
+                                    <p>• El plan incluirá recomendaciones de alimentación y ejercicio personalizadas.</p>
+                                    <p>• Puedes modificar o eliminar tu plan en cualquier momento.</p>
+                                </div>
+                            </div>
+
+                            <!-- Checkbox de Confirmación -->
+                            <div class="space-y-4">
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="checkbox" wire:model="aceptaTerminos"
+                                            class="mt-1 w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                    <span class="text-sm">
+                                        <strong>He leído y acepto</strong> el descargo de responsabilidad médica y entiendo que debo consultar a un profesional de la salud si tengo alguna condición médica.
+                                    </span>
+                                </label>
+
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="checkbox" wire:model="aceptaPrivacidad"
+                                            class="mt-1 w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                    <span class="text-sm">
+                                        <strong>Acepto el aviso de privacidad</strong> y el tratamiento de mis datos personales conforme a los términos descritos.
+                                    </span>
+                                </label>
+
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="checkbox" wire:model="confirmaInformacion"
+                                            class="mt-1 w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                                    <span class="text-sm">
+                                        <strong>Confirmo</strong> que proporcionaré información veraz y completa en el cuestionario.
+                                    </span>
+                                </label>
+                            </div>
+
+                            @if($errorConfirmacion)
+                                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                                    <p><span class="font-bold">¡Error!</span> {{ $errorConfirmacion }}</p>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="flex justify-end gap-4 mt-8">
+                            <button wire:click="cerrarConfirmacion"
+                                    class="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                                Cancelar
+                            </button>
+                            <button wire:click="confirmarYContinuar"
+                                    class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                Acepto y Continuar
+                            </button>
+                        </div>
+                    </div>
+            </div>
+
+        </div>
             <div class=" {{$showModal===true?'fixed inset-0 bg-black/50 backdrop-blur-sm':''}}  ">
                 <div class="absolute m-auto mt-6 w-3/4 max-h-screen  overflow-y-auto inset-0
                 [&::-webkit-scrollbar]:w-2
@@ -24,6 +149,7 @@
                 @click.outside="$wire.call('MostrarModal')"
                 style="display: {{ $showModal === true ? 'block' : 'none' }} ;">{{-- {{ $showModal === true ? 'block' : 'none' }} --}}
                     <div class="bg-slate-800 p-8 rounded-lg shadow-lg">
+
                         <!-- Modal Content -->
                         <div class="flex flex-col ">
                             <div class="flex justify-between">
@@ -62,7 +188,6 @@
                                     </div>
                                 @endif
                             </div>
-
 
                         </div>
                         <form wire:submit="CrearPlan" x-on:submit="showAlert = true, setTimeout(()=>showAlert=false, 2000)">
@@ -655,14 +780,14 @@
                     <!-- Botón para crear nuevo plan -->
                     <div x-show="!sortOrderAlimentacion" class="flex-none justify-center text-center mr-8 mt-10">
                         <button type="button"
-                                wire:click="MostrarModal"
-                                class="inline-flex items-center ml-2 px-6 gap-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md bg-gray-900 text-indigo-400 hover:bg-slate-950"
-                                wire:click="crearPlan">
+                            wire:click="mostrarModalConfirmacion"
+                            class="inline-flex items-center ml-2 px-6 gap-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md bg-gray-900 text-indigo-400 hover:bg-slate-950">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                             <p class="">Crear Nuevo Plan</p>
                         </button>
+
                     </div>
 
                     <!-- Contenedor de los meal_plans -->

@@ -30,8 +30,13 @@ class MisPlanesController extends Component
         public $errorMessage;
     public $conjunto_de_musculos = ['espalda','pecho','hombro','bicep','tricep','cuadricep','gluteo','pantorilla','abdomen'];
 
-
     public $pageValidationError = '';
+
+    public $showConfirmationModal = false;
+    public $aceptaTerminos = false;
+    public $aceptaPrivacidad = false;
+    public $confirmaInformacion = false;
+    public $errorConfirmacion = '';
 
     public function mount(){
         $this->user = auth()->user()->id;
@@ -585,7 +590,14 @@ class MisPlanesController extends Component
 }
 
     public function loadPlans(){
-        $this->reset('answersSelected', 'answersSelectedYears', 'answersSelectedMonths', 'seleccionadoHombre', 'seleccionadoMujer', 'seleccionadoTipoCuerpo', 'pageValidationError');
+        $this->reset('answersSelected', 'answersSelectedYears', 'answersSelectedMonths',
+                    'seleccionadoHombre', 'seleccionadoMujer', 'seleccionadoTipoCuerpo',
+                    'pageValidationError');
+
+        // Resetear también los valores de confirmación
+        $this->resetearConfirmacion();
+        $this->showConfirmationModal = false;
+
         $this->currentPage = 1;
 
         $this->meal_plans = MealPlan::where('user_id', auth()->user()->id)
@@ -596,6 +608,11 @@ class MisPlanesController extends Component
             ->orderby('workout_plans.created_at', 'desc')
             ->get();
         $this->answersSelected = [];
+    }
+
+    public function mostrarModalConfirmacion(){
+        $this->showConfirmationModal = true;
+        $this->resetearConfirmacion();
     }
 
     public function updatePaginatedQuestions(){
@@ -647,7 +664,48 @@ class MisPlanesController extends Component
     }
 
 
+    public function confirmarYContinuar(){
+        $this->errorConfirmacion = '';
 
+        // Validar que todos los checkboxes estén marcados
+        if (!$this->aceptaTerminos) {
+            $this->errorConfirmacion = 'Debes aceptar el descargo de responsabilidad médica.';
+            return;
+        }
+
+        if (!$this->aceptaPrivacidad) {
+            $this->errorConfirmacion = 'Debes aceptar el aviso de privacidad.';
+            return;
+        }
+
+        if (!$this->confirmaInformacion) {
+            $this->errorConfirmacion = 'Debes confirmar que proporcionarás información veraz.';
+            return;
+        }
+
+        // Si todo está bien, cerrar modal de confirmación y abrir el cuestionario
+        $this->showConfirmationModal = false;
+        $this->showModal = true;
+
+        // Reiniciar el cuestionario
+        $this->currentPage = 1;
+        $this->pageValidationError = '';
+        $this->updatePaginatedQuestions();
+    }
+    public function cerrarConfirmacion(){
+        $this->showConfirmationModal = false;
+        $this->resetearConfirmacion();
+    }
+
+    /**
+     * Resetear valores de confirmación
+     */
+    private function resetearConfirmacion(){
+        $this->aceptaTerminos = false;
+        $this->aceptaPrivacidad = false;
+        $this->confirmaInformacion = false;
+        $this->errorConfirmacion = '';
+    }
 
 
 
