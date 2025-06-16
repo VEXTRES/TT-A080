@@ -18,6 +18,10 @@ class CrearComidaController extends Component
     public $search,$foodCatalog,$foodsSelect=[];
     public $idPlan,$notification;
 
+    public $maxProteins = 5;
+    public $maxCarbs = 4;
+    public $maxFats = 4;
+    public $maxVegetables = 4;
 
     public function mount($id){
         $this->plan = MealPlan::find($id);
@@ -50,9 +54,6 @@ class CrearComidaController extends Component
                 $this->currentFood = max($meals);
             }
         }
-
-
-
     }
 
     public function guardandoAlimento(){
@@ -111,8 +112,10 @@ class CrearComidaController extends Component
                     ]);
                 }
             }
-        }else{
-            dd('no existe nada');
+        } else {
+            $this->dispatch('show-error-message', 'No se seleccionaron alimentos para guardar');
+            $this->mostrarModal();
+            return;
         }
         $this->foods = Food::all();
         $this->mostrarModal();
@@ -177,12 +180,12 @@ class CrearComidaController extends Component
                 $comida->foods()->attach($key,['quantity'=>$grOfFatFood[$key]]);
             }
             foreach ($vegetablesSelectData as $key => $value) {
-                if($totalVegetables >= 4 && $totalVegetables <= 6){
-                    $grOfVegetablesFood[$key] = random_int(30, 60);
-                }elseif($totalVegetables >= 7){
+                if($totalVegetables ==1 ){
+                    $grOfVegetablesFood[$key] = random_int(60, 100);
+                }elseif($totalVegetables >= 2 && $totalVegetables <= 3){
                     $grOfVegetablesFood[$key] = random_int(20, 40);
                 }else{
-                    $grOfVegetablesFood[$key] = random_int(40, 100);
+                    $grOfVegetablesFood[$key] = random_int(20, 30);
                 }
                 $comida->foods()->attach($key, ['quantity' => $grOfVegetablesFood[$key]]);
             }
@@ -192,12 +195,10 @@ class CrearComidaController extends Component
     }
 
     public function mostrarModal(){
-
         $this->showModal=!$this->showModal;
-
     }
-    public function buscarAlimento(){
 
+    public function buscarAlimento(){
         $fatSecret= new FatSecretService();
         $foodsSearch=$fatSecret->getFoods($this->search);
         //dd($foodsSearch);
@@ -210,9 +211,102 @@ class CrearComidaController extends Component
         }
     }
 
+    // MÉTODOS UPDATED CORREGIDOS - AQUÍ ESTÁ LA SOLUCIÓN
+    public function updatedProteinsSelect($value, $key)
+    {
+        // Forzar la actualización del componente
+        $this->dispatch('$refresh');
 
+        $selected = array_filter($this->proteinsSelect, function($val) {
+            return $val === true;
+        });
 
+        if (count($selected) > $this->maxProteins) {
+            $this->proteinsSelect[$key] = false;
+            $this->dispatch('show-limit-message', 'Solo puedes seleccionar máximo ' . $this->maxProteins . ' proteínas');
+        }
+    }
 
+    public function updatedCarbsSelect($value, $key)
+    {
+        // Forzar la actualización del componente
+        $this->dispatch('$refresh');
+
+        $selected = array_filter($this->carbsSelect, function($val) {
+            return $val === true;
+        });
+
+        if (count($selected) > $this->maxCarbs) {
+            $this->carbsSelect[$key] = false;
+            $this->dispatch('show-limit-message', 'Solo puedes seleccionar máximo ' . $this->maxCarbs . ' carbohidratos');
+        }
+    }
+
+    public function updatedFatsSelect($value, $key)
+    {
+        // Forzar la actualización del componente
+        $this->dispatch('$refresh');
+
+        $selected = array_filter($this->fatsSelect, function($val) {
+            return $val === true;
+        });
+
+        if (count($selected) > $this->maxFats) {
+            $this->fatsSelect[$key] = false;
+            $this->dispatch('show-limit-message', 'Solo puedes seleccionar máximo ' . $this->maxFats . ' grasas');
+        }
+    }
+
+    public function updatedVegetablesSelect($value, $key)
+    {
+        // Forzar la actualización del componente
+        $this->dispatch('$refresh');
+
+        $selected = array_filter($this->vegetablesSelect, function($val) {
+            return $val === true;
+        });
+
+        if (count($selected) > $this->maxVegetables) {
+            $this->vegetablesSelect[$key] = false;
+            $this->dispatch('show-limit-message', 'Solo puedes seleccionar máximo ' . $this->maxVegetables . ' frutas/vegetales');
+        }
+    }
+
+    // Método alternativo para actualizar contadores manualmente
+    public function updateCounter($type)
+    {
+        // Este método puede ser llamado desde el frontend si es necesario
+        $this->dispatch('$refresh');
+    }
+
+    // COMPUTED PROPERTIES CORREGIDAS
+    public function getProteinsCountProperty()
+    {
+        return count(array_filter($this->proteinsSelect, function($val) {
+            return $val === true;
+        }));
+    }
+
+    public function getCarbsCountProperty()
+    {
+        return count(array_filter($this->carbsSelect, function($val) {
+            return $val === true;
+        }));
+    }
+
+    public function getFatsCountProperty()
+    {
+        return count(array_filter($this->fatsSelect, function($val) {
+            return $val === true;
+        }));
+    }
+
+    public function getVegetablesCountProperty()
+    {
+        return count(array_filter($this->vegetablesSelect, function($val) {
+            return $val === true;
+        }));
+    }
 
     public function render()
     {
