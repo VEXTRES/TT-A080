@@ -5,9 +5,8 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <p class="text-white hover:text-cyan-600 transition-all duration-500 w-full h-full flex justify-center items-center">Logo</p>
-
+                    <a href="{{ url('/nutricion') }}">
+                        <img src="{{ asset('storage/photos/logo.jpg') }}" alt="logo" class="w-16 h-16 rounded-full">
                     </a>
                 </div>
 

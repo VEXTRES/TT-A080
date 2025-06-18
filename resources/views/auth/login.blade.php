@@ -4,10 +4,9 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <a href="/" class="font-semibold text-xl">
-                TT-A080
+            <a href="{{ url('/nutricion') }}">
+                <img src="{{ asset('storage/photos/logo.jpg') }}" alt="logo" class="w-24 h-24 ">
             </a>
-
         </x-slot>
         <p class="font-semibold text-xl my-3 mx-auto">
             Inicio de Sesion
