@@ -73,19 +73,19 @@ class DatabaseSeeder extends Seeder
                 $options = ['Hombre', 'Mujer'];
                 break;
 
-            case '¿Cuál es tu Objetivo Fisico?':
+            case '¿Cuál es tu Objetivo Físico?':
                 $options = ['Bajar Grasa', 'Aumentar Musculo', 'Recomposicion corporal', 'Mantenimiento'];
                 break;
 
-            case '¿Haz practicado deporte o practicas alguno actualmente?':
+            case '¿Has practicado deporte o practicas alguno actualmente?':
                 $options = ['Si, Practico Actualmente', 'Lo deje recientemente', 'Nunca he hecho deporte'];
                 break;
 
-            case '¿Cuántos días haces ejercicio (ejercicio de pesas o alguna otra actividad aerobica) a la semana?':
+            case '¿Cuántos días haces ejercicio (ejercicio de pesas o alguna otra actividad aeróbica) a la semana?':
                 $options = ['Nada', '1 a 3 dias', '4 a 6 dias', 'Toda la semana'];
                 break;
 
-            case '¿Cuál es tu nivel de pasos diarios?':
+            case '¿Cuántos pasos caminas diariamente?':
                 $options = [
                         // Ejercicio semanal: Sin ejercicio o mínimo esfuerzo físico.
                         // o
@@ -115,11 +115,11 @@ class DatabaseSeeder extends Seeder
                 ];
                 break;
 
-            case '¿Te gustaría hacer ejercicios de pesas en casa, gimnasio?':
+            case '¿Te gustaría hacer ejercicios de pesas en casa o gimnasio?':
                 $options = ['En casa', 'En gimnasio'];
                 break;
 
-            case '¿Tienes alguna preferencia alimentaria(Vegetariana,Sin gluten, Sin Lactosa)?':
+            case '¿Tienes alguna preferencia alimentaria (Vegetariana, Sin gluten, Sin lactosa)?':
                 $options = ['Si', 'No'];
                 break;
         }
