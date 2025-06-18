@@ -73,7 +73,7 @@
             </div>
 
             <!-- Enfoque actual -->
-            <div class="bg-gradient-to-r from-green-400 to-orange-500 rounded-lg shadow-lg p-8 mb-12 text-white">
+            <div class="bg-gradient-to-r from-green-400 to-orange-500 rounded-lg shadow-lg p-8 mb-12 text-black">
                 <h3 class="text-2xl font-bold mb-4">Nutrición en la Era Digital</h3>
                 <p class="text-lg leading-relaxed mb-4">
                     A nivel psicológico, una alimentación adecuada puede mejorar el estado de ánimo, reducir la ansiedad y elevar la autoestima. Socialmente, la nutrición también se ha convertido en una herramienta de conexión, cultura e identidad, ya que las decisiones alimenticias reflejan valores, creencias y objetivos personales.
