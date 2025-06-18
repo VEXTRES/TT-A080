@@ -4,7 +4,7 @@
     <div class="max-w-4xl mx-auto text-center">
         <h1 class="text-4xl font-bold text-gray-800 mb-4">Acerca de Nosotros</h1>
         <p class="text-lg text-gray-600">
-            En <span class="font-semibold">[Tu Empresa]</span>, nos apasiona ofrecer soluciones innovadoras y efectivas. Nuestro equipo trabaja cada día para brindarte los mejores servicios con calidad y compromiso.
+            En <span class="font-semibold">Sport</span>, nos apasiona ofrecer soluciones innovadoras y efectivas. Nuestro equipo trabaja cada día para brindarte los mejores servicios con calidad y compromiso.
         </p>
     </div>
 
