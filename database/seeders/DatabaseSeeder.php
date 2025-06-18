@@ -52,19 +52,19 @@ class DatabaseSeeder extends Seeder
                     ['name' => '¿Cuál es tu Peso?'],
                     ['name' => '¿Cuál es tu Altura?'],
                     ['name' => '¿Cuál es tu Sexo?'],
-                    ['name' => '¿Cuál es tu Objetivo Fisico?'],
-                    ['name' => '¿A que alimentos eres alergico?'],
-                    ['name' => '¿Cuantas comidas te gustaria hacer por dia?'],
-                    ['name' => '¿Cuanta agua consumes diariamente?'],
-                    ['name' => '¿Cuantas horas duermes diariamente?'],
-                    ['name' => '¿Que % de grasa tienes actualmente?'],
-                    ['name' => '¿Cual es tu tipo de cuerpo?'],
-                    ['name' => '¿Haz practicado deporte o practicas alguno actualmente?'],
-                    ['name' => '¿Cuántos días haces ejercicio (ejercicio de pesas o alguna otra actividad aerobica) a la semana?'],
-                    ['name' => '¿Cuál es tu nivel de pasos diarios?'],
-                    ['name' => '¿Te gustaría hacer ejercicios de pesas en casa, gimnasio?'],
-                    ['name' => '¿Cuántos tiempo llevas entrenando en total siendo lo mas constante posible?'],
-                    ['name' => '¿Tienes alguna preferencia alimentaria(Vegetariana,Sin gluten, Sin Lactosa)?']
+                    ['name' => '¿Cuál es tu Objetivo Físico?'],
+                    ['name' => '¿A qué alimentos eres alérgico?'],
+                    ['name' => '¿Cuántas comidas te gustaría hacer por día?'],
+                    ['name' => '¿Cuánta agua consumes diariamente?'],
+                    ['name' => '¿Cuántas horas duermes diariamente?'],
+                    ['name' => '¿Qué % de grasa tienes actualmente?'],
+                    ['name' => '¿Cuál es tu tipo de cuerpo?'],
+                    ['name' => '¿Has practicado deporte o practicas alguno actualmente?'],
+                    ['name' => '¿Cuántos días haces ejercicio (ejercicio de pesas o alguna otra actividad aeróbica) a la semana?'],
+                    ['name' => '¿Cuántos pasos caminas diariamente?'],
+                    ['name' => '¿Te gustaría hacer ejercicios de pesas en casa o gimnasio?'],
+                    ['name' => '¿Cuánto tiempo llevas entrenando en total siendo lo más constante posible?'],
+                    ['name' => '¿Tienes alguna preferencia alimentaria (Vegetariana, Sin gluten, Sin lactosa)?']
             ))->create()
     ->each(function ($question) {
         $options = [];
