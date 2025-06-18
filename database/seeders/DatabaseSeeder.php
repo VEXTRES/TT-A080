@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
             ->count(17)
                 ->state(new Sequence(
                     ['name' => '¿Cuál es tu Edad?'],
-                    ['name' => '¿Cual es tu Peso?'],
+                    ['name' => '¿Cuál es tu Peso?'],
                     ['name' => '¿Cuál es tu Altura?'],
                     ['name' => '¿Cuál es tu Sexo?'],
                     ['name' => '¿Cuál es tu Objetivo Fisico?'],
